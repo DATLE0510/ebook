@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chương 5.2</title>
+    <link rel="stylesheet" href="Library/css/bootstrap.min.css" />
+    <script src="Library/js/bootstrap.min.js"></script>
+    <script src="Library/font-fontawesome-ae333ffef2.js"></script>
+    <link rel="stylesheet" href="./Library/style.css" />
+    <script src="Library/script.js"></script>
+    <script src="Library/angular.js"></script>
+    <script src="Library/angular-route.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <body ng-app="myapp">
+    <div id="background" style="height: 1100px">
+      <nav class="navbar navbar-expand-lg shadow col-sm col-lg">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center">
+            <ul class="navbar-nav mx-4">
+              <li class="nav-item mx-2">
+                <a href="home.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="chuong5-1.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-circle-arrow-left"></i>
+                </a>
+              </li>
+              <li class="nav-item mx-2">
+                <a href="#!home" class="nav-link" style="color: #ffff">
+                  <span
+                    style="
+                      margin-left: 450px;
+                      font-family: font1;
+                      font-size: 20px;
+                    "
+                    >Cuốn sách nhỏ giúp bạn làm giàu</span
+                  >
+                </a>
+              </li>
+            </ul>
+          </div>
+          <ul class="navbar-nav d-flex align-items-center">
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn fullscreenButton" style="font-family: font2; color: #ffff" onclick="toggleFullScreen()">
+                <i class="fas text-light fa-expand"></i>
+              </button>   
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn highlight-button" style="font-family: font2; color: #ffff" onclick="toggleHighlight()">
+                <i class="fa-solid fa-pen text-light fa-bounce"></i>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <button class="btn" onclick="openBookmarks()">
+                  <i class="fa-solid text-light fa-book-open-reader"></i>
+                </button>
+            </li>
+            <div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="bookmarkModalLabel">Danh sách bookmark</h5>
+                      </div>
+                      <div class="modal-body">
+                          <ul id="bookmarkList"></ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn" onclick="addBookmark()">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-bookmark"></i>
+                </a>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn custom-button" data-toggle="modal" data-target="#customizeModal">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-a"></i>
+                </a>
+              </button>
+            </li>
+            <div class="modal fade" id="customizeModal" tabindex="-1" role="dialog" aria-labelledby="customizeModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="customizeModalLabel">Tùy chỉnh văn bản</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="fontSelect">Phông chữ:</label>
+                      <select class="form-control" id="fontSelect">
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="colorSelect">Màu chữ:</label>
+                      <input type="color" class="form-control" id="colorSelect">
+                    </div>
+                    <div class="form-group">
+                      <label for="fontSizeSelect">Cỡ chữ:</label>
+                      <input type="range" class="form-control-range" id="fontSizeSelect" min="10" max="24" step="1">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="applyCustomization()">Áp dụng</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="customizationPanel" class="customization-panel"></div>
+            <li class="nav-item d-flex align-items-center">
+              <a href="tracnghiemchuong5.html" class="nav-link">
+                <i class="fa-solid text-light fa-circle-right"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="d-flex">
+        <div
+          style="
+            width: 510px;
+            height: 100%;
+            background: transparent-menu;
+          "
+          class="shadow pt-4 px-2"
+        >
+          <img
+            src="img/bia.jpg"
+            alt=""
+            style="width: 150px; float: left; box-shadow: 1px 1px 1px 1px"
+          />
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="#"
+                style="text-decoration: none; color: #ffff; font-family: font1"
+              >
+                Cuốn sách nhỏ giúp bạn làm giàu
+              </a>
+            </li>
+            <li>
+              <div>
+                <span class="text-light" style="margin-left: 60px">4,8</span>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+              </div>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3 mt-4">
+                <span style="color: #c4c4c4">TÁC GIẢ</span>
+                <span class="text-light" style="padding-left: 103px"
+                  >: Louis Navallier</span
+                >
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">NHÀ XUẤT BẢN</span>
+                <span class="text-light px-5">: NXB tri thức</span>
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">THỂ LOẠI</span>
+                <span class="text-light" style="padding-left: 96px"
+                  >: Tài chính cá nhân</span
+                >
+              </p>
+            </li>
+          </ul>
+          <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+
+          <div>
+            <h4 style="text-align: center; color: #ffff; font-family: font1;">MỤC LỤC</h4>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiNoiDau.html" style="text-decoration: none; color: #ffff" class="link active">Lời nói đầu</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiGioiThieu.html" style="text-decoration: none; color: #ffff">Lời giới thiệu</a>
+                </button> 
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="trian.html" style="text-decoration: none; color: #ffff">Tri ân</a>
+                </button>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 1</button>
+                    <div class="dropdown-content">
+                        <a href="chuong1-1.html">1.1 Bắt đầu ở nơi kết thúc</a>
+                        <a href="chuong1-2.html">1.2 Tát cả chúng ta đều thực hiện</a>
+                        <a href="tracnghiemchuong1.html">1.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 2</button>
+                    <div class="dropdown-content">
+                        <a href="chuong2-1.html">2.1 Trông vào tăng trưởng</a>
+                        <a href="chuong2-2.html">2.2 Xây nhà</a>
+                        <a href="tracnghiemchuong2.html">2.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 3</button>
+                    <div class="dropdown-content">
+                        <a href="chuong3-1.html">3.1 Giải cứu cảm xúc</a>
+                        <a href="chuong3-2.html">3.2 Điều chỉnh</a>
+                        <a href="tracnghiemchuong3.html">3.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 4</button>
+                    <div class="dropdown-content">
+                        <a href="chuong4-1.html">4.1 Bất ngờ</a>
+                        <a href="chuong4-2.html">4.2 Bán</a>
+                        <a href="tracnghiemchuong4.html">4.3Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 5</button>
+                    <div class="dropdown-content">
+                        <a href="chuong5-1.html">5.1 Phình to</a>
+                        <a href="chuong5-2.html">1.2 Để dòng tiền trôi</a>
+                        <a href="tracnghiemchuong5.html">5.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 6</button>
+                    <div class="dropdown-content">
+                        <a href="chuong6-1.html">6.1 Đây là tất cả các biến số</a>
+                        <a href="chuong6-2.html">6.2 Biết Alpha và Beta của bạn</a>
+                        <a href="tracnghiemchuong6.html">6.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="banlaai.html" style="text-decoration: none; color: #ffff">Bạn là ai</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="dieugicoloi.html" style="text-decoration: none; color: #ffff">Điều gì có lợi cho bạn?</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="thongtinbanquyen.html" style="text-decoration: none; color: #ffff">Thông tin bản quyền</a>
+                </button>
+            </p>
+            <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+          </div>
+        </div>
+        <div
+          class="container"
+          style="margin-top: 50px; font-family: font2; width: 800px"
+        >
+          <div class="pt-4 container content-text">
+            <p style="font-family: font2" class="text-justify">
+              <div class="scroll-container" id="scroll-container">
+                <p
+                style="
+                  text-align: center;
+                  font-size: 110%;
+                  font-weight: bold;
+                  font-style: italic;
+                  font-family: anhai !important;
+                "
+              >
+                5.2.
+              </p>
+              <p style="text-align: center">Để dòng tiền trôi</p>
+              <p style="text-align: center">
+                Luồng tiền mặt đều đặn sẽ dẫn đến luồng lợi nhuận đều đặn
+              </p>
+              <p><br /></p>
+              <p>
+                CÁI THỨ NĂM TRONG TÁM BIẾN SỐ của chúng tôi là luồng tiền mặt khả dụng
+                (free cash flow). Nhắc lại là từ Chương 1 tôi đã nói một nhân tố nữa trong
+                số những nhân tố mạnh mẽ nhất trong hệ thống của tôi là khả năng tạo ra
+                luồng tiền mặt khả dụng của công ty. Từ năm 2004 đến năm 2007, những cổ
+                phiếu tốt nhất được xếp hạng theo khả năng tạo ra luồng tiền mặt khả dụng
+                đã thành công vượt trội so với những cổ phiếu thông thường tới 59%. Luồng
+                tiền mặt khả dụng là khoản tiền mà công ty còn lại sau khi đã chi trả chi
+                phí kinh doanh, phí tổn tu bổ và bảo trì cần thiết để tiếp tục hoạt động
+                kinh doanh. Nói theo ngôn ngữ kế toán đơn giản, luồng tiền mặt khả dụng sẽ
+                bằng lãi kinh doanh trừ đi những chi phí vốn cần thiết để tiến hành kinh
+                doanh.&nbsp;
+              </p>
+              <p>
+                Để hiểu luồng tiền mặt khả dụng, hãy nghĩ về cuốn séc của bạn. Bạn được
+                trả một số tiền nhất định, và từ số tiền đó những chi phí như thuế thu
+                nhập bang và liên bang, bảo hiểm y tế, bảo hiểm xã hội, những khoản đóng
+                góp và tương tự được khấu trừ đi. Cái còn lại là doanh lợi của bạn. Nếu
+                bạn là một công ty, thì đó là con số mà bạn sẽ báo cáo với các nhà đầu tư
+                như là tổng doanh lợi của công ty. Nếu con số này liên tục tăng từ năm này
+                qua năm khác, thì có thể thấy bạn là một người làm công đáng giá, ít ra
+                cũng là xét theo bề ngoài. Khi bạn về đến nhà và ngồi xuống để tính tiền
+                trả các hóa đơn như bảo hiểm, tiền thế chấp hay tiền thuê nhà, đồ dùng
+                trong nhà và thức ăn, thì cái còn lại sau khi trừ đi tất cả những chi phí
+                thiết yếu phải trả chính là luồng tiền mặt khả dụng của bạn. Đây là số
+                tiền mà bạn có thể chi tiêu cho hàng xa xỉ, đi nghỉ hè hay những thứ tương
+                tự, hay bỏ vào một trương mục đầu tư. Nếu con số còn lại này là số âm, bạn
+                sẽ gặp rắc rối. Nếu muốn làm bất cứ cái gì khác, như mua quần áo, cắt tóc,
+                thay lò sưởi, hay thậm chí chi tiêu cho việc chăm sóc con cái hay đi học,
+                bạn đều cần phải trông vào thẻ tín dụng để có tiền hay lấy từ khoản vay
+                thế chấp tài sản nhà - giống như đi trên mặt nước vậy. Các công ty cũng
+                phải đối mặt với một kịch bản y như vậy. Nếu, sau khi chi trả các chi phí
+                cho hàng hóa đã bán và tổng phí cơ bản như tiền lương, họ phải tiêu tất cả
+                doanh lợi để sửa chữa và thay thế trang thiết bị hay nhà xưởng chẳng hạn,
+                luồng tiền mặt khả dụng của họ là âm và họ sẽ phải kiếm tiền ở đâu đó để
+                còn có thể nghĩ đến việc phát triển kinh doanh. Nhưng nếu vẫn còn lại rất
+                nhiều tiền mặt thì chúng có thể được chi dùng để phát triển kinh
+                doanh.&nbsp;
+              </p>
+              <p>
+                Luồng tiền mặt khả dụng giúp cho công ty có nhiều linh hoạt hơn trong việc
+                ra quyết định. Công ty có thể tự bỏ vốn cho những vụ đầu tư mới hay thêm
+                những dòng sản phẩm mới, mở ra những thị trường mới mà không cần phải đến
+                nhà băng vay tiền hay bán thêm cổ phiếu để gọi vốn. Rất nhiều lần tôi đã
+                thấy những công ty đi vay mượn và rồi đi thẳng đến thất bại, hoặc bán quá
+                nhiều cổ phần để gọi vốn đến nỗi họ không có cách nào kiếm cho đủ để biện
+                hộ cho giá cổ phiếu cao hơn. Nếu công ty không thể tạo ra luồng tiền mặt
+                khả dụng hay có thể tự bỏ vốn, thì sớm muộn sự tăng trưởng cũng bị chặn
+                lại không thể đi vay được tiền, giá cổ phiếu sẽ thấp đến nỗi chẳng còn ai
+                muốn mua cổ phiếu của một đợt phát hành thứ cấp khác nữa. Chúng tôi không
+                muốn những công ty có thành tích nghèo nàn như vậy xuất hiện trong danh
+                mục đầu tư của mình, vì thế chúng tôi theo dõi luồng tiền mặt khả dụng rất
+                cẩn thận.
+              </p>
+              <p>
+                Luồng tiền mặt khả dụng còn cho công ty cơ hội để làm nhiều chuyện khác,
+                mà tất cả đều tốt cho các nhà đầu tư. Chẳng hạn nó cho các công ty khả
+                năng trả và tăng cổ tức. Điều này rất quan trọng trong thị trường ngày
+                nay. Trong quá khứ, các nhà đầu tư tăng trưởng không chú ý quá nhiều đến
+                cổ tức vì họ tập trung nhiều hơn vào sự tăng trưởng doanh lợi của những cổ
+                phiếu này. Từ khi Quốc hội thi hành việc giảm thuế cổ tức vào năm 2003,
+                chỉ 15% cổ tức bị đánh thuế theo mức liên bang, nó đem lại cho các nhà đầu
+                tư nhiều tiền hơn để có thể tiêu dùng hay có thể đem tái đầu tư trên cơ sở
+                ưu đãi thuế. Việc xóa bỏ thuế đối với 85% cổ tức tự động làm cho cổ phiếu
+                có giá trị hơn so với trước khi đạo luật này được thông qua. Đáng kinh
+                ngạc là những cổ phiếu có cổ tức cao không chỉ hoạt động rất tốt từ sau
+                khi đạo luật này được thông qua, mà độ bất ổn của những cổ phiếu này cũng
+                giảm đi. Đó là cõi Niết bàn đối với một nhà đầu tư tăng trưởng tập trung
+                vào những yếu tố căn bản và kiểm soát rủi ro như tôi. Tôi coi việc cắt
+                giảm thuế cổ tức là một trong những sự kiện làm tăng giá cổ phần lớn nhất
+                trong đời tôi, và hy vọng Quốc hội Hoa Kỳ có đủ khôn ngoan để tiếp tục
+                triển hạn quy định này khi nó hết hạn vào năm 2010. Nếu họ không làm thế
+                thì tháng 12 năm 2010 có thể là một trong những tháng tồi tệ nhất trong
+                lịch sử thị trường chứng khoán, khi thị trường định giá lại để phản ánh
+                mức thuế đã tăng lên. Nhưng hiện tại, khả năng dùng luồng tiền mặt khả
+                dụng để trả và nâng cao cổ tức của một công ty là đáng giá như vàng ròng
+                trên thị trường chứng khoán.&nbsp;
+              </p>
+              <p>
+                Các công ty cũng có thể dùng luồng tiền mặt khả dụng của họ để mua lại cổ
+                phiếu, một phát triển tích cực khác đối với những người nắm giữ cổ phần.
+                Khi công ty coi cổ phần của chính mình như một sự đầu tư hấp dẫn thì một
+                vài điều thực sự tốt đẹp diễn ra. Thứ nhất, số lượng các cổ phần giảm đi
+                trong khi doanh lợi và các con số khác vẫn y nguyên như cũ. Điều này có
+                nghĩa là tỉ số giá cả-doanh lợi, PE so với tỷ lệ tăng trưởng, giá cả so
+                với doanh thu, và những tỷ lệ tài chính then chốt khác tất cả đều sẽ trở
+                nên thấp hơn và thu hút thêm sự quan tâm của nhà đầu tư. Chúng ta đều biết
+                rằng thị trường chứng khoán phản ứng với cung và cầu, và với việc mua lại
+                cổ phần, các công ty có thể vừa hạ thấp mức cung vừa làm cho cổ phần trở
+                nên hấp dẫn hơn với các nhà đầu tư, bằng cách đó nâng cao mức cầu. Việc
+                mua lại cổ phiếu cũng là một yếu tố tâm lý mạnh mẽ, nó chứng tỏ sự tự tin
+                của ban quản lý vào khả năng của mình và vào tương lai. Vì các công ty
+                dùng ngày càng nhiều quyền mua cổ phiếu để đền bù cho các nhà điều hành,
+                luồng tiền mặt khả dụng cũng có thể được dùng để mua lại cổ phiếu để bù
+                lại sự pha loãng tiềm tàng cổ phần của nó. Đó cũng là một nước đi tốt giữ
+                cho những người nắm giữ cổ phần hiện tại không phải chịu những tác động
+                xấu của việc phát hành thêm nhiều cổ phần.&nbsp;
+              </p>
+              <p>
+                Nhưng các công ty có luồng tiền mặt khả dụng âm thì phải làm một vài quyết
+                định khó khăn cốt để giữ cho các hoạt động của họ chạy đều. Họ có thể mượn
+                tiền hoặc dưới hình thức phát hành trái phiếu, hoặc từ một nguồn cho vay
+                truyền thống như ngân hàng, nhưng cả hai lựa chọn này đều phải chịu một
+                chi phí lãi suất lũy tiến làm giảm doanh lợi tương lai. Để bù lại sự gia
+                tăng chi phí (chi trả lãi suất), công ty sẽ phải kiếm được tỷ lệ lợi suất
+                cao hơn từ vốn đi vay để bù đắp cho những chi phí mới. Công ty cũng có thể
+                phát hành cổ phiếu mới để cấp vốn cho các hoạt động, và điều đó sẽ làm cho
+                vốn góp của các cổ đông hiện tại có giá trị kém hơn trước. Như vậy, trừ
+                phi công ty kiếm được nhiều hơn để bù đắp cho những hậu quả pha loãng này,
+                còn không thì các nhà đầu tư rốt cuộc sẽ bán tháo cổ phần của mình, sẽ làm
+                cho giá cổ phiếu giảm đi, và điều này lại sẽ dẫn đến việc bán đi nhiều hơn
+                nữa. Chúng tôi đã chứng kiến chuyện này rất nhiều lần trong thời kỳ bộc
+                phát dữ liệu, khi các công ty báo cáo mức tăng trưởng doanh lợi khiến
+                người ta phải trố mắt, nhưng lại tiêu dùng tiền mặt nhanh hơn những gì họ
+                hy vọng có được từ việc tăng trưởng nhanh. Những công ty này phải liên tục
+                bán cổ phiếu để cấp vốn cho sự tăng trưởng có vẻ kỳ diệu của họ. Một khi
+                sự hăng hái giảm sút đi (bởi vì công ty không làm ra tiền) và họ không thể
+                bán cổ phần để tiếp tục cấp vốn cho các hoạt động của mình được nữa, thì
+                nhiều công ty đã chấm dứt kinh doanh chỉ trong chớp mắt. Đây không phải là
+                kịch bản chúng tôi muốn thấy trong danh mục cổ phiếu tăng trưởng của
+                mình.&nbsp;
+              </p>
+              <p>
+                Các công ty cũng có thể gầy vốn bằng cách cắt giảm chi phí, và một biện
+                pháp cắt giảm chi phí thường được dùng là giảm hay hủy bỏ chi trả cổ tức.
+                Giống như việc tăng cổ tức là tốt với các nhà đầu tư, việc cắt giảm cổ tức
+                thường không phải là sự kiện vui mừng đối với những người nắm giữ cổ
+                phần.&nbsp;
+              </p>
+              <p>
+                Tôi không cần phải nhìn xa hơn cơ sở dữ liệu chấm điểm cổ phiếu của mình
+                để thấy một vài ví dụ về khả năng tạo ra luồng tiền mặt khả dụng có ảnh
+                hưởng mạnh mẽ ra sao. Một trong những đặc điểm độc đáo trong cơ sở dữ liệu
+                của tôi là ở chỗ nó cho phép tôi xếp hạng các cổ phiếu bằng bất cứ biến số
+                nào trong tám biến số căn bản - trong đó có luồng tiền mặt khả dụng. Vào
+                tháng Giêng năm 2007, tôi tìm kiếm một vài cổ phiếu có luồng tiền mặt khả
+                dụng thuộc hàng top ở Wall Street. Lấy ví dụ PW Eagle, một cổ phiếu mà tôi
+                rất thích vào đầu năm 2007. PW Eagle, Inc. sản xuất và phân phối ống nhựa
+                PVC ở Hoa Kỳ. Khởi đầu vào năm 2005, việc kinh doanh của Eagle bành trướng
+                với sự bùng nổ của thị trường bất động sản, và họ bắt đầu làm ra cả đống
+                tiền mặt khả dụng khổng lồ, một phần khá lớn trong đó được dùng để mua lại
+                cổ phiếu. Cổ phiếu này bùng nổ vào năm 2006, từ khoảng 8 USD lên đến hơn
+                30 USD một cổ phần. Vì họ làm việc với các nhà máy nước thuộc hội đồng
+                thành phố cũng như với ngành xây dựng nhà ở, và chúng tôi mua ngay từ lúc
+                bắt đầu khởi xướng việc tái xây dựng và tái trang bị các nhà máy nước trên
+                khắp đất nước, nên Eagle có khả năng tiếp tục gia tăng đống tiền mặt vì
+                lợi ích của các cổ đông.&nbsp;
+              </p>
+              <p>
+                Một ví dụ tiêu biểu về luồng tiền mặt khả dụng trong thực tế là Holly
+                Corporation mà tôi bắt đầu mua cổ phiếu của nó từ tháng Mười năm 2004. Tôi
+                vẫn giữ cổ phần của Holly trong bản tin danh mục đầu tư của mình. Cho đến
+                lúc đó, chúng tôi đã tăng 430%. Holly Corporation kinh doanh trong ngành
+                lọc dầu, vận chuyển, hạn định và tiếp thị các sản phẩm dầu lửa, họ cũng
+                sản xuất và tiếp thị các sản phẩm nhựa đường từ các trạm cuối khác nhau ở
+                Arizona và New Mexico. Họ thường làm ra nhiều tiền hơn số chi phí để vận
+                hành và duy trì công việc kinh doanh, đã dùng số tiền này để cải thiện gấp
+                đôi cổ tức từ năm 2003 và mua lại hơn 6 triệu cổ phần. Kết quả thực của
+                việc dùng luồng tiền mặt khả dụng để trả cổ tức và mua lại cổ phiếu này là
+                cổ phiếu của họ đã tăng từ 7 USD lên hơn 35 USD một cổ phần vào tháng
+                Giêng năm 2006!&nbsp;
+              </p>
+              <p>
+                Việc phân tích tình trạng luồng tiền mặt khả dụng của một công ty không có
+                gì khác so với việc xem xét tài chính cá nhân của bạn. Nếu có tiền dư sau
+                khi đã thanh toán các khoản chi tiêu, bạn có thể đem số dư đó đi đầu tư để
+                làm giàu, mua cho vợ một chiếc vòng cổ, đi ăn nhà hàng và hưởng thụ những
+                thứ tốt đẹp trong cuộc sống. Còn nếu chỉ có ít hay không có luồng tiền mặt
+                khả dụng thì bạn sẽ gặp rắc rối và sẽ phải có những lựa chọn khó khăn: cắt
+                giảm chi tiêu hay đi vay mượn, nhiều khi đến độ vỡ nợ nếu bạn không thể
+                kiếm được nhiều hơn hay không thể chi tiêu ít đi. Các công ty có luồng
+                tiền mặt khả dụng có khả năng để phát triển công việc kinh doanh, mở thêm
+                các cửa hiệu mới, phát triển những sản phẩm mới để tăng thêm lợi nhuận, và
+                tưởng thưởng cho các cổ đông bằng cổ tức, mua lại cổ phiếu, và giá cổ
+                phiếu cao hơn. Đã giàu lại giàu hơn. Bằng cách chú ý đến luồng tiền mặt
+                khả dụng, chúng ta cũng có thể trở nên giàu có.
+              </p>
+              <p><br /></p>
+              <button id="scrollToTopBtn" class="scroll-btn top-btn" onclick="scrollToTop()">&#9650;</button>
+              <button id="scrollToBottomBtn" class="scroll-btn bottom-btn" onclick="scrollToBottom()">&#9660;</button>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+      <footer>  
+        <div class="bg-dark border-top border-secondary py-4">
+            <div class="container-fluid">
+            <div class="d-flex justify-content-center text-light">
+                <span>
+                <i class="fa-regular fa-copyright"></i>
+                Copyright 2024 by Uyner
+                </span> 
+            </div> 
+            </div>
+        </div>
+        </footer>
+    </div>
+  </body>
+  <script>
+    window.onload = function() {
+        restoreHighlight();
+    };
+</script>
+</html>

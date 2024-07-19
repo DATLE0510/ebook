@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chương 3.2</title>
+    <link rel="stylesheet" href="Library/css/bootstrap.min.css" />
+    <script src="Library/js/bootstrap.min.js"></script>
+    <script src="Library/font-fontawesome-ae333ffef2.js"></script>
+    <link rel="stylesheet" href="./Library/style.css" />
+    <script src="Library/script.js"></script>
+    <script src="Library/angular.js"></script>
+    <script src="Library/angular-route.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <body ng-app="myapp">
+    <div id="background" style="height: 1100px">
+      <nav class="navbar navbar-expand-lg shadow col-sm col-lg">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center">
+            <ul class="navbar-nav mx-4">
+              <li class="nav-item mx-2">
+                <a href="home.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="tracnghiemchuong2.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-circle-arrow-left"></i>
+                </a>
+              </li>
+              <li class="nav-item mx-2">
+                <a href="#!home" class="nav-link" style="color: #ffff">
+                  <span
+                    style="
+                      margin-left: 450px;
+                      font-family: font1;
+                      font-size: 20px;
+                    "
+                    >Cuốn sách nhỏ giúp bạn làm giàu</span
+                  >
+                </a>
+              </li>
+            </ul>
+          </div>
+          <ul class="navbar-nav d-flex align-items-center">
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn fullscreenButton" style="font-family: font2; color: #ffff" onclick="toggleFullScreen()">
+                <i class="fas text-light fa-expand"></i>
+              </button>   
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn highlight-button" style="font-family: font2; color: #ffff" onclick="toggleHighlight()">
+                <i class="fa-solid fa-pen text-light fa-bounce"></i>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <button class="btn" onclick="openBookmarks()">
+                  <i class="fa-solid text-light fa-book-open-reader"></i>
+                </button>
+            </li>
+            <div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="bookmarkModalLabel">Danh sách bookmark</h5>
+                      </div>
+                      <div class="modal-body">
+                          <ul id="bookmarkList"></ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn" onclick="addBookmark()">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-bookmark"></i>
+                </a>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn custom-button" data-toggle="modal" data-target="#customizeModal">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-a"></i>
+                </a>
+              </button>
+            </li>
+            <div class="modal fade" id="customizeModal" tabindex="-1" role="dialog" aria-labelledby="customizeModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="customizeModalLabel">Tùy chỉnh văn bản</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="fontSelect">Phông chữ:</label>
+                      <select class="form-control" id="fontSelect">
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="colorSelect">Màu chữ:</label>
+                      <input type="color" class="form-control" id="colorSelect">
+                    </div>
+                    <div class="form-group">
+                      <label for="fontSizeSelect">Cỡ chữ:</label>
+                      <input type="range" class="form-control-range" id="fontSizeSelect" min="10" max="24" step="1">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="applyCustomization()">Áp dụng</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="customizationPanel" class="customization-panel"></div>
+            <li class="nav-item d-flex align-items-center">
+              <a href="tracnghiemchuong3.html" class="nav-link">
+                <i class="fa-solid text-light fa-circle-right"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="d-flex">
+        <div
+          style="
+            width: 510px;
+            height: 100%;
+            background: transparent-menu;
+          "
+          class="shadow pt-4 px-2"
+        >
+          <img
+            src="img/bia.jpg"
+            alt=""
+            style="width: 150px; float: left; box-shadow: 1px 1px 1px 1px"
+          />
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="#"
+                style="text-decoration: none; color: #ffff; font-family: font1"
+              >
+                Cuốn sách nhỏ giúp bạn làm giàu
+              </a>
+            </li>
+            <li>
+              <div>
+                <span class="text-light" style="margin-left: 60px">4,8</span>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+              </div>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3 mt-4">
+                <span style="color: #c4c4c4">TÁC GIẢ</span>
+                <span class="text-light" style="padding-left: 103px"
+                  >: Louis Navallier</span
+                >
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">NHÀ XUẤT BẢN</span>
+                <span class="text-light px-5">: NXB tri thức</span>
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">THỂ LOẠI</span>
+                <span class="text-light" style="padding-left: 96px"
+                  >: Tài chính cá nhân</span
+                >
+              </p>
+            </li>
+          </ul>
+          <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+
+          <div>
+            <h4 style="text-align: center; color: #ffff; font-family: font1;">MỤC LỤC</h4>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiNoiDau.html" style="text-decoration: none; color: #ffff" class="link active">Lời nói đầu</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiGioiThieu.html" style="text-decoration: none; color: #ffff">Lời giới thiệu</a>
+                </button> 
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="trian.html" style="text-decoration: none; color: #ffff">Tri ân</a>
+                </button>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 1</button>
+                    <div class="dropdown-content">
+                        <a href="chuong1-1.html">1.1 Bắt đầu ở nơi kết thúc</a>
+                        <a href="chuong1-2.html">1.2 Tát cả chúng ta đều thực hiện</a>
+                        <a href="tracnghiemchuong1.html">1.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 2</button>
+                    <div class="dropdown-content">
+                        <a href="chuong2-1.html">2.1 Trông vào tăng trưởng</a>
+                        <a href="chuong2-2.html">2.2 Xây nhà</a>
+                        <a href="tracnghiemchuong2.html">2.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 3</button>
+                    <div class="dropdown-content">
+                        <a href="chuong3-1.html">3.1 Giải cứu cảm xúc</a>
+                        <a href="chuong3-2.html">3.2 Điều chỉnh</a>
+                        <a href="tracnghiemchuong3.html">3.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 4</button>
+                    <div class="dropdown-content">
+                        <a href="chuong4-1.html">4.1 Bất ngờ</a>
+                        <a href="chuong4-2.html">4.2 Bán</a>
+                        <a href="tracnghiemchuong4.html">4.3Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 5</button>
+                    <div class="dropdown-content">
+                        <a href="chuong5-1.html">5.1 Phình to</a>
+                        <a href="chuong5-2.html">1.2 Để dòng tiền trôi</a>
+                        <a href="tracnghiemchuong5.html">5.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 6</button>
+                    <div class="dropdown-content">
+                        <a href="chuong6-1.html">6.1 Đây là tất cả các biến số</a>
+                        <a href="chuong6-2.html">6.2 Biết Alpha và Beta của bạn</a>
+                        <a href="tracnghiemchuong6.html">6.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="banlaai.html" style="text-decoration: none; color: #ffff">Bạn là ai</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="dieugicoloi.html" style="text-decoration: none; color: #ffff">Điều gì có lợi cho bạn?</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="thongtinbanquyen.html" style="text-decoration: none; color: #ffff">Thông tin bản quyền</a>
+                </button>
+            </p>
+            <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+          </div>
+        </div>
+        <div
+          class="container"
+          style="margin-top: 50px; font-family: font2; width: 800px"
+        >
+          <div class="pt-4 container content-text">
+            <p style="font-family: font2" class="text-justify">
+              <div class="scroll-container" id="scroll-container">
+                <p
+                style="
+                  text-align: center;
+                  font-size: 110%;
+                  font-weight: bold;
+                  font-style: italic;
+                  font-family: anhai !important;
+                "
+              >
+                3.2.
+              </p>
+              <p style="text-align: center">Điều chỉnh</p>
+              <p style="text-align: center">Thay đổi suy nghĩ dẫn đến thay đổi giá cả</p>
+              <p><br /></p>
+              <p>
+                TA HÃY XEM XÉT KỸ CÀNG HƠN về tám nhân tố căn bản mà tôi đã nói ở trên.
+                Chúng đã được chứng minh là dấu hiệu cầu chứng của những cổ phiếu tăng
+                trưởng tốt sau những năm tháng lăn lộn trong lĩnh vực này của tôi. Cái đầu
+                tiên trong bộ tám này là điều chỉnh lại doanh lợi (earnings
+                revisions).&nbsp;
+              </p>
+              <p>
+                Việc của một nhà phân tích ở Wall Street là một công việc khá ngon lành.
+                Bạn sẽ đi lòng vòng thăm thú các công ty, trò chuyện với các giám đốc điều
+                hành, viết các báo cáo, và trò chuyện với các nhà đầu tư lớn. Công việc
+                này cũng được trả thù lao rất khá. Phải nói là lương bổng thực sự tốt. Tôi
+                biết công việc này phải mất nhiều giờ đằng đẵng và phải chịu nhiều sức ép,
+                nhưng làm việc trong một văn phòng đẹp và có căn hộ ở cạnh Manhattan thì
+                chắc chắn không thể là dân vét cống rãnh rồi, đúng không? Thực tế thì đó
+                là một công việc tốt. Tốt đến mức nếu tôi là một nhà phân tích của Wall
+                Street thì hàng ngày điều đầu tiên mà tôi tâm niệm là phải làm sao không
+                làm chuyện gì quá tệ để đến nỗi bị đuổi việc. Từ lâu tôi vẫn cho rằng
+                không để bị đuổi việc là ưu tiên hàng đầu của mọi nhà phân tích.&nbsp;
+              </p>
+              <p>
+                Cách tốt nhất để không bị mất công việc tốt đẹp ấy là đừng có phạm sai
+                lầm. Những đánh giá doanh lợi hàng quý do các nhà phân tích làm ra là một
+                trong số những tài liệu được theo dõi sát sao nhất ở Wall Street và trên
+                toàn thế giới; những nhà phân tích nào đoán những con số này chính xác
+                nhất sẽ được tưởng thưởng hậu hĩnh với những khoản tiền lớn, được chọn vào
+                danh sách những nhà phân tích ngôi sao thường niên của tạp chí
+                Institutional Investor . Được nêu tên trong danh sách này là một bước tiến
+                trong sự nghiệp và thường cũng dẫn đến sự thăng tiến chức nghiệp nữa.
+                Nhưng ta hãy thành thật với nhau đi. Các nhà phân tích đưa ra các đánh giá
+                - những phỏng đoán có chuyên môn, chắc chắn rồi, nhưng dù sao đó cũng chỉ
+                là những phỏng đoán. Ngay cả nhà phân tích giỏi nhất đôi khi cũng sai. Như
+                ta đã nhận xét, nếu các nhà phân tích dự đoán quá cao và công ty báo cáo
+                doanh lợi thấp hơn so với ước tính này thì nhiều khả năng là giá cổ phần
+                của công ty đó sẽ giảm đi. Nhưng nếu các nhà phân tích dự đoán quá thấp và
+                công ty kiếm được nhiều hơn mức dự tính, thì đó sẽ được xem là tin tốt
+                lành, và chuyện rất thường xảy ra là cổ phiếu này sẽ chốt giá cao hơn. Bài
+                học ở đây là nếu dù thế nào bạn cũng sẽ phạm sai lầm thì chẳng thà dự đoán
+                quá thấp còn hơn là dự đoán quá cao. Chẳng ai bị mất việc nếu đưa ra dự
+                đoán theo hướng thấp đi và cổ phiếu sẽ tăng giá nhờ “sai lầm” đó. Đoán quá
+                cao quá nhiều lần thì chắc chắn bạn sẽ bị đuổi khỏi nghề này, khi đó chỉ
+                còn nước hy vọng kiếm được việc ở một hãng kế toán thay vì sống thoải mái
+                ở Manhattan. Chính vì lý do tự thân này mà các nhà phân tích không thích
+                nâng cao những ước tính doanh lợi của họ, trừ phi có bằng chứng hết sức
+                thuyết phục chứng tỏ công việc làm ăn đó tốt hơn nhiều so với dự tính. Vì
+                khả năng tiềm tàng bị mất việc làm do những dự đoán phân tích quá cao, nên
+                việc các nhà phân tích nâng cao những ước tính của họ về một công ty là
+                dấu hiệu báo trước một tương lai tăng giá sáng lạn đến khó tin đối với cổ
+                phiếu của công ty đó.&nbsp;
+              </p>
+              <p>
+                Hãy công bằng với các nhà phân tích, họ có những lý do để bảo thủ trong
+                các dự đoán ngoài việc tự bảo vệ mình. Từ sau vụ bong bóng Internet nổ
+                bùng năm 2001, một vài nhân tố về quy định và pháp lý bắt đầu có hiệu lực
+                và chúng có tác động đến các đánh giá phân tích. Đầu tiên là Quy định FD
+                (fair disclosure - công bằng trong tiết lộ thông tin). Quy định này được
+                thông qua để ngăn ngừa nhà phân tích hay nhà đầu tư có thể tiếp cận thông
+                tin về một công ty mà những người khác không thể có được. Đáng ra là phải
+                mở hầm mộ chứa những bí mật của công ty cho mọi người biết một cách bình
+                đẳng, thay vì chỉ cho một số ít người được ưa thích, các công ty giờ đây
+                thậm chí còn trở nên kín miệng hơn và cung cấp ít thông tin hơn so với
+                trước khi SEC thông qua những luật lệ này. Sau khi Quy định FD được ban
+                hành trên thế giới, nhà phân tích có được ít thông tin hơn, nên họ đưa ra
+                những đánh giá kém chính xác hơn trước nhiều. Các nhà phân tích biết rằng
+                họ có ít thông tin hơn, và do đó cũng lưỡng lự hơn trong việc nâng cao mức
+                đánh giá vì không có thông tin thực sự đáng tin cậy. Đạo luật
+                Sarbanes-Oxley năm 2002 cũng có ảnh hưởng. Đạo luật này quy định cái cách
+                thức cho các công ty giải thích và phổ biến thông tin được điều tiết và
+                hạn chế nhiều hơn, và đặt ra những hình phạt khắc nghiệt đối với những ai
+                vi phạm. Điều này còn làm cho luồng thông tin đến Wall Street bị giảm hơn
+                nữa. Lại một lần nữa phải đối mặt với thông tin bị giới hạn, nhà phân tích
+                phải hăng hái lắm mới dám nâng cao mức đánh giá của mình trong báo cáo
+                doanh lợi kế tiếp. Anh ta không còn mời rượu, mời ăn và thôi luôn vụ nài
+                nỉ bạn hữu trong công ty cho anh ta biết trước những tin tức tốt còn chưa
+                công bố. Những cách thức làm việc trước đây vốn được chấp nhận thì nay có
+                thể khiến họ đến làm khách tại một buồng giam ấm cúng của liên bang.&nbsp;
+              </p>
+              <video src="img/Sarbanes Oxley Act ( SOX ) - Explained.mp4" style="height: 33%;" controls autoplay></video>
+              <p>
+                Như vậy, các nhà phân tích giờ đây có khuynh hướng trì hoãn trong việc
+                nâng cao những đánh giá hàng quý của mình. Dự đoán quá cao, rồi cổ phiếu
+                rớt giá và bạn sẽ mất việc; dự đoán quá thấp, cổ phiếu sẽ lên giá, và
+                chẳng ai quan tâm đến việc bạn đã sai lầm. Khi mức đánh giá được nâng lên,
+                nó sẽ có những hệ lụy hết sức tích cực cho công ty và cổ phiếu của nó. Cổ
+                phiếu, như ta đã thảo luận, được định giá theo doanh lợi của chúng cùng
+                với những kỳ vọng về doanh lợi này. Nếu kỳ vọng tăng, cổ phiếu đó sẽ có
+                giá trị hơn và giá cả của nó sẽ tăng lên để phản ánh thực tế đó. Việc điều
+                chỉnh lại theo hướng tăng lên không chỉ là tin tốt lành ngắn hạn mà nó còn
+                có hệ lụy tích cực khi nhìn xa hơn. Trên hết, hãy nhớ rằng các nhà phân
+                tích không muốn những đánh giá của họ quá cao. Thế là, thay vì đánh giá
+                quá cao và tính sẵn khả năng cổ phiếu đó sẽ đi xuống, nếu bạn nghĩ công ty
+                đó sẽ kiếm thêm 25 cents cho một cổ phần trong quý tiếp theo, thì tại sao
+                lại không chừa một chút khoảng không để thở cho chính mình bằng cách nâng
+                đánh giá của bạn lên chỉ khoảng 15 cents thôi? Chẳng hay ho gì nếu cứ chìa
+                cổ mình ra và quá nhiều lần tái phạm sai lầm đánh giá quá cao.&nbsp;
+              </p>
+              <p>
+                Lý do thứ hai khiến việc điều chỉnh lại doanh lợi theo hướng tăng lên có
+                tác dụng tích cực trong dài hạn là ở chỗ kinh doanh có tính chu kỳ nào đó
+                của nó. Một khi công việc đã bắt đầu nóng máy, doanh thu và doanh lợi tăng
+                lên nhanh chóng thì chúng sẽ có xu hướng cứ tiếp tục như thế trong một
+                thời gian. Sự kết hợp của hai yếu tố này là lý do lớn nhất khiến cho nhà
+                phân tích một khi đã đưa ra một dự phóng doanh lợi theo hướng tăng lên thì
+                có vẻ điều đó chắc chắn sẽ xảy ra.&nbsp;
+              </p>
+              <p>
+                Một khi đánh giá đã được nâng lên, tất cả các nhà đầu tư tổ chức ở các quỹ
+                hỗ tương và quỹ thanh khoản linh hoạt bắt đầu phản ứng với tin tức này.
+                Vào những ngày trước khi có Quy định FD, người nào tạo ra nhiều USD ủy
+                thác nhất sẽ là người nhận được cuộc gọi đầu tiên và bắt đầu tích lũy cổ
+                phiếu trước cả bầy, nhưng những ngày đó đã qua rồi. Tất cả những tay chơi
+                hỗ trợ người mua (buy-side) đều có những mô hình mà họ dùng để định giá cổ
+                phiếu. Một khi họ đã chốt con số mới, cổ phiếu sẽ có giá trị hơn trong mô
+                hình của họ và họ sẽ đổ xô vào mua khi giá của nó vẫn còn rẻ. Bởi vì khối
+                lượng tiền có thể có được trong các quỹ này là rất lớn, nên chỉ cần vài
+                ngày là họ tích lũy được vị thế của mình, và khi làm như vậy sẽ đẩy giá
+                lên. Giá đang tăng thường kéo theo những người mua khác, như những người
+                mượn đà ăn theo, họ thích mua những cổ phiếu đang đạt tới những đỉnh điểm
+                mới và lướt theo những đợt sóng giá đang tăng.&nbsp;
+              </p>
+              <p>
+                Có một số cạm bẫy tiềm tàng trong việc điều chỉnh lại doanh lợi. Một là
+                giả mạo sổ sách kế toán. Tuy không còn phổ biến như cuối thập niên 1990,
+                nhưng việc này vẫn còn tồn tại. Các công ty cung cấp thông tin cho việc
+                phân tích theo một cách được sắp đặt trước để công việc kinh doanh trông
+                có vẻ tốt hơn thực tế. Về sau ta sẽ xem xét việc này kỹ hơn, nhưng nó đang
+                diễn ra và làm cho một số nhà phân tích nâng mức chỉ dẫn lên trong khi
+                thực tế việc kinh doanh không tốt đến thế. Một cạm bẫy khác có thể thấy
+                trong các công ty kinh doanh những loại hàng hóa sẽ tăng thêm doanh lợi
+                chỉ nhờ vào việc giá cả hàng hóa tăng cao hơn. Những giá cả hàng hóa tăng
+                cao đó có thể lại hạ xuống cũng nhanh như khi chúng tăng lên, làm cho các
+                đánh giá cũng hạ xuống thậm chí còn nhanh hơn khi tăng lên. Đây là một
+                trong những lý do khiến chúng tôi dùng tới tám yếu tố khác nhau trong mô
+                hình lựa chọn cổ phiếu của mình. Khi doanh lợi bị nhào nặn, hoặc việc gia
+                tăng doanh lợi dựa vào giá cả hàng hóa, thì những yếu tố khác sẽ làm cho
+                bức tranh được rõ ràng hơn. Một số nhà đầu tư và quản lý tiền bạc chỉ mua
+                bán dựa vào những điều chỉnh lại doanh lợi, nhưng tôi thích giảm bớt rủi
+                ro của mình bằng cách chọn những công ty mà mọi thứ khác đều tuyệt và
+                những đánh giá doanh lợi đang được nâng lên.&nbsp;
+              </p>
+              <p>
+                Chúng tôi đã nhìn thấy sức mạnh của việc điều chỉnh lại theo hướng tăng
+                lên của nhà phân tích trong thực tế một vài năm qua với một vài loại cổ
+                phiếu dầu mỏ mà chúng tôi nắm giữ. Hầu như mọi nhà phân tích trên thế
+                giới, trung thành với bản tính bảo thủ của mình, đều dùng giá dầu 30 USD
+                một thùng trong các mô hình định giá của họ mãi cho đến năm 2005. Bước vào
+                năm đó chúng tôi đã chốt sổ và nạp hàng khi giữ một nhóm cổ phiếu dầu mỏ
+                và dịch vụ dầu mỏ rất mạnh. Khi giá dầu tăng lên 50 USD một thùng và rồi
+                70 USD một thùng, các nhà phân tích tranh nhau chơi trò đuổi bắt. Vào
+                những thời gian, có vẻ như họ nâng các ước tính của mình lên mỗi ngày.
+                Chúng tôi có các cổ phiếu như Imperial Oil, Conoco Phillips, Suncor và
+                Valero trong danh mục đầu tư. Valero và Suncor tăng gấp đôi so với giá
+                chúng tôi mua ban đầu.&nbsp;
+              </p>
+              <p>
+                Một trong những cổ phiếu tăng trưởng ưa thích của tôi vào đầu năm 2007 là
+                DirecTV. Công ty này đã làm được một việc khó tin là đưa ra chương trình
+                quảng cáo trọn gói độ phân giải cao và gần như độc quyền về quảng cáo trọn
+                gói một số chương trình thể thao. Các nhà phân tích liên tục đánh giá
+                không đúng mức mong muốn của người xem muốn được lựa chọn không hạn chế
+                những chương trình xem ở nhà, và đang chơi trò đuổi bắt với những dự án
+                của họ. Vào cuối năm 2006, những đánh giá phân tích đã nâng lên gấp đôi
+                chỉ trong vòng 90 ngày, giúp khích động cho sự gia tăng mạnh mẽ hơn 30%
+                của cổ phiếu này.&nbsp;
+              </p>
+              <p>
+                Những điều chỉnh phân tích đã trở thành một phần trong mô hình của chúng
+                tôi gần như là ngay từ lúc bắt đầu, và tiếp tục là một trong những bộ phận
+                rất quan trọng và mạnh mẽ trong hệ thống của chúng tôi hôm nay. Chúng là
+                một trong những công cụ tốt nhất để chọn ra những loại cổ phiếu tăng
+                trưởng cho phép chúng tôi điều chỉnh lại theo hướng tăng lên những ước
+                tính về giá trị và sự sung túc tài chính của mình.
+              </p>
+              <div><br /></div>
+              <button id="scrollToTopBtn" class="scroll-btn top-btn" onclick="scrollToTop()">&#9650;</button>
+              <button id="scrollToBottomBtn" class="scroll-btn bottom-btn" onclick="scrollToBottom()">&#9660;</button>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+      <footer>  
+        <div class="bg-dark border-top border-secondary py-4">
+            <div class="container-fluid">
+            <div class="d-flex justify-content-center text-light">
+                <span>
+                <i class="fa-regular fa-copyright"></i>
+                Copyright 2024 by Uyner
+                </span> 
+            </div> 
+            </div>
+        </div>
+        </footer>
+    </div>
+  </body>
+  <script>
+    window.onload = function() {
+        restoreHighlight();
+    };
+</script>
+</html>

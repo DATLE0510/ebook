@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chương 5.1</title>
+    <link rel="stylesheet" href="Library/css/bootstrap.min.css" />
+    <script src="Library/js/bootstrap.min.js"></script>
+    <script src="Library/font-fontawesome-ae333ffef2.js"></script>
+    <link rel="stylesheet" href="./Library/style.css" />
+    <script src="Library/script.js"></script>
+    <script src="Library/angular.js"></script>
+    <script src="Library/angular-route.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <body ng-app="myapp">
+    <div id="background" style="height: 1100px">
+      <nav class="navbar navbar-expand-lg shadow col-sm col-lg">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center">
+            <ul class="navbar-nav mx-4">
+              <li class="nav-item mx-2">
+                <a href="home.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="tracnghiemchuong4.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-circle-arrow-left"></i>
+                </a>
+              </li>
+              <li class="nav-item mx-2">
+                <a href="#!home" class="nav-link" style="color: #ffff">
+                  <span
+                    style="
+                      margin-left: 450px;
+                      font-family: font1;
+                      font-size: 20px;
+                    "
+                    >Cuốn sách nhỏ giúp bạn làm giàu</span
+                  >
+                </a>
+              </li>
+            </ul>
+          </div>
+          <ul class="navbar-nav d-flex align-items-center">
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn fullscreenButton" style="font-family: font2; color: #ffff" onclick="toggleFullScreen()">
+                <i class="fas text-light fa-expand"></i>
+              </button>   
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn highlight-button" style="font-family: font2; color: #ffff" onclick="toggleHighlight()">
+                <i class="fa-solid fa-pen text-light fa-bounce"></i>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <button class="btn" onclick="openBookmarks()">
+                  <i class="fa-solid text-light fa-book-open-reader"></i>
+                </button>
+            </li>
+            <div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="bookmarkModalLabel">Danh sách bookmark</h5>
+                      </div>
+                      <div class="modal-body">
+                          <ul id="bookmarkList"></ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn" onclick="addBookmark()">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-bookmark"></i>
+                </a>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn custom-button" data-toggle="modal" data-target="#customizeModal">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-a"></i>
+                </a>
+              </button>
+            </li>
+            <div class="modal fade" id="customizeModal" tabindex="-1" role="dialog" aria-labelledby="customizeModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="customizeModalLabel">Tùy chỉnh văn bản</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="fontSelect">Phông chữ:</label>
+                      <select class="form-control" id="fontSelect">
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="colorSelect">Màu chữ:</label>
+                      <input type="color" class="form-control" id="colorSelect">
+                    </div>
+                    <div class="form-group">
+                      <label for="fontSizeSelect">Cỡ chữ:</label>
+                      <input type="range" class="form-control-range" id="fontSizeSelect" min="10" max="24" step="1">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="applyCustomization()">Áp dụng</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="customizationPanel" class="customization-panel"></div>
+            <li class="nav-item d-flex align-items-center">
+              <a href="chuong5-2.html" class="nav-link">
+                <i class="fa-solid text-light fa-circle-right"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="d-flex">
+        <div
+          style="
+            width: 510px;
+            height: 100%;
+            background: transparent-menu;
+          "
+          class="shadow pt-4 px-2"
+        >
+          <img
+            src="img/bia.jpg"
+            alt=""
+            style="width: 150px; float: left; box-shadow: 1px 1px 1px 1px"
+          />
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="#"
+                style="text-decoration: none; color: #ffff; font-family: font1"
+              >
+                Cuốn sách nhỏ giúp bạn làm giàu
+              </a>
+            </li>
+            <li>
+              <div>
+                <span class="text-light" style="margin-left: 60px">4,8</span>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+              </div>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3 mt-4">
+                <span style="color: #c4c4c4">TÁC GIẢ</span>
+                <span class="text-light" style="padding-left: 103px"
+                  >: Louis Navallier</span
+                >
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">NHÀ XUẤT BẢN</span>
+                <span class="text-light px-5">: NXB tri thức</span>
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">THỂ LOẠI</span>
+                <span class="text-light" style="padding-left: 96px"
+                  >: Tài chính cá nhân</span
+                >
+              </p>
+            </li>
+          </ul>
+          <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+
+          <div>
+            <h4 style="text-align: center; color: #ffff; font-family: font1;">MỤC LỤC</h4>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiNoiDau.html" style="text-decoration: none; color: #ffff" class="link active">Lời nói đầu</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiGioiThieu.html" style="text-decoration: none; color: #ffff">Lời giới thiệu</a>
+                </button> 
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="trian.html" style="text-decoration: none; color: #ffff">Tri ân</a>
+                </button>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 1</button>
+                    <div class="dropdown-content">
+                        <a href="chuong1-1.html">1.1 Bắt đầu ở nơi kết thúc</a>
+                        <a href="chuong1-2.html">1.2 Tát cả chúng ta đều thực hiện</a>
+                        <a href="tracnghiemchuong1.html">1.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 2</button>
+                    <div class="dropdown-content">
+                        <a href="chuong2-1.html">2.1 Trông vào tăng trưởng</a>
+                        <a href="chuong2-2.html">2.2 Xây nhà</a>
+                        <a href="tracnghiemchuong2.html">2.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 3</button>
+                    <div class="dropdown-content">
+                        <a href="chuong3-1.html">3.1 Giải cứu cảm xúc</a>
+                        <a href="chuong3-2.html">3.2 Điều chỉnh</a>
+                        <a href="tracnghiemchuong3.html">3.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 4</button>
+                    <div class="dropdown-content">
+                        <a href="chuong4-1.html">4.1 Bất ngờ</a>
+                        <a href="chuong4-2.html">4.2 Bán</a>
+                        <a href="tracnghiemchuong4.html">4.3Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 5</button>
+                    <div class="dropdown-content">
+                        <a href="chuong5-1.html">5.1 Phình to</a>
+                        <a href="chuong5-2.html">1.2 Để dòng tiền trôi</a>
+                        <a href="tracnghiemchuong5.html">5.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 6</button>
+                    <div class="dropdown-content">
+                        <a href="chuong6-1.html">6.1 Đây là tất cả các biến số</a>
+                        <a href="chuong6-2.html">6.2 Biết Alpha và Beta của bạn</a>
+                        <a href="tracnghiemchuong6.html">6.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="banlaai.html" style="text-decoration: none; color: #ffff">Bạn là ai</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="dieugicoloi.html" style="text-decoration: none; color: #ffff">Điều gì có lợi cho bạn?</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="thongtinbanquyen.html" style="text-decoration: none; color: #ffff">Thông tin bản quyền</a>
+                </button>
+            </p>
+            <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+          </div>
+        </div>
+        <div
+          class="container"
+          style="margin-top: 50px; font-family: font2; width: 800px"
+        >
+          <div class="pt-4 container content-text">
+            <p style="font-family: font2" class="text-justify">
+              <div class="scroll-container" id="scroll-container">
+                <p
+                style="
+                  text-align: center;
+                  font-size: 130%;
+                  font-weight: bold;
+                  font-family: anhai !important;
+                "
+              >
+                CHƯƠNG NĂM
+              </p>
+              <p
+                style="
+                  text-align: center;
+                  font-size: 110%;
+                  font-weight: bold;
+                  font-style: italic;
+                  font-family: anhai !important;
+                "
+              >
+                5.1.
+              </p>
+              <p style="text-align: center">Phình to</p>
+              <p style="text-align: center">
+                Không như vòng eo, lãi phình to là tốt cho bạn
+              </p>
+              <p><br /></p>
+              <p>
+                VỚI BIẾN SỐ NÀY, giờ đây ta đang ở giữa đường trong danh sách tám biến số
+                của chúng tôi. Biến số thứ tư là lãi kinh doanh phình to (operating margin
+                expansion). Tôi thích chúng béo phì (tất nhiên là lãi kinh doanh). Tôi tập
+                trung vào lãi kinh doanh, tức là thu nhập có được từ kinh doanh của một
+                công ty chia cho doanh số ròng, một con số dễ dàng tính toán được và cũng
+                có thể tìm thấy trên hầu hết các website tài chính như Yahoo!Finance. Tôi
+                thích con số lãi kinh doanh hơn, bởi vì khó mà gian lận nó với những
+                nguyên tắc kế toán được chấp nhận rộng rãi bây giờ, và nó cho tôi một cái
+                nhìn rõ ràng hơn nhiều về việc công ty đó đang làm ăn ra sao so với những
+                con số khác như thu nhập ròng (quá nhiều khoản mục không thường xuyên tìm
+                được đường lòn vào thu nhập ròng nên khó có thể là một chuẩn so sánh đáng
+                tin cậy). Nếu lãi kinh doanh của một công ty phình to từ năm này qua năm
+                khác và từ quý này qua quý khác, thì nó chỉ ra rằng công ty đó đang làm ra
+                nhiều tiền hơn trên mỗi USD doanh số mà công ty thu về từ những hàng hóa
+                và dịch vụ mà họ bán ra. Thường thì chúng tôi tìm thấy những công ty có sự
+                tăng trưởng doanh thu bột phát, nhưng lãi kinh doanh lại kém cỏi. Chẳng
+                hạn, một công ty có thể hạ giá để kích thích doanh thu, nó sẽ làm đẹp cho
+                dòng đầu tiên của báo cáo thu nhập (dòng ghi doanh số), nhưng nó không
+                phản ánh sự tăng trưởng bền vững. Những công ty khác, đặc biệt là những
+                công ty trong các ngành dịch vụ, có thể có doanh thu hàng đầu nhưng lợi
+                nhuận có thể bị chén hết cho việc thuê thêm người và trả chi phí quảng cáo
+                phụ thêm.&nbsp;
+              </p>
+              <p>
+                Lãi kinh doanh có thể cho thấy một sự tăng mạnh nhưng chỉ là tạm thời vì
+                một vài lý do. Thứ nhất, công ty đó có thể cải thiện việc kiểm soát chi
+                phí và cắt giảm chi tiêu để mỗi USD doanh thu sẽ mang về nhiều hơn một tý
+                cho dòng cuối cùng của báo cáo thu nhập (dòng ghi lợi nhuận ròng). Nếu như
+                thế thì thật là tuyệt, và tôi luôn vui mừng khi thấy những công ty mà tôi
+                đầu tư có trách nhiệm với đồng tiền công ty của mình, nhưng cách này không
+                phải là nguồn bền vững của tăng trưởng. Trong các dây chuyền bán lẻ ta
+                thường thấy có các đỉnh lãi khi những cửa hàng có doanh số thấp bị đóng
+                cửa. Lại một lần nữa, thật tốt khi thấy ban quản lý tiến hành những bước
+                đi cần thiết để cải thiện cho dòng cuối cùng của báo cáo thu nhập, nhưng
+                dẹp tiệm những cửa hàng thực ra không phải là cách để phát triển một công
+                ty.&nbsp;
+              </p>
+              <p>
+                Một cách khác, lãi kinh doanh phình to là khi một công ty bán được nhiều
+                hơn một thứ sản phẩm của nó, nhưng chi phí cơ bản của doanh nghiệp không
+                tăng lên. Khi iPod của Apple được ưa chuộng đông đảo, sự gia tăng chi phí
+                thực sự duy nhất mà họ thấy là chi phí để làm ra những đơn vị sản phẩm
+                mới. SG&amp;A (chi phí bán hàng, chi phí chung và chi phí quản lý - sales,
+                general and administrative cost) nói chung của Apple không tăng nhanh ở
+                bất cứ bộ phận nào, trong khi doanh thu và lãi kinh doanh của nó bùng nổ
+                theo hướng tăng lên giống như cổ phiếu của nó vậy.&nbsp;
+              </p>
+              <p>
+                Trong Chương 1 tôi đã nói về tám nhân tố trong mô hình của chúng tôi, và
+                chỉ ra từng nhân tố đã vượt trội hơn thị trường bao nhiêu trong vòng ba
+                năm qua. Cải thiện lãi kinh doanh là một trong những biến số thành công
+                nhất trong vài năm qua. Những công ty nào có thể làm phình to khối lượng
+                tiền này trên mỗi đồng USD vốn sở hữu đều là những cổ phiếu chiến thắng.
+                Vì trong mười năm qua năng suất đã được cải thiện ở Hoa Kỳ, với những tiến
+                bộ khổng lồ trong công nghệ và công suất, là những thứ cũng được bành
+                trướng bởi vì những sản phẩm mang tính chất đại chúng hiện giờ đã là tàu
+                vũ trụ. Vì chắc chắn năng suất và công nghệ sẽ còn tiếp tục tăng lên trong
+                những năm sắp tới (tôi là người lạc quan và tin rằng chúng ta đang có một
+                tương lai tươi sáng), nên môi trường cho các cổ phiếu tăng trưởng nói
+                riêng sẽ còn tiếp tục tồn tại.&nbsp;
+              </p>
+              <p>
+                Một trong những ví dụ tiêu biểu nhất về lãi kinh doanh phình to dẫn đến sự
+                tăng giá của cổ phiếu tăng trưởng đến từ thế giới của lũ gà. Tyson Chicken
+                trong nhiều năm trời chỉ là một hãng chế biến gà tầm thường. Họ mua gà
+                con, nuôi cho lớn, vặt lông rồi bán chúng cho các nhà bán lẻ - một công
+                việc làm ăn tươm tất cho dù đơn giản. Nhưng Tyson đã bắt đầu đổi mới và
+                tìm ra những cách thức mới để bán thứ sản phẩm lâu đời của mình, và khởi
+                sự đóng gói gà theo nhiều kiểu khác nhau. Họ bắt đầu bán gà đóng gói sẵn,
+                ức gà rút xương để sẵn sàng làm món chả nướng, các món gà đông lạnh và
+                nhiều thứ khác nữa. Họ nhận ra rằng họ có thể tính tiền nhiều hơn cho
+                những thứ sản phẩm mà về cơ bản vẫn chỉ là những con gà đã vặt lông đó.
+                Doanh thu và lãi kinh doanh tăng lên. Donald Tyson cũng nhận ra rằng khi
+                nền kinh tế phục hồi từ sau sự đình đốn của thập niên 1970, người Mỹ cũng
+                bắt đầu đi ăn ngoài tiệm thường xuyên hơn. Ông đã phát triển một chiến
+                dịch vận động để bán sản phẩm của mình ở nơi mình đã từng được thưởng thức
+                - trong các nhà hàng và các tiệm ăn nhanh. Một cuộc gọi tiếp thị đã thay
+                đổi lịch sử của lũ gà. Tyson gọi cho tập đoàn McDonald và thuyết phục họ
+                thêm món gà vào thực đơn - đặc biệt là một món mới gọi là gà McNuggets. Ý
+                tưởng này được hoan nghênh, và nhờ việc cải tiến đổi mới sản xuất cùng
+                những kỹ thuật marketing của Tyson, họ trở thành nhà chế biến gà duy nhất
+                cung ứng món gà khoanh giăm bông (ruốc bông) và là nhà cung cấp chính của
+                thứ sản phẩm mau chóng trở thành một trong những món bán chạy nhất trên
+                thực đơn của McDonald. Họ thực sự có vị thế độc quyền về sản phẩm này và
+                có khả năng để tính phí nhiều hơn mà không phải tăng thêm chi phí cơ bản
+                của mình chút nào. Lãi kinh doanh phình to và cổ phiếu của công ty này
+                bước vào một cuộc vui kéo dài nhiều năm liền, bay lên những đỉnh cao mới
+                và xa hơn.&nbsp;
+              </p>
+              <p>
+                Tôi muốn đưa thêm nhiều ví dụ mới đây về từng biến số để các bạn có thể
+                thấy mỗi biến số có sức mạnh như thế nào trong việc lựa chọn những cổ
+                phiếu tăng trưởng đúng đắn. Một trong những ví dụ rõ ràng hơn trong vài
+                năm vừa qua dĩ nhiên là những cổ phiếu năng lượng và dịch vụ năng lượng.
+                Chi phí cơ bản để vận hành một doanh nghiệp năng lượng thực tế không thay
+                đổi, nhưng những vấn đề địa chính trị và cung cấp đã đẩy giá cả loại sản
+                phẩm này lên cao hơn. Những công ty này bán cùng một khối lượng khí và
+                dầu, nhưng lãi kinh doanh lại cao hơn rất nhiều. Hình 5.1 cho thấy giá của
+                cổ phiếu Suncor vào năm 2005. Lãi kinh doanh nhảy từ 20% lên hơn 50% doanh
+                thu và giá cổ phiếu tăng lên 80%.&nbsp;
+              </p>
+              <p><br /></p>
+              <p style="text-align: center">
+                &nbsp;<img alt="Hình 5.1" src="img/5.1.jpg" />
+              </p>
+              <p style="text-align: center">
+                Hình 5.1. Bảng biểu diễn thành tích của Suncor năm 2005
+              </p>
+              <p style="text-align: center"><br /></p>
+              <p>
+                Occidental Petroleum là một ví dụ tiêu biểu khác về tác động của giá bán
+                cao đối với lãi kinh doanh và giá cổ phiếu. Tất cả những gì OXY làm là
+                khai thác, sản xuất và bán dầu lửa. Từ năm 2003 đến 2005, không chỉ doanh
+                thu của OXY tăng lên nhanh chóng, mà lãi kinh doanh cũng vậy vì chi phí
+                kinh doanh vẫn tương đối ổn định. Lãi kinh doanh tăng lên qua mỗi năm và
+                giá cổ phiếu của OXY cũng thế, tăng hơn 300% trong khoảng thời gian này.
+                Một thứ khác cũng gia tăng nhanh chóng trong thời gian đó dĩ nhiên là giá
+                trị của cải ròng của những người ý thức được sự phình to này.&nbsp;
+              </p>
+              <p>
+                Một ví dụ tuyệt vời khác đến từ thế giới video game. Hầu như không thể
+                không nhận thấy sự bùng nổ của nó. Bạn có thể chơi các trò chơi trên
+                computer, trên các máy chơi game chuyên dùng như Playstation 3, trên các
+                thiết bị cầm tay, và thậm chí kể cả điện thoại di động của bạn. Sự tăng
+                trưởng bùng nổ này có nghĩa là các nhà sản xuất cần các con chip xử lý đồ
+                họa, những loại chip computer đặc biệt để làm cho trò chơi sống động, từ
+                những trò chơi chiến đấu máu me cho tới những trò đụng độ mạnh như Madden
+                Giải Bóng đá Mỹ và giải bóng rổ NBA đều rất được ưa chuộng. Nvidia ở đúng
+                nơi đúng chỗ để cung cấp những con chip mà tất cả những nhà sản xuất game
+                đều cần. Khi nhu cầu bùng nổ vào năm 2006, lãi kinh doanh của họ tăng gấp
+                ba lần, cổ phiếu của họ cũng vậy, tăng hơn 100%.&nbsp;
+              </p>
+              <p>
+                Chúng tôi luôn để mắt đến lãi kinh doanh. Sự gia tăng lãi kinh doanh
+                thường có nghĩa là công ty đó đang thống trị phạm vi kinh doanh của nó hay
+                nó đang có một sản phẩm mới. Điều đó không tránh khỏi dẫn đến sự cạnh
+                tranh và lãi kinh doanh bắt đầu giảm dần. Chúng tôi theo dõi sự suy giảm
+                này rất cẩn thận và luôn để mắt đến sự tăng trưởng lãi này từ quý này sang
+                quý khác.&nbsp;
+              </p>
+              <p>
+                Có rất nhiều lý do khiến cho lãi kinh doanh có thể ngừng phình ra và chẳng
+                có lý do nào tốt cả. Có thể do huy động vốn quá đáng vì việc quản lý trở
+                nên quá lỏng lẻo khi công ty còn đang say sưa thụ hưởng sự thành công (một
+                cách tốt để trở thành cựu quản lý), hoặc có thể do việc tăng thêm những
+                biện pháp điều tiết trong nhóm ngành như trong quá khứ đã từng diễn ra,
+                chẳng hạn trong các ngành dược phẩm và phúc lợi. Cả hai ngành này đều
+                chứng kiến lãi kinh doanh sút giảm mạnh khi các cơ quan chính phủ giới hạn
+                những gì có thể tính phí cho các sản phẩm của doanh nghiệp và buộc họ phải
+                thêm những biện pháp kiểm soát tốn kém đối với các nhà máy và xí nghiệp
+                của mình. Cho dù lý do để lãi kinh doanh ngừng phình ra hay thậm chí bắt
+                đầu sút giảm là gì đi nữa, thì đó vẫn là một dấu hiệu cho thấy sự tăng
+              </p>
+              <p>
+                trưởng đang chậm lại và đó có thể là lúc để nói lời chia tay với cổ phiếu
+                này. Thật may là điều đó sẽ thể hiện trong mô hình dữ liệu của chúng tôi
+                với rất nhiều sự cảnh báo. Trên website www.getrichwithgrowth.com , bạn có
+                thể dễ dàng thấy khi nào thì điểm số cho lãi kinh doanh bắt đầu rớt xuống
+                đối với hầu như bất kỳ cổ phiếu nào trên Wall Street. Bạn có thể dùng cái
+                này như một sự cảnh báo sớm để bán đi trước khi cổ phiếu rớt giá.&nbsp;
+              </p>
+              <p>
+                Chừng nào lãi kinh doanh của một công ty còn phình ra, thì đó vẫn là một
+                biến số mạnh làm cho giá cổ phiếu của công ty ngày càng lên cao.
+              </p>
+              <p><br /></p>
+              <p><br /></p>
+              <p><br /></p>
+              <button id="scrollToTopBtn" class="scroll-btn top-btn" onclick="scrollToTop()">&#9650;</button>
+              <button id="scrollToBottomBtn" class="scroll-btn bottom-btn" onclick="scrollToBottom()">&#9660;</button>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+      <footer>  
+        <div class="bg-dark border-top border-secondary py-4">
+            <div class="container-fluid">
+            <div class="d-flex justify-content-center text-light">
+                <span>
+                <i class="fa-regular fa-copyright"></i>
+                Copyright 2024 by Uyner
+                </span> 
+            </div> 
+            </div>
+        </div>
+        </footer>
+    </div>
+  </body>
+  <script>
+    window.onload = function() {
+        restoreHighlight();
+    };
+</script>
+</html>

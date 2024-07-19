@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ</title>
+    <link rel="stylesheet" href="Library/css/bootstrap.min.css">
+    <script src="Library/js/bootstrap.min.js"></script>
+    <script src="Library/font-fontawesome-ae333ffef2.js"></script>
+    <link rel="stylesheet" href="./Library/style.css">
+</head>
+<body>
+    <div id="background">
+        <nav class="navbar navbar-expand-lg shadow col-sm col-lg">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center">
+                    <a href="home.html">
+                        <img src="img/logo white.png" alt="Logo" title="Trang chủ" width="100px" height="100px">
+                    </a>
+                    <ul class="navbar-nav mx-4">
+                        <li class="nav-item mx-2">
+                            <a href="#!home" class="nav-link" style="color: #ffff;">Sách điện tử</a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a href="#!home" class="nav-link" style="color: #ffff;">Phần / Chương</a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a href="tacgia.html" class="nav-link" style="color: #ffff;">Giới thiệu tác giả</a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a href="tomtatsach.html" class="nav-link" style="color: #ffff;">Tóm tắt sách</a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a href="#!home" class="nav-link" style="color: #ffff;">Nhà xuất bản</a>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="navbar-nav d-flex align-items-center">
+                    <div>
+                        <button>
+                            <i class="fa-solid fa-magnifying-glass" style="background-color: #f2f2f2;"></i>
+                        </button>
+                        <input type="text" class="navbar-brand" style="height:28px; font-size: 15px; width: 200px; float: right; background-color: #f2f2f2;">
+                    </div>
+                    <li class="nav-item d-flex align-items-center">
+                        <a href="#" class="nav-link">
+                            <i class="fa-solid fa-user fa-fade text-light"></i>
+                            <span class="text-light">Đăng nhập</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+<div class="container mt-5" style="max-width: 30%; min-height: calc(100vh - 190px);">
+    <div class="row d-flex">
+      <div class="col-lg">
+        <span class="form-label" style="color: #ffff;">Tài khoản</span>
+        <input class="form-control" type="text" ng-model="product.taikhoan"/>
+      </div>
+    </div>
+    <div class="col-lg pt-2">
+      <span class="form-label" style="color: #ffff;">Mật khẩu</span>
+      <input class="form-control" type="password" ng-model="product.matkhau"/>
+    </div>
+    <div class="d-flex justify-content-between">
+      <div class="pt-2 d-flex text-align-center">
+        <p style="font-size: 12px;">
+        </p>
+          <input type="checkbox">
+          <span class="px-1" style="font-size: 12px; color: #ffff;">Nhớ mật khẩu</span>
+        </p>
+      </div>
+      <div class="d-flex text-align-center pt-2">
+        <a href="#!quen-mk" class="text-danger text-decoration-none" style="font-size: 12px;">Quên mật khẩu?</a>
+      </div>
+    </div>
+    <div class="mt-3 d-flex justify-content-center">
+      <button type="submit" class="btn btn-success rounded-pill btn-md w-100" ng-click="onClickDangNhap()">
+        <i class="fa-solid fa-right-to-bracket"></i>
+          Đăng nhập
+      </button>
+    </div>
+    <!-- <div ng-if="formInvalid" class="text-danger mt-2">
+      {{formInvalidMessage}}
+    </div> -->
+    <div class="mt-5 d-flex justify-content-center align-items-center">
+      <span style="color: #ffff;">Chưa có tài khoản?</span>
+      <button type="submit" class="btn btn-danger rounded-pill btn-md w-50 ms-2">
+        <i class="fa-solid fa-right-to-bracket"></i>
+        <a href="dangki.html" class="text-light text-decoration-none">
+          Đăng kí
+        </a>
+      </button>
+    </div>
+    <div>
+        <span class="d-flex justify-content-center mt-3 text-warning">Hoặc đăng nhập với</span>
+        <div class="mt-2">
+            <button class="btn btn-primary mx-5 width-50">
+                <a href="" style="color: #ffff; text-decoration: none;">
+                    <i class="fa-brands fa-facebook px-2"></i>
+                    Facebook
+                </a>
+            </button>
+            <button class="btn btn-danger width-50">
+                <a href="" style="color: white; text-decoration: none;">
+                    <i class="fa-brands fa-google px-2"></i>
+                    Google
+                </a>
+            </button>
+        </div>
+    </div>
+  </div>
+  <footer>  
+    <div class="bg-dark border-top border-secondary py-5 mt-5">
+        <div class="container-fluid">
+        <div class="d-flex justify-content-center text-light">
+            <span>
+            <i class="fa-regular fa-copyright"></i>
+            Copyright 2024 by Uyner
+            </span> 
+        </div> 
+        </div>
+    </div>
+    </footer>
+  </div>  
+</body>
+</html>

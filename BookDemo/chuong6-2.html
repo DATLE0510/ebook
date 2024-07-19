@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chương 6.2</title>
+    <link rel="stylesheet" href="Library/css/bootstrap.min.css" />
+    <script src="Library/js/bootstrap.min.js"></script>
+    <script src="Library/font-fontawesome-ae333ffef2.js"></script>
+    <link rel="stylesheet" href="./Library/style.css" />
+    <script src="Library/script.js"></script>
+    <script src="Library/angular.js"></script>
+    <script src="Library/angular-route.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <body ng-app="myapp">
+    <div id="background" style="height: 1100px">
+      <nav class="navbar navbar-expand-lg shadow col-sm col-lg">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center">
+            <ul class="navbar-nav mx-4">
+              <li class="nav-item mx-2">
+                <a href="home.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="chuong6-1.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-circle-arrow-left"></i>
+                </a>
+              </li>
+              <li class="nav-item mx-2">
+                <a href="#!home" class="nav-link" style="color: #ffff">
+                  <span
+                    style="
+                      margin-left: 450px;
+                      font-family: font1;
+                      font-size: 20px;
+                    "
+                    >Cuốn sách nhỏ giúp bạn làm giàu</span
+                  >
+                </a>
+              </li>
+            </ul>
+          </div>
+          <ul class="navbar-nav d-flex align-items-center">
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn fullscreenButton" style="font-family: font2; color: #ffff" onclick="toggleFullScreen()">
+                <i class="fas text-light fa-expand"></i>
+              </button>   
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn highlight-button" style="font-family: font2; color: #ffff" onclick="toggleHighlight()">
+                <i class="fa-solid fa-pen text-light fa-bounce"></i>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <button class="btn" onclick="openBookmarks()">
+                  <i class="fa-solid text-light fa-book-open-reader"></i>
+                </button>
+            </li>
+            <div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="bookmarkModalLabel">Danh sách bookmark</h5>
+                      </div>
+                      <div class="modal-body">
+                          <ul id="bookmarkList"></ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn" onclick="addBookmark()">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-bookmark"></i>
+                </a>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn custom-button" data-toggle="modal" data-target="#customizeModal">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-a"></i>
+                </a>
+              </button>
+            </li>
+            <div class="modal fade" id="customizeModal" tabindex="-1" role="dialog" aria-labelledby="customizeModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="customizeModalLabel">Tùy chỉnh văn bản</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="fontSelect">Phông chữ:</label>
+                      <select class="form-control" id="fontSelect">
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="colorSelect">Màu chữ:</label>
+                      <input type="color" class="form-control" id="colorSelect">
+                    </div>
+                    <div class="form-group">
+                      <label for="fontSizeSelect">Cỡ chữ:</label>
+                      <input type="range" class="form-control-range" id="fontSizeSelect" min="10" max="24" step="1">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="applyCustomization()">Áp dụng</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="customizationPanel" class="customization-panel"></div>
+            <li class="nav-item d-flex align-items-center">
+              <a href="tracnghiemchuong6.html" class="nav-link">
+                <i class="fa-solid text-light fa-circle-right"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="d-flex">
+        <div
+          style="
+            width: 510px;
+            height: 100%;
+            background: transparent-menu;
+          "
+          class="shadow pt-4 px-2"
+        >
+          <img
+            src="img/bia.jpg"
+            alt=""
+            style="width: 150px; float: left; box-shadow: 1px 1px 1px 1px"
+          />
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="#"
+                style="text-decoration: none; color: #ffff; font-family: font1"
+              >
+                Cuốn sách nhỏ giúp bạn làm giàu
+              </a>
+            </li>
+            <li>
+              <div>
+                <span class="text-light" style="margin-left: 60px">4,8</span>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+              </div>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3 mt-4">
+                <span style="color: #c4c4c4">TÁC GIẢ</span>
+                <span class="text-light" style="padding-left: 103px"
+                  >: Louis Navallier</span
+                >
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">NHÀ XUẤT BẢN</span>
+                <span class="text-light px-5">: NXB tri thức</span>
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">THỂ LOẠI</span>
+                <span class="text-light" style="padding-left: 96px"
+                  >: Tài chính cá nhân</span
+                >
+              </p>
+            </li>
+          </ul>
+          <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+
+          <div>
+            <h4 style="text-align: center; color: #ffff; font-family: font1;">MỤC LỤC</h4>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiNoiDau.html" style="text-decoration: none; color: #ffff" class="link active">Lời nói đầu</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiGioiThieu.html" style="text-decoration: none; color: #ffff">Lời giới thiệu</a>
+                </button> 
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="trian.html" style="text-decoration: none; color: #ffff">Tri ân</a>
+                </button>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 1</button>
+                    <div class="dropdown-content">
+                        <a href="chuong1-1.html">1.1 Bắt đầu ở nơi kết thúc</a>
+                        <a href="chuong1-2.html">1.2 Tát cả chúng ta đều thực hiện</a>
+                        <a href="tracnghiemchuong1.html">1.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 2</button>
+                    <div class="dropdown-content">
+                        <a href="chuong2-1.html">2.1 Trông vào tăng trưởng</a>
+                        <a href="chuong2-2.html">2.2 Xây nhà</a>
+                        <a href="tracnghiemchuong2.html">2.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 3</button>
+                    <div class="dropdown-content">
+                        <a href="chuong3-1.html">3.1 Giải cứu cảm xúc</a>
+                        <a href="chuong3-2.html">3.2 Điều chỉnh</a>
+                        <a href="tracnghiemchuong3.html">3.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 4</button>
+                    <div class="dropdown-content">
+                        <a href="chuong4-1.html">4.1 Bất ngờ</a>
+                        <a href="chuong4-2.html">4.2 Bán</a>
+                        <a href="tracnghiemchuong4.html">4.3Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 5</button>
+                    <div class="dropdown-content">
+                        <a href="chuong5-1.html">5.1 Phình to</a>
+                        <a href="chuong5-2.html">1.2 Để dòng tiền trôi</a>
+                        <a href="tracnghiemchuong5.html">5.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 6</button>
+                    <div class="dropdown-content">
+                        <a href="chuong6-1.html">6.1 Đây là tất cả các biến số</a>
+                        <a href="chuong6-2.html">6.2 Biết Alpha và Beta của bạn</a>
+                        <a href="tracnghiemchuong6.html">6.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="banlaai.html" style="text-decoration: none; color: #ffff">Bạn là ai</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="dieugicoloi.html" style="text-decoration: none; color: #ffff">Điều gì có lợi cho bạn?</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="thongtinbanquyen.html" style="text-decoration: none; color: #ffff">Thông tin bản quyền</a>
+                </button>
+            </p>
+            <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+          </div>
+        </div>
+        <div
+          class="container"
+          style="margin-top: 50px; font-family: font2; width: 800px"
+        >
+          <div class="pt-4 container content-text">
+            <p style="font-family: font2" class="text-justify">
+              <div class="scroll-container" id="scroll-container">
+                <p
+                style="
+                  text-align: center;
+                  font-size: 110%;
+                  font-weight: bold;
+                  font-style: italic;
+                  font-family: anhai !important;
+                "
+              >
+                6.2.
+              </p>
+              <p style="text-align: center">Biết Alpha và Beta của bạn</p>
+              <p style="text-align: center">
+                Làm sao tính được các thành phần của thứ nước sốt bí mật?
+              </p>
+              <p><br /></p>
+              <p>
+                NẾU THẾ GIỚI NÀY HOÀN HẢO, một khi ta đã có một giỏ cổ phiếu với các biến
+                số căn bản mạnh là ta đã có thể ngồi lại, thư giãn và theo dõi lợi nhuận
+                của mình cứ chất đống mãi lên. Nhưng thế giới thực không phải là một nơi
+                hoàn hảo và Wall Street cũng vậy, thậm chí nơi đó còn ít hoàn hảo hơn nữa.
+                Thị trường có hai thuộc tính có thể ảnh hưởng quan trọng đến danh mục đầu
+                tư của chúng ta. Thứ nhất, thị trường chứng khoán có tất cả những triệu
+                chứng của chứng tâm thần phân liệt mức độ trung bình. Thứ hai, thị trường
+                chứng khoán xét cho cùng là cái chợ cung-cầu, và những đánh giá về sự hấp
+                dẫn hay không hấp dẫn của một công ty cụ thể nào đó có thể tác động rất
+                lớn đến thành tựu của chúng ta. Thực tế là những công ty tốt, có mô hình
+                kinh doanh đúng đắn và có lợi nhuận cao, vẫn có nguy cơ bị trừng phạt một
+                cách quá đáng và nghiệt ngã trong ngắn hạn ngay - cho dù họ là những người
+                thắng cuộc trong dài hạn. Vì lý do đó, tôi nghĩ việc liên tục đo lường
+                đánh giá các cổ phiếu của chúng ta về phương diện rủi ro và lợi ích kỳ
+                vọng, cũng như sự vững mạnh của các yếu tố căn bản của chúng là thực sự có
+                ý nghĩa.&nbsp;
+              </p>
+              <p>
+                Thước đo rủi ro/ lợi ích kỳ vọng đầu tiên để tôi xem xét được gọi bằng
+                thuật ngữ toán học là hệ số beta . Hệ số beta đơn giản để đo lường xem một
+                cổ phiếu chuyển động song hành với thị trường này như thế nào. Hệ số này
+                thường được đề cập đến như là rủi ro thuộc hệ thống, nó là độ nhạy cảm của
+                một cổ phiếu đối với những chuyển động của chỉ số danh mục chuẩn của toàn
+                bộ thị trường chứng khoán. Hệ số beta cố gắng đo lường sự vận động của một
+                tài sản cụ thể liên quan đến toàn bộ thị trường đó. Hệ số beta bằng 1 có
+                nghĩa là bạn dự kiến được chuyển động của cổ phiếu đó khớp với chuyển động
+                của chỉ số danh mục chuẩn, về căn bản chuyển động song song với chỉ số
+                này. Nói cách khác, nếu một cổ phiếu hay một danh mục cổ phiếu có hệ số
+                beta là 1.10 thì có thể nói rằng tài sản này từ trước đến giờ chuyển động
+                lên xuống cao hơn hay thấp hơn thị trường 10%. Tương tự, nếu một tài sản
+                có hệ số beta 0.80 thì từ trước đến giờ nó dao động ít hơn 20% so với thị
+                trường, cả lên lẫn xuống. Hệ số beta được xác định bằng cách dùng sự phân
+                tích hồi quy - một phương pháp thống kê nhằm xác định mức độ tương quan
+                giữa một biến phụ thuộc (một cổ phiếu riêng lẻ) và một loạt các biến số
+                đang biến thiên khác (thị trường chứng khoán).&nbsp;
+              </p>
+              <p>
+                Ví dụ, nếu thị trường chứng khoán tăng lên 10% và các cổ phần của BlueChip
+                Incorporated cũng tăng 10% thì cổ phần BlueChip được cho là có hệ số beta
+                bằng 1, nghĩa là hoàn toàn khớp với thị trường. Nếu thị trường đi lên 10%
+                và các cổ phần của Exciting New Stuff Co. tăng 30% thì cổ phần của
+                Exciting New Stuff sẽ có hệ số beta bằng 3. Chuyển động này lên hay xuống
+                trong thị trường nói chung thì không thành vấn đề; chúng ta chỉ đo lường
+                mối liên hệ giữa một cổ phiếu riêng lẻ và chỉ số danh mục chuẩn của toàn
+                bộ thị trường chứng khoán.&nbsp;
+              </p>
+              <p>
+                Khi chúng ta nhìn vào loại cổ phiếu mình đang sở hữu, những cổ phiếu có hệ
+                số beta thấp thường là những cổ phiếu có độ rủi ro rất thấp, ít biến động
+                như đồ dùng điện, một số nhà băng và những cổ phiếu blue-chip lớn. Khi
+                chúng ta mạo hiểm đầu tư vào những công ty táo bạo hơn, ít chắc chắn hơn
+                thì hệ số beta thường sẽ tăng lên. Tôi cố hạ thấp hệ số beta của toàn bộ
+                danh mục đầu tư của mình, bằng cách pha trộn và kết hợp những cổ phiếu có
+                hệ số beta cao cùng những cổ phiếu có hệ số beta thấp để giảm thiểu ảnh
+                hưởng của vận động thị trường nói chung đối với danh mục của tôi. Điều này
+                hy vọng sẽ cho phép chúng tôi vẫn kiểm soát được số phận của mình, bằng
+                cách lựa chọn một danh mục cân bằng gồm các cổ phiếu có những đặc trưng
+                căn bản vững chắc và không chịu ảnh hưởng quá mức bởi những chao đảo hàng
+                ngày của thị trường. Là người mê các con số, tôi thích sự kiểm soát (hay
+                ít ra là ít bất ổn) hơn là phó mặc số phận tài chính của mình cho những
+                dao động lên xuống do tâm trạng hay thay đổi của Wall Street.&nbsp;
+              </p>
+              <p>
+                Một dạng rủi ro khác mà chúng ta phải đối mặt được gọi là rủi ro không
+                mang tính chất hệ thống. Trong tài chính, cái này được xác định là rủi ro
+                mang tính chất tình cờ, ngẫu nhiên, không tương liên với thị trường chứng
+                khoán nói chung. Đó có thể là những tin tức chỉ ảnh hưởng đến một công ty,
+                như những đánh giá doanh lợi bị hạ thấp đi, hay những điều kiện chỉ tác
+                động đến một nhóm các công ty trong cùng một ngành, như những quy định mới
+                được ban hành hay những hạn chế mới về thị trường. Rất khó tự vệ để chống
+                lại những rủi ro không hệ thống này, vì vậy, rủi ro không hệ thống của một
+                cổ phiếu càng cao thì bạn lại càng phải đa dạng hóa (phân tán rủi ro)
+                nhiều hơn. Ví dụ, tôi sẽ ít đa dạng hóa với những cổ phiếu có tính thanh
+                khoản cao hơn, mức vốn hóa lớn có rủi ro phi hệ thống thấp hơn, và sẽ đa
+                dạng hóa nhiều hơn với những cổ phiếu ít tính thanh khoản hơn, mức độ vốn
+                hóa nhỏ hơn có rủi ro phi hệ thống cao hơn. Để giảm bớt rủi ro phi hệ
+                thống của một danh mục đầu tư nói chung, ta cần phải phân bổ rộng vốn đầu
+                tư vào những cổ phiếu trong các ngành khác nhau, vào những cổ phiếu chịu
+                tác động một cách khác nhau bởi các yếu tố kinh tế, cũng như những cổ
+                phiếu có hệ số beta khác nhau.&nbsp;
+              </p>
+              <p>
+                Các danh mục đầu tư của tôi được xây dựng bằng cách dùng những thước đo
+                thận trọng, chúng pha trộn và kết hợp những hệ số beta khác nhau để phân
+                tán rủi ro phi hệ thống càng nhiều càng tốt. Cách tiếp cận như vậy là điều
+                quan trọng sống còn nếu chúng ta muốn đạt được kết quả là “giàu lên”. Với
+                một tập hợp chọn lọc những công ty mạnh về các yếu tố căn bản trong danh
+                mục đầu tư của mình, điều chúng tôi không muốn là chỉ vì những chuyển động
+                thị trường, hay những sự kiện ngành, hay công ty riêng lẻ nào đấy mà lại
+                lấy đi cái tiềm năng đặc biệt do mô hình của chúng tôi đã đem lại. Tôi
+                không thể nói hết việc kiểm soát rủi ro quan trọng đến mức nào để có thể
+                đạt được những kết quả đều đặn bền vững.&nbsp;
+              </p>
+              <p>
+                Hệ số beta bảo vệ chúng ta trong những lúc khó khăn. Nhưng thước đo thành
+                tích quan trọng nhất của tôi, cái thực sự là món nước sốt bí mật, lại là
+                thông số alpha . Thông số alpha không nghi ngờ gì nữa, chính là yếu tố cốt
+                tử đối với thành công của tôi trên thị trường chứng khoán. Alpha là thước
+                đo thành tích giá cổ phiếu nhờ những ảnh hưởng phi thị trường là bao
+                nhiêu. Thông thường, thông số alpha có thể quy cho những yếu tố căn bản
+                vững mạnh và thành tựu tài chính của một công ty. Thông số alpha, nói đơn
+                giản nhất, là thước đo lợi nhuận vượt quá những chỉ số danh mục chuẩn
+                thích hợp nhất của thị trường chứng khoán. Như vậy, mọi cổ phiếu đều có
+                một thông số alpha và một hệ số beta. Hệ số beta là cái phần trong giá cổ
+                phiếu nhờ vào thị trường nói chung. Còn thông số alpha là bất cứ cái gì
+                vượt quá kết quả đó. Người ta có thể nói rằng tất cả các cổ phiếu đều
+                giống những con chó, và thông số alpha làm cho con chó nào đấy đến được
+                cái vòng tròn của kẻ chiến thắng ở cuộc thi chó Westminster Kennel
+                Club.&nbsp;
+              </p>
+              <p>
+                Lần đầu tiên tôi nhận thức được thước đo mạnh mẽ này là hơn 27 năm trước.
+                Tôi học tài chính và thị trường ở trường đại học. Vào thời đó (và hiện nay
+                nó vẫn chẳng thay đổi gì nhiều), người ta dạy chúng tôi rằng không thể
+                đánh bại được kết quả của thị trường chứng khoán nói chung mà không phải
+                gánh thêm rủi ro. Hầu hết các lý thuyết đầu tư thời đó cho là bạn sẽ khá
+                giả lên rất nhiều nếu đặt tiền vào các quỹ đầu tư mô phỏng chỉ số Standard
+                &amp; Poor’s 500 (S&amp;P 500) hay một chỉ số thích hợp nào khác. Wells
+                Fargo là một trong những trạng sư hàng đầu cho cách tiếp cận này, và tôi
+                may mắn được học một giáo sư đến từ Wells Fargo, người làm việc với các
+                sinh viên để nghiên cứu cách tiếp cận thị trường hiệu quả. Wells Fargo
+                kiếm được sức lao động toán học rẻ mạt (tức là không mất tiền) từ tôi và
+                những người khác để thử nghiệm máy chủ của họ. Đổi lại tôi được truy xuất
+                những dữ liệu giá cổ phiếu và tài chính phong phú của họ, đó là một công
+                trình lớn trong thập niên 1970 trước khi Internet và máy tính xách tay làm
+                cho những dữ liệu kiểu này đến với đông đảo mọi người.&nbsp;
+              </p>
+              <p>
+                Một trong những dự án lớn nhất của tôi với tư cách nhà phân tích định
+                lượng mới ra làng là xây dựng một mô hình cho vị giáo sư của mình ở Wells
+                Fargo, nó mô phỏng S&amp;P 500 nhưng dùng ít hơn 500 cổ phiếu. Tôi đã cố
+                tạo ra những điều kiện chính xác sẽ mô phỏng chỉ số này với mức độ rủi ro
+                tương tự, hệ số gia trọng các ngành tương tự, nhưng là với một nhóm các cổ
+                phiếu theo sát chính xác với S&amp;P 500. Dù sao đó cũng là mục tiêu của
+                tôi. Khi tôi xây dựng danh mục đầu tiên của mình gồm 332 cổ phiếu được
+                thiết kế mô phỏng theo S&amp;P 500, tôi hết sức ngạc nhiên khi thấy danh
+                mục này bỗng nhiên đánh bại được cả thị trường chứng khoán! Điều này thực
+                sự là một cú sốc với một người vốn được dạy rằng chuyện đó là không thể,
+                vì vậy tôi phải xem xét lại thật tỉ mỉ coi cái gì đã làm cho thị trường
+                chứng khoán này bất thường như vậy.&nbsp;
+              </p>
+              <p>
+                Phần còn lại trong sự nghiệp của tôi được tạo ra chính nhờ cái mà tôi đã
+                phát hiện. Trong danh mục 332 cổ phiếu đầu tiên này, có một nhóm cổ phiếu
+                liên tục và thực sự vượt trội thị trường như một tổng thể, với mức rủi ro
+                tương tự nhưng trong một số trường hợp là ít hơn. Sự nghiệp và cuộc đời
+                đầu tư của tôi thay đổi kể từ đó. Tôi đã phát hiện ra những cổ phiếu có
+                thông số alpha cao! Những cổ phiếu này có khuynh hướng vận động một cách
+                độc lập với chỉ số thị trường chứng khoán nói chung và chắc chắn sẽ đem
+                lại những kết quả trước mắt tốt hơn so với những cổ phiếu khác.
+              </p>
+              <p>
+                Khi đã hiểu được rằng những cổ phiếu có thông số alpha cao sẽ vượt trội
+                thị trường và sẽ cho tôi cơ hội thu được những kết quả vượt xa những gì mà
+                các quỹ đầu tư theo chỉ số thụ động có thể đem lại; thế là tôi bắt đầu
+                nghiên cứu xem cái gì làm cho cổ phiếu có thông số alpha cao. Tôi đã tìm
+                ra hai lý do cho thành tích vượt trội này. Thứ nhất, một số cổ phiếu về cơ
+                bản là không lành mạnh và bị bán non bởi các chuyên gia đánh cuộc rằng cổ
+                phiếu này sẽ đi xuống. Khi những người bán non này bắt đầu mua lại cổ
+                phiếu để khóa sổ lợi nhuận của họ, thì cổ phiếu của những công ty “không
+                tuyệt vời cho lắm” sẽ trải qua một đợt bị càn quét thu gom rầm rộ. Điều
+                này thường xảy ra ở gần đáy thị trường cổ phiếu ngắn hạn, như ta đã thấy
+                vào tháng Tư và tháng Mười năm 2001, khi một số cổ phiếu công nghệ nhảy
+                vọt tận trời do những cuộc càn quét thu gom để bù lại sự thiếu hụt.&nbsp;
+              </p>
+              <p>
+                Lý do thứ hai cho thông số alpha cao là do sức ép mua vào. Các nhà đầu tư
+                tổ chức, cá nhân nhận ra thành tích căn bản mạnh mẽ của một nhóm cổ phiếu
+                và họ mua chúng ào ạt. Như ta đã biết, thị trường chứng khoán, cũng như
+                bất kỳ thị trường nào khác, đáp ứng với cung và cầu. Cầu tăng lên sẽ đẩy
+                giá cổ phiếu lên ngày càng cao hơn tương ứng với những chỉ số của
+                chúng.&nbsp;
+              </p>
+              <p>
+                Ngày nay chúng ta nghe thấy nhiều về những cổ phiếu có thông số alpha cao
+                từ những nhà bình luận và những bậc thầy về thị trường. Thật lạ là nhiều
+                người trong số họ dùng thuật ngữ này hoàn toàn không đúng. Thứ nhất, họ
+                tính toán thông số alpha cũng như hệ số beta dựa vào chỉ số S&amp;P 500
+                cho mọi cổ phiếu. Nhưng nếu một cổ phiếu không thuộc nhóm S&amp;P 500 mà
+                thuộc nhóm NASDAQ Composite, thì để tính toán chính xác hơn, ta phải dùng
+                chỉ số danh mục chuẩn NASDAQ hay những chỉ số khác mà cổ phiếu này có
+                tương quan chặt chẽ hơn và bám theo nó chính xác hơn. Sở dĩ lý do tương
+                quan lại quan trọng như thế là vì tương quan này càng cao thì thông số
+                alpha và hệ số beta càng có ý nghĩa về mặt thống kê. Nhưng nếu bạn so sánh
+                một cổ phiếu với một chỉ số danh mục chuẩn thị trường chứng khoán có tương
+                quan thấp, về thực chất, bạn sẽ nhận được một thông số alpha và hệ số beta
+                sai, hay cái mà tôi gọi là “garbage in, garbage out” (rác vào thì rác lại
+                ra). Để tôi giải thích theo cách khác. Giả sử bạn so sánh một cổ phiếu có
+                mức vốn hóa thấp với nhóm S&amp;P 500. Như thế, thực chất bạn đang so sánh
+                một con chó Chihuahua với một con voi. Có thể cả hai đều có bốn cái chân
+                và một cái đuôi, nhưng chúng thực sự hoàn toàn khác nhau! Một cổ phiếu có
+                thông số alpha cao tương quan với một chỉ số blue-chip có thể sẽ không cao
+                khi tính toán dựa vào chỉ số NASDAQ mạnh hơn.&nbsp;
+              </p>
+              <p>
+                Sai lầm quan trọng thứ hai mà tôi thường thấy xảy ra khi nhà phân tích
+                dùng sức mạnh tương quan và gọi nó là thông số alpha. Sức mạnh tương quan
+                đo lường một cổ phiếu có tương quan như thế nào so với chỉ số chuẩn ở một
+                thời điểm nào đó. Ví dụ, nếu một cổ phiếu bám theo chính xác với chỉ số
+                danh mục chuẩn có độ tương quan 100%, và chỉ số danh mục chuẩn đó tăng lên
+                50% trong một năm trong khi cổ phiếu tăng 100%, tức là cổ phiếu đó rốt
+                cuộc sẽ có hệ số beta bằng 2 và thông số alpha bằng 0. Lúc này tôi biết
+                bạn đang nghĩ: Làm sao một cổ phiếu có thể tăng gấp đôi thị trường nói
+                chung mà lại có thông số alpha bằng 0? Rất đơn giản: toàn bộ kết quả cổ
+                phiếu được giải thích hoàn toàn bởi hệ số beta cao của nó chứ không hề
+                được giải thích bằng thông số alpha. Thực chất, những cổ phiếu có thông số
+                alpha cao thường “zig” trong khi toàn bộ thị trường nói chung lại “zag.”
+                Cũng vậy, tôi muốn giữ cho các hệ số beta của mình càng thấp càng tốt, để
+                có thể giảm bớt sự phụ thuộc của tôi vào thị trường cổ phiếu nói chung, và
+                kiểm soát số phận của chính mình bằng cách tập trung vào thành tích của
+                từng cổ phiếu cụ thể.&nbsp;
+              </p>
+              <p>
+                Nói cách khác, những cổ phiếu có sức mạnh tương quan cao và hệ số beta cao
+                cũng rất hay tỏa sáng, đụng rồi cháy khi thị trường cổ phiếu nói chung đâm
+                ra kém đi. Thông số alpha được đo qua cả một thời kỳ dài (52 tuần lễ) và
+                được tạo ra bởi sức ép mua vào thực sự. Nó không bị tác động bởi những vận
+                động giá cả ngắn hạn. Dĩ nhiên, nhiều cổ phiếu với thông số alpha cao của
+                tôi có xu hướng “zig” khi thị trường này “zag” và thành tịc thì ngược lại
+                hoàn toàn.
+              </p>
+              <p>
+                Vậy đây là câu chuyện alpha-và-beta của tôi về đầu tư cổ phiếu tang
+                trưởng: Cũng như khi bé ta học thuộc bảng chữ cái ABC như các đơn nguyên
+                để học cách đọc và viết, việc biết các alpha và beta sẽ mở đường cho ta để
+                đọc thành tích cổ phiếu một cách rõ ràng hơn và để đầu tư thành công, hy
+                vọng thế. Nếu chúng ta bám chắc vào những công ty có các yếu tố căn bản
+                đúng đắn, chúng có sức ép mua vào thực sự và kéo dài, thì hãy chăm lo các
+                hệ số beta của chúng ta sao cho các dao động thị trường không gây ra những
+                ảnh hưởng quá lớn, và kèm thêm việc phân tán rủi ro, chúng ta sẽ ổn khi đi
+                trên con đường đạt được những kết quả đem lại sự giàu có mà chúng ta vẫn
+                hy vọng.
+              </p>
+              <div><br /></div>
+              <button id="scrollToTopBtn" class="scroll-btn top-btn" onclick="scrollToTop()">&#9650;</button>
+              <button id="scrollToBottomBtn" class="scroll-btn bottom-btn" onclick="scrollToBottom()">&#9660;</button>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+      <footer>  
+        <div class="bg-dark border-top border-secondary py-4">
+            <div class="container-fluid">
+            <div class="d-flex justify-content-center text-light">
+                <span>
+                <i class="fa-regular fa-copyright"></i>
+                Copyright 2024 by Uyner
+                </span> 
+            </div> 
+            </div>
+        </div>
+        </footer>
+    </div>
+  </body>
+  <script>
+    window.onload = function() {
+        restoreHighlight();
+    };
+</script>
+</html>

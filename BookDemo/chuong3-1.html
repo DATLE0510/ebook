@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chương 3.1</title>
+    <link rel="stylesheet" href="Library/css/bootstrap.min.css" />
+    <script src="Library/js/bootstrap.min.js"></script>
+    <script src="Library/font-fontawesome-ae333ffef2.js"></script>
+    <link rel="stylesheet" href="./Library/style.css" />
+    <script src="Library/script.js"></script>
+    <script src="Library/angular.js"></script>
+    <script src="Library/angular-route.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <body ng-app="myapp">
+    <div id="background" style="height: 1100px">
+      <nav class="navbar navbar-expand-lg shadow col-sm col-lg">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center">
+            <ul class="navbar-nav mx-4">
+              <li class="nav-item mx-2">
+                <a href="home.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="chuong3-2.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-circle-arrow-left"></i>
+                </a>
+              </li>
+              <li class="nav-item mx-2">
+                <a href="#!home" class="nav-link" style="color: #ffff">
+                  <span
+                    style="
+                      margin-left: 450px;
+                      font-family: font1;
+                      font-size: 20px;
+                    "
+                    >Cuốn sách nhỏ giúp bạn làm giàu</span
+                  >
+                </a>
+              </li>
+            </ul>
+          </div>
+          <ul class="navbar-nav d-flex align-items-center">
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn fullscreenButton" style="font-family: font2; color: #ffff" onclick="toggleFullScreen()">
+                <i class="fas text-light fa-expand"></i>
+              </button>   
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn highlight-button" style="font-family: font2; color: #ffff" onclick="toggleHighlight()">
+                <i class="fa-solid fa-pen text-light fa-bounce"></i>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <button class="btn" onclick="openBookmarks()">
+                  <i class="fa-solid text-light fa-book-open-reader"></i>
+                </button>
+            </li>
+            <div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="bookmarkModalLabel">Danh sách bookmark</h5>
+                      </div>
+                      <div class="modal-body">
+                          <ul id="bookmarkList"></ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn" onclick="addBookmark()">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-bookmark"></i>
+                </a>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn custom-button" data-toggle="modal" data-target="#customizeModal">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-a"></i>
+                </a>
+              </button>
+            </li>
+            <div class="modal fade" id="customizeModal" tabindex="-1" role="dialog" aria-labelledby="customizeModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="customizeModalLabel">Tùy chỉnh văn bản</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="fontSelect">Phông chữ:</label>
+                      <select class="form-control" id="fontSelect">
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="colorSelect">Màu chữ:</label>
+                      <input type="color" class="form-control" id="colorSelect">
+                    </div>
+                    <div class="form-group">
+                      <label for="fontSizeSelect">Cỡ chữ:</label>
+                      <input type="range" class="form-control-range" id="fontSizeSelect" min="10" max="24" step="1">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="applyCustomization()">Áp dụng</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="customizationPanel" class="customization-panel"></div>
+            <li class="nav-item d-flex align-items-center">
+              <a href="chuong3-2.html" class="nav-link">
+                <i class="fa-solid text-light fa-circle-right"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="d-flex">
+        <div
+          style="
+            width: 510px;
+            height: 100%;
+            background: transparent-menu;
+          "
+          class="shadow pt-4 px-2"
+        >
+          <img
+            src="img/bia.jpg"
+            alt=""
+            style="width: 150px; float: left; box-shadow: 1px 1px 1px 1px"
+          />
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="#"
+                style="text-decoration: none; color: #ffff; font-family: font1"
+              >
+                Cuốn sách nhỏ giúp bạn làm giàu
+              </a>
+            </li>
+            <li>
+              <div>
+                <span class="text-light" style="margin-left: 60px">4,8</span>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+              </div>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3 mt-4">
+                <span style="color: #c4c4c4">TÁC GIẢ</span>
+                <span class="text-light" style="padding-left: 103px"
+                  >: Louis Navallier</span
+                >
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">NHÀ XUẤT BẢN</span>
+                <span class="text-light px-5">: NXB tri thức</span>
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">THỂ LOẠI</span>
+                <span class="text-light" style="padding-left: 96px"
+                  >: Tài chính cá nhân</span
+                >
+              </p>
+            </li>
+          </ul>
+          <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+
+          <div>
+            <h4 style="text-align: center; color: #ffff; font-family: font1;">MỤC LỤC</h4>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiNoiDau.html" style="text-decoration: none; color: #ffff" class="link active">Lời nói đầu</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiGioiThieu.html" style="text-decoration: none; color: #ffff">Lời giới thiệu</a>
+                </button> 
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="trian.html" style="text-decoration: none; color: #ffff">Tri ân</a>
+                </button>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 1</button>
+                    <div class="dropdown-content">
+                        <a href="chuong1-1.html">1.1 Bắt đầu ở nơi kết thúc</a>
+                        <a href="chuong1-2.html">1.2 Tát cả chúng ta đều thực hiện</a>
+                        <a href="tracnghiemchuong1.html">1.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 2</button>
+                    <div class="dropdown-content">
+                        <a href="chuong2-1.html">2.1 Trông vào tăng trưởng</a>
+                        <a href="chuong2-2.html">2.2 Xây nhà</a>
+                        <a href="tracnghiemchuong2.html">2.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 3</button>
+                    <div class="dropdown-content">
+                        <a href="chuong3-1.html">3.1 Giải cứu cảm xúc</a>
+                        <a href="chuong3-2.html">3.2 Điều chỉnh</a>
+                        <a href="tracnghiemchuong3.html">3.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 4</button>
+                    <div class="dropdown-content">
+                        <a href="chuong4-1.html">4.1 Bất ngờ</a>
+                        <a href="chuong4-2.html">4.2 Bán</a>
+                        <a href="tracnghiemchuong4.html">4.3Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 5</button>
+                    <div class="dropdown-content">
+                        <a href="chuong5-1.html">5.1 Phình to</a>
+                        <a href="chuong5-2.html">1.2 Để dòng tiền trôi</a>
+                        <a href="tracnghiemchuong5.html">5.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 6</button>
+                    <div class="dropdown-content">
+                        <a href="chuong6-1.html">6.1 Đây là tất cả các biến số</a>
+                        <a href="chuong6-2.html">6.2 Biết Alpha và Beta của bạn</a>
+                        <a href="tracnghiemchuong6.html">6.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="banlaai.html" style="text-decoration: none; color: #ffff">Bạn là ai</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="dieugicoloi.html" style="text-decoration: none; color: #ffff">Điều gì có lợi cho bạn?</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="thongtinbanquyen.html" style="text-decoration: none; color: #ffff">Thông tin bản quyền</a>
+                </button>
+            </p>
+            <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+          </div>
+        </div>
+        <div
+          class="container"
+          style="margin-top: 50px; font-family: font2; width: 800px"
+        >
+          <div class="pt-4 container content-text">
+            <p style="font-family: font2" class="text-justify">
+              <div class="scroll-container" id="scroll-container">
+                <p
+      style="
+        text-align: center;
+        font-size: 130%;
+        font-weight: bold;
+        font-family: anhai !important;
+      "
+    >
+      &nbsp;CHƯƠNG BA
+    </p>
+    <p
+      style="
+        text-align: center;
+        font-size: 110%;
+        font-weight: bold;
+        font-style: italic;
+        font-family: anhai !important;
+      "
+    >
+      3.1.
+    </p>
+    <p style="text-align: center">Giải cứu cảm xúc</p>
+    <p style="text-align: center">
+      Thị trường không quan tâm bạn cảm thấy cổ phiếu đó thế nào
+    </p>
+    <p><br /></p>
+    <p>
+      NHÓM NHẠC ROLLING STONES trong ca khúc rất thành công của mình, “Emotional
+      Rescue”, hứa sẽ giải cứu tình cảm cho một cô gái đáng thương không được
+      yêu. Cũng giống như nhóm Stones có thể cứu trái tim tan vỡ của cô gái bị
+      phụ tình, các con số cũng có thể giải cứu các nhà đầu tư. Sau nhiều năm
+      tôi đã học được vài điều giá trị về các con số. Một trong những điều chủ
+      yếu tôi học được là các con số không hề có cảm xúc. Chúng không hoảng
+      loạn; chúng không trở nên tham lam. Chúng không cãi nhau với vợ chồng hay
+      bạn bè để rồi hậu quả là đưa ra những quyết định sai lầm. Chúng không đi
+      uống rượu, cocktail vào thời điểm chiều tối đến mức say bí tỉ, để rồi sáng
+      hôm sau đưa ra những lựa chọn tồi tệ khi đầu óc vẫn còn đang mơ màng.
+      Chúng không quan tâm đến việc chọn cổ phiếu của bác Fred hay cậu em họ của
+      anh chàng dưới phố vừa kiếm được cả triệu đô từ một quỹ tương trợ điều trị
+      ung thư trên Internet. Con người bị tác động bởi quá nhiều những thứ như
+      thế mỗi ngày trong suốt cuộc đời mình. Đó là một phần của bản tính con
+      người. Một số người có lẽ giỏi hơn những người khác trong việc giữ cho cảm
+      xúc của mình lặng như mặt nước hồ thu, nhưng chẳng có ai là người máy
+      cả.&nbsp;
+    </p>
+    <p>
+      Mặc dù điều này có thể khiến tôi có vẻ hơi lập dị, nhưng khi nói đến thị
+      trường chứng khoán, tôi thấy rằng chỉ có dựa vào dữ liệu từ các con
+      số mới ngăn tôi đưa ra những quyết định thiên về tình cảm mà con người vốn
+      đã được lập trình như thế. Có một trường phái tư duy và nghiên cứu bám
+      theo những lỗi lầm mà các nhà đầu tư đã làm, gọi là tài chánh học hành vi
+      (behavioral finance). Trước khi bắt tay vào các con số, chúng có ý nghĩa
+      gì, và làm thế nào để dùng chúng, tôi muốn dành chút thời gian để điểm qua
+      một vài sai lầm phổ biến thuộc về con người trong việc đầu tư, cốt để bạn
+      có thể tránh chúng trong quá trình ra quyết định đầu tư của mình. Bạn có
+      thể trở nên lập dị hơn một chút trong khi tiến hành đầu tư, nhưng bạn cũng
+      sẽ trở nên giàu có hơn.&nbsp;
+    </p>
+    <video src="img/tchv.mp4" style="height: 50%;" controls autoplay>Tài chính hàng vi</video>
+    <p>
+      Một trong những sai lầm xúc cảm tệ hại nhất và phổ biến nhất thường được
+      gọi dưới cái tên ảo tưởng của con bạc . Người ta có khuynh hướng cho rằng
+      khi một đồng tiền được gieo năm lần và đều lật mặt ngửa cả năm lần thì có
+      vẻ như lần gieo thứ sáu nó sẽ lật mặt sấp. Điều đó hoàn toàn không đúng.
+      Xác suất để nó có mặt sấp cũng y hệt như năm lần gieo trước đó: năm mươi -
+      năm mươi. Mỗi lần gieo đều diễn ra riêng rẽ và độc lập với nhau. Nó không
+      buộc phải lật mặt sấp khi rơi xuống đất. Và chỉ vì thị trường đã đi lên
+      hay đi xuống trong vài ngày liền thì không nhất thiết có nghĩa là nó sẽ
+      phải diễn ra khác với những ngày trước.&nbsp;
+    </p>
+    <p>
+      Ngày này qua ngày khác, thị trường vẫn có thể hoàn toàn ngẫu nhiên, và giá
+      cả của ngày hôm nay rất có thể chịu ảnh hưởng bởi những sự kiện của một
+      ngày đặc biệt nọ, chứ không phải những gì đã xảy ra qua những phiên giao
+      dịch mới đây. Bất chấp điều đó, tôi vẫn thường xuyên nghe các nhà đầu tư
+      nói những điều đại loại như “Nó không thể xuống thêm nữa”. Vâng, bạn thử
+      đoán xem - nó vẫn có thể xuống, và nó sẽ lấy mất tiền của bạn trong khi nó
+      làm điều đó.&nbsp;
+    </p>
+    <p>
+      Mặc dù tôi là một cư dân có phân nửa thời gian làm việc ở tại Nevada trong
+      suốt 20 năm nay (văn phòng của tôi đặt ở Reno), nhưng bạn có thể sẽ ngạc
+      nhiên khi biết tôi không chơi cờ bạc. Là một người đam mê các con số, tôi
+      quá biết cái trò vặt này và sẽ chẳng phí thì giờ của mình làm gì. Dù tôi
+      biết cách “tính bài” để chơi blackjack[1] và sắp xếp xác suất có lợi cho
+      tôi, nhưng trò này là bất hợp pháp ở Nevada, và tôi không muốn bị vào sổ
+      đen của sòng bạc ngay cả khi tôi hiếm khi bước chân vào các sòng bài. Đám
+      người của công ty Công nghệ Game Quốc tế (IGT) ở Reno, nơi chế tạo ra tất
+      cả những thiết bị đánh bạc này, là những chuyên gia trong việc thiết kế
+      những cỗ máy có những màu sắc rực rỡ, những âm thanh cám dỗ, và những món
+      tiền góp tăng càng lúc càng lớn qua những chiếc máy được nối mạng của họ.
+      Những anh chàng IGT này là những chuyên gia trong việc chế ước hành vi của
+      con người ta, cũng giống như nhà tâm lý học nổi tiếng B.F. Skinner là
+      chuyên gia huấn luyện chim bồ câu và chuột. Thị trường chứng khoán cũng
+      chẳng khác mấy so với các sòng bạc, nó cũng thích chế ước người ta.&nbsp;
+    </p>
+    <p>
+      Một trong những khuynh hướng tệ hại nhất của các nhà đầu tư là bán đi
+      những cổ phiếu được giá quá nhanh chóng và giữ lại những cổ phiếu thua lỗ
+      quá lâu. Câu châm ngôn cổ nói rằng, bạn sẽ chẳng thế nào phá sản khi kiếm
+      thêm một chút lợi nhuận, thế nhưng chính câu châm ngôn này lại giết chết
+      nhiều danh mục vốn đầu tư của nhà đầu tư, còn nhiều hơn cả bạo chúa Hung
+      Nô Attila giết chết người La Mã. Nếu bạn lấy một con số nhỏ 5 hay 10% lợi
+      nhuận từ những cổ phiếu chiến thắng nhưng lại liên tục chịu lỗ lớn với
+      những cổ phiếu thua lỗ - vì vẫn tin rằng chúng sẽ lên giá trở lại - thì
+      kết quả chung của bạn có vẻ sẽ khá ảm đạm. Hãy nhìn sự việc theo cách này:
+      những tay chọn cổ phiếu giỏi nhất trong lịch sử thị trường chứng khoán có
+      lẽ đúng trong khoảng 70% số lần (tôi không chắc họ đúng nhiều đến thế,
+      nhưng ta cứ lấy con số cao này để củng cố cho lập luận). Giả dụ bạn có một
+      danh mục cổ phiếu 100.000 USD. Nếu bạn kiếm 5% lợi nhuận từ những cổ phiếu
+      chiến thắng, tức là bạn được 3.500 USD. Nếu bạn giữ lại những cổ phiếu
+      thua quá lâu và lỗ trung bình 20%, tức là bạn lỗ 6.000 USD. Kết quả cuối
+      cùng là tuy rằng bạn đang chọn những cổ phiếu tốt nhất nhưng lại mất tiền
+      dài dài mỗi năm! Nào, giờ hãy đảo ngược chuyện này lại. Giả dụ bạn chọn
+      được 30% cổ phiếu chiến thắng và kiếm được 50% lợi nhuận từ chúng. Như thế
+      sẽ là 15.000 USD lợi nhuận. Nếu bạn giới hạn số lỗ ở mức 5% đối với những
+      chứng khoán chọn sai, bạn sẽ bị lỗ 3.500 USD. Kết quả ròng là một lợi
+      nhuận tính chung là 11.500 USD! Những ví dụ này có vẻ hơi cực đoan, nhưng
+      chúng làm rõ một vấn đề: việc bán đi những lựa chọn xấu và giữ lại những
+      lựa chọn tốt sẽ ngăn không để bạn biến danh mục đầu tư có lợi nhuận của
+      mình thành danh mục thua lỗ.&nbsp;
+    </p>
+    <p>
+      Chuyện ngược lại với việc bán đi những cổ phiếu chiến thắng quá sớm cũng
+      nguy hiểm không kém. Tôi gọi nó là “đắm chìm trong tình yêu”. Bởi vì ta
+      nhắm vào việc giữ một danh mục được đa dạng hóa rộng rãi gồm những cổ
+      phiếu với các chỉ số căn bản mạnh và đã vượt qua thử nghiệm lợi ích hứa
+      hẹn/rủi ro của chúng ta, nên nhiều khi chúng ta muốn giữ lại những cổ
+      phiếu đã trở thành cổ phiếu thắng lớn. Qua nhiều tháng hay thậm chí nhiều
+      năm, sẽ không lạ gì khi danh mục đầu tư của ta có những cổ phiếu tăng giá
+      100, 200 hay thậm chí 300% so với lúc mới mua. Nhưng, như Ecclesiastes
+      (một quyển trong kinh thánh Do Thái) đã nhắc nhở chúng ta, cái gì cũng có
+      thời điểm của nó, kể cả thời điểm để bán nó đi. Khi các chỉ số căn bản bắt
+      đầu xấu đi, hay cổ phiếu đó trở nên quá rủi ro - dựa theo những phân tích
+      của tôi - thì đó đơn giản là lúc phải thoát ra. Nhưng những nhà đầu tư nào
+      đã từng trải qua cảm giác lâng lâng khi lướt trên đỉnh cao với một cổ
+      phiếu đôi khi lại lưỡng lự không muốn bán nó.&nbsp;
+    </p>
+    <p>
+      Chúng tôi đã kiếm được những khoản lãi lớn từ các loại cổ phiếu liên quan
+      đến năng lượng, nhưng khi điểm số căn bản và định lượng của những cổ phiếu
+      này đi xuống, chúng tôi đã bán những cổ phiếu này một cách có hệ thống.
+      Chúng tôi bắt đầu rút lui khỏi những cổ phiếu dầu mỏ và những cổ phiếu
+      liên quan đến năng lượng khác vào cuối năm 2005 và năm 2006, khi chúng trở
+      nên quá rủi ro. Sang năm 2007 thì rõ ràng là chúng tôi đã đúng khi bán
+      chúng đi, vì doanh lợi ngày càng thất thường và độ bất ổn gia tăng. Tuy
+      vậy, một số nhà đầu tư và một số người đặt mua bản tin online nói với tôi
+      rằng họ không muốn bán, rằng giá dầu sẽ còn tăng nữa, rằng họ không muốn
+      phải trả thuế, rằng đó là cổ phiếu ưa thích của họ. Những lý do phản đối
+      này biểu lộ tất cả những triệu chứng thông thường của căn bệnh quá yêu một
+      loại chứng khoán. Bạn có thể thổ lộ tình yêu với các cổ phiếu, nhưng chúng
+      sẽ chẳng đáp lại tình yêu của bạn đâu. Khi chúng trở nên quá rủi ro thì
+      đơn giản là bạn phải bán chúng ngay và đi tiếp, cho dù chúng đã làm giàu
+      cho bạn. May mắn là website mà tôi lập ra cho các độc giả của cuốn sách
+      này ( www.getrichwithgrowth.com ) sẽ làm cho việc bán đi trở nên dễ dàng,
+      vì bạn có thể sắp xếp cổ phiếu của mình theo trật tự mức độ hấp dẫn và
+      những cổ phiếu nào phải ưu tiên bán trước. Quá nhiều nhà đầu tư đâm ra
+      giống như con nai chịu đèn thợ săn và cứ chôn chân một chỗ khi rà soát lại
+      danh mục đầu tư của mình. Lựa chọn những cổ phiếu tốt mới chỉ là một nửa
+      trận chiến. Bạn còn phải hành động ngay khi thời điểm bán đến để thu về
+      lợi nhuận và chuyển sang những cổ phiếu khác có khi còn tốt hơn, hoặc để
+      cắt lỗ tránh bị tổn thương nguy hiểm.&nbsp;
+    </p>
+    <p>
+      Hình 3.1 thể hiện thành tích của cổ phiếu eBay - từ năm 2003 đến năm 2005
+      - minh họa cho quan điểm này. Chúng tôi bắt đầu mua eBay vào tháng Ba năm
+      2003, khi công ty này đánh bại những đánh giá của các nhà phân tích, và
+      những thẩm định về nó cứ gia tăng hàng ngày. Chúng tôi đã có một thời kỳ
+      lên đỉnh tuyệt vời với cổ phiếu eBay, nhưng rốt cuộc cổ phiếu này đã trở
+      nên quá bất ổn và quá rủi ro nếu tiếp tục giữ nó, và tôi đã khuyên các độc
+      giả đọc bản tin của tôi rằng đã đến lúc phải bán nó đi. Cũng giống như với
+      cổ phiếu dầu lửa và các cổ phiếu liên quan đến năng lượng khác vào năm
+      2006, chúng tôi thấy có một số người không cưỡng nổi với những triệu chứng
+      quá yêu quen thuộc, và những người này cứ khư khư giữ lấy chúng. Như bạn
+      có thể thấy, các nhà đầu tư này có thể yêu eBay, nhưng nó không đáp lại
+      tình yêu của họ. Sang tháng Tám năm 2006, nó tụt xuống bằng với giá bán
+      lúc khởi đầu. Đầu tư không nên là hành động hai chiều. (Bạn không muốn nếm
+      mùi chèo lái cổ phiếu để nó đạt được một món lợi khổng lồ, rồi khư khư giữ
+      nó lại trong khi nó đang rớt giá xuống. Chỉ nhằm giữ nó khi nó bị rớt giá
+      trở lại). Trải nghiệm này sẽ là một bài học đau đớn về giá trị của việc
+      tập trung vào những con số lạnh lùng.
+    </p>
+    <p style="text-align: center">
+      <img alt="hình 3.1" src="img/3.1.jpg" /><br />
+    </p>
+    <audio src="img/ebay.mp3" style="margin-left: 250px;" controls autoplay>
+
+    </audio>
+    <p>
+      Một sai lầm khác thiên về cảm xúc và lý trí có tác động mạnh mẽ mà các nhà
+      khoa học hành vi gọi là là lý thuyết nhận thức muộn . Khi nhìn lại những
+      chuyện quá khứ, ta thường tự nhủ rằng ta đã biết là có điều gì đó sắp đến
+      từ trước khi nó xảy ra. Quả bong bóng Internet bùng nổ năm 2001 là một ví
+      dụ điển hình. Giờ đây mọi người đều tuyên bố rằng trước đấy họ đã thấy là
+      nó đang đến. Họ biết rằng thị trường đã đạt tới những đỉnh điểm không thể
+      trụ lại được nữa, cái bong bóng này sẽ nổ và mang tất cả các nhà đầu tư
+      rủi ro cao cùng với những người mua bán hàng ngày đến chỗ cháy túi. Vậy
+      nếu ai cũng đều biết trước điều đó thì tại sao họ lại để cho mất sạch tiền
+      bạc như thế? Hầu như chẳng ai thừa nhận rằng mình cứ cố đeo bám để được ăn
+      cả và rồi bị mất tiền trong cái lò luyện này, hàng triệu người đã mất hàng
+      tỷ USD trong khoảng thời gian đó. Hầu như chẳng người nào thấy nó đang
+      đến, nhưng các con số thì thấy. Khi các cổ phiếu công nghệ trở nên quá bất
+      ổn và mức rủi ro tăng cao, chúng tôi đã bán chúng đi để mua cổ phiếu của
+      những công ty ổn định hơn nhiều, rồi chuyển hướng sang các cổ phiếu năng
+      lượng dựa trên những chỉ số căn bản và định lượng của chúng tôi.&nbsp;
+    </p>
+    <p>
+      Các nhà đầu tư cũng có xu hướng trở thành nạn nhân của cái mà Warren
+      Buffett hay gọi là hiệu ứng kính chiếu hậu . Chúng ta có khuynh hướng chịu
+      ảnh hưởng nhiều nhất bởi những gì xảy ra gần đây hơn là những gì đang xảy
+      ra ngay lúc này. Khi thị trường đang lên cao, các nhà đầu tư cá nhân (và
+      những tổ chức đầu tư - vì xét cho cùng, các quỹ tương hỗ và các quỹ thanh
+      khoản linh hoạt đều do con người điều hành cả) có khuynh hướng ngày càng
+      trở nên ngoan cố hơn; khi thị trường đang bán tống bán tháo trong một thời
+      gian dài thì họ lại trở nên do dự không muốn mua. Chúng ta sẽ thấy kiểu
+      ứng xử này trong các xu hướng giao dịch của thị trường chứng khoán mọi lúc
+      mọi nơi. Trong năm 1987, Tháng tám là tháng có khối lượng giao dịch cao
+      nhất trong lịch sử của NYSE, đó chính là tháng mà thị trường lên đến đỉnh
+      điểm. Ta lại thấy điều đó vào năm 2000, với khối lượng đạt đỉnh vào tháng
+      Chín, và rớt xuống liên tục trong những năm tiếp theo dưới áp lực bán ra
+      không thương tiếc. Trong thực tế, sau đợt bán tống bán tháo này, khối
+      lượng giao dịch còn không bằng một nửa so với lúc thị trường đạt đỉnh
+      điểm. Như ta đã thấy với ví dụ tung đồng xu sấp ngửa, thị trường luôn nhìn
+      về phía trước. Dựa vào thuyết nhận thức quá trễ có thể dẫn tới những kết
+      quả tệ hại. Năm 2002, trong khi các nhà đầu tư bị hoảng loạn, sợ hãi, và
+      không dám đầu tư mạnh thì chúng tôi tập trung vào những cổ phiếu mà các
+      con số và những nghiên cứu định lượng đã mách bảo chúng tôi để mua chúng.
+      Vào năm 2003, sau khi bức tượng đài bị giật đổ ở Baghdad, lãi suất hạ thấp
+      một cách kịch tính, thuế đánh vào cổ tức chưa trả giảm đi, các nhà đầu tư
+      cuối cùng cũng rũ bỏ được nỗi sợ hãi và hăng hái lao vào những cổ phiếu mà
+      chúng tôi đã chọn dựa trên những con số.&nbsp;
+    </p>
+    <p>
+      Chúng ta chẳng thể làm gì được những thiên kiến cảm xúc và tâm thần của
+      mình. Một số đã được cấy sẵn bên trong từ khi ta mới sinh ra. Một số khác,
+      như bản năng bầy đàn chẳng hạn, tức là khi ta làm theo những gì mà tất cả
+      mọi người đang làm, chính là một phần của môi trường xã hội mà ta đang
+      sống. Việc chấp nhận thương đau từ những thua thiệt thị trường sẽ dễ dàng
+      hơn nhiều nếu mọi người khác cũng bị đánh nhừ tử như ta. Bản năng bầy đàn
+      này bảo vệ ta khỏi phải thừa nhận rằng đó là lỗi của chúng ta và chỉ của
+      chúng ta thôi.
+    </p>
+    <p>
+      Chúng ta cũng có khuynh hướng nghĩ rằng mình ở trên mức trung bình, tức là
+      thông minh hơn một chút so với mọi người khác. Một số nghiên cứu đã chứng
+      minh rất rõ bằng số liệu rằng hơn 80% số sinh viên trong một lớp học nghĩ
+      mình thuộc nửa trên. Trong thế giới tiền bạc này, nếu bạn hỏi những người
+      quản lý quỹ, không phải những người quản lý các quỹ đầu tư theo chỉ số,
+      rằng họ có thể thành công vượt trội thị trường được không thì khá nhiều
+      người sẽ trả lời là “được”. Cho dù họ có tuyên bố đao to búa lớn như thế
+      nào, chúng ta biết rằng chưa đến một nửa trong số họ có thể vượt mặt được
+      thị trường trong một năm nào đó, còn nếu trong một khoảng thời gian dài
+      hơn thì số người làm được việc đó lại càng ít hơn rất nhiều.&nbsp;
+    </p>
+    <p>
+      Chúng ta cũng muốn những ý kiến của mình được những người khác khẳng định,
+      đặc biệt là những người được gọi là chuyên gia. Cho nên chúng ta sẽ sục
+      sạo để tìm bằng được những thông tin, những số liệu và những phân tích
+      khẳng định ý kiến của chúng ta. Nếu bạn muốn thấy thiên kiến này trong
+      thực tế đã được phóng đại, hãy nói chuyện về giá cổ phiếu với một ai đó
+      đầu cơ chứng khoán giá hạ. Họ sẽ trích dẫn từng chương từng đoạn của tất
+      cả những người viết bình luận bi quan chia sẻ ý kiến của họ, và lôi ra các
+      biểu đồ, đồ thị và slide shows để chứng minh thế giới sắp đi đến chỗ kết
+      thúc như thế nào và tại sao lại thế. Họ có quan điểm của họ, và quan điểm
+      đó được khẳng định bởi những người khác. Bất kỳ bằng chứng nào theo hướng
+      ngược lại đều sẽ bị lờ đi!&nbsp;
+    </p>
+    <p>
+      Chúng ta cũng có khuynh hướng tự khen mình thông minh khi thành công,
+      nhưng lại đổ lỗi cho những tác động bên ngoài khi chúng ta thất bại. Khi
+      cổ phiếu ta chọn tăng giá thì đó là vì ta thông minh và lựa chọn đúng. Khi
+      cổ phiếu ta chọn rớt giá thì đó là do nền kinh tế, do Cục Dự trữ Liên
+      bang, gã môi giới ngu ngốc nào đó, hay các quỹ thanh khoản linh hoạt đáng
+      nguyền rủa đã làm gì đó sai. Chúng ta không thể nào lại đưa ra những lựa
+      chọn tồi như thế. Trong văn phòng tôi, chúng tôi gọi chuyện này là lẫn lộn
+      “thị trường tăng giá dữ dội với trí thông minh”. Một tác dụng phụ chết
+      người tiềm ẩn trong cái tính cách quá ư là
+    </p>
+    <p>
+      con người này là điều sẽ xảy ra khi chúng ta vô tình thu được những kết
+      quả tốt từ những quyết định sai lầm: Chúng ta lại tiếp tục đưa ra những
+      quyết định sai lầm như thế, và rồi sớm muộn cũng gánh lấy hậu quả. Không
+      chỉ mất tiền, ta còn mất cả thời gian mà lẽ ra phải dùng để cải thiện danh
+      mục đầu tư của mình.&nbsp;
+    </p>
+    <p>
+      Tôi có một người bạn chuyên buôn bán quyền mua cổ phiếu. Anh ta từng nhận
+      xét rằng, điều tệ hại nhất có thể xảy ra với một người mới vào nghề và
+      thiếu hiểu biết về buôn bán quyền mua cổ phiếu là kiếm được tiền ngay từ
+      thương vụ đầu tiên. Điều này sẽ khiến anh ta tin rằng anh ta thực sự hiểu
+      biết những gì mình đang làm, và thua lỗ lớn chắc chắn sẽ xảy ra. Chỉ vì
+      một chiến lược chắc chắn thua vẫn có thể kiếm được tiền trong một lần nào
+      đó thì không có nghĩa là lần sau mọi việc cũng sẽ như thế, đặc biệt nếu
+      lần đầu tiên đó lại là kết quả của may mắn ngẫu nhiên và ra quyết định
+      không tốt.&nbsp;
+    </p>
+    <p>
+      Tất cả những tính cách và thiên kiến này đều là một phần của bản tính con
+      người. Khi được đưa vào cuộc chơi trên thị trường chứng khoán, chúng có
+      thể dẫn đến những thua thiệt và tổn thất nghiêm trọng cho tài sản ròng của
+      bạn. Tôi không biết làm cách nào để không còn là con người nữa, và tôi
+      nghĩ bạn cũng không thể làm được điều đó. Tôi chỉ biết rất có thể mình là
+      người dễ bị lừa với một câu chuyện hay ho, hoặc bị ru ngủ bằng cảm giác an
+      toàn giả tạo, hoặc tin vào những sự cường điệu của chính mình, hoặc thậm
+      chí chạy theo bản năng bầy đàn, và đó là lý do tại sao tôi lại tránh xa
+      tất cả những thứ đó khi nói đến việc kiếm tiền bằng cổ phiếu, thay vì thế
+      tôi bám chặt vào các con số.&nbsp;
+    </p>
+    <p><br /></p>
+    <p><br /></p>
+    <p>[1]. Loại cờ bạc 21 điểm khá phổ biến ở Mỹ.</p>
+    <p><br /></p>
+    <p><br /></p>
+    <p><br /></p>
+    <p><br /></p>
+    <button id="scrollToTopBtn" class="scroll-btn top-btn" onclick="scrollToTop()">&#9650;</button>
+    <button id="scrollToBottomBtn" class="scroll-btn bottom-btn" onclick="scrollToBottom()">&#9660;</button>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+      <footer>  
+        <div class="bg-dark border-top border-secondary py-4">
+            <div class="container-fluid">
+            <div class="d-flex justify-content-center text-light">
+                <span>
+                <i class="fa-regular fa-copyright"></i>
+                Copyright 2024 by Uyner
+                </span> 
+            </div> 
+            </div>
+        </div>
+        </footer>
+    </div>
+  </body>
+  <script>
+    window.onload = function() {
+        restoreHighlight();
+    };
+</script>
+</html>

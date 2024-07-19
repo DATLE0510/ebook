@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tác giả</title>
+    <link rel="stylesheet" href="Library/css/bootstrap.min.css">
+    <script src="Library/js/bootstrap.min.js"></script>
+    <script src="Library/font-fontawesome-ae333ffef2.js"></script>
+    <link rel="stylesheet" href="./Library/style.css">
+    <script src="Library/script.js"></script>
+</head>
+<body>
+    <div id="background">
+        <nav class="navbar navbar-expand-lg shadow col-sm col-lg">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center">
+                    <ul class="navbar-nav mx-4">
+                        <li class="nav-item mx-2">
+                            <a href="home.html" class="nav-link" style="color: #ffff;">
+                                <i class="fa-solid fa-house"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="home.html" class="nav-link" style="color: #ffff;">
+                                <i class="fa-solid fa-circle-arrow-left"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a href="#!home" class="nav-link" style="color: #ffff;">
+                                <span style="margin-left: 400px; font-family: font1; font-size: 20px;">[Tác giả] Cuốn sách nhỏ giúp bạn làm giàu</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="navbar-nav d-flex align-items-center">
+                    <li class="nav-item d-flex align-items-center">
+                        <button class="btn">
+                            <a href="" class="nav-link">
+                                <i class="fa-solid fa-pen text-light fa-bounce"></i>
+                            </a>
+                        </button>
+                    </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <button class="btn" onclick="addBookmark()">
+                            <a href="" class="nav-link">
+                                <i class="fa-solid text-light fa-bookmark"></i>
+                            </a>
+                        </button>
+                    </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <button class="btn btnCustom">
+                            <a href="" class="nav-link">
+                                <i class="fa-solid text-light fa-a"></i>
+                            </a>
+                        </button>
+                    </li>
+                    <div id="customizationPanel" class="customization-panel"></div>
+                    <li class="nav-item d-flex align-items-center">
+                        <a href="" class="nav-link">
+                            <i class="fa-solid text-light fa-circle-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="d-flex">
+            <div style="width: 510px; height: calc(100vh - 0px); background: transparent-menu;" class="shadow pt-4 px-2">
+                <img src="img/bia.jpg" alt="" style="width: 150px; float: left; box-shadow: 1px 1px 1px 1px;">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="#" style="text-decoration: none; color: #ffff; font-family: font1;">
+                        Cuốn sách nhỏ giúp bạn làm giàu
+                    </a>
+                    </li>
+                    <li>
+                        <div>
+                            <span class="text-light" style="margin-left: 60px;">4,5</span>
+                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <p class="mx-3 mt-4">
+                            <span style="color: #c4c4c4;">TÁC GIẢ</span>
+                            <span class="text-light" style="padding-left: 103px;">: Louis Navallier</span>
+                        </p>
+                    </li>
+                    <li class="nav-item">
+                        <p class="mx-3">
+                            <span style="color: #c4c4c4;">NHÀ XUẤT BẢN</span>
+                            <span class="text-light px-5">: NXB tri thức</span>
+                        </p>
+                    </li>
+                    <li class="nav-item">
+                        <p class="mx-3">
+                            <span style="color: #c4c4c4;">THỂ LOẠI</span>
+                            <span class="text-light" style="padding-left: 96px;">: Tài chính cá nhân</span>
+                        </p>
+                    </li>
+                  </ul>
+                  <hr style="width: 400px; margin-left: 50px; color: whitesmoke">
+            </div>
+                <div class="container" style="margin-top: 100px; font-family: font2; width: 800px;">
+                    <div class="text-light text-justify" style="float: left;">
+                        <h6 class="" oncli> <strong>Thông tin cá nhân tác giả:</strong></h6>
+                        <ul>
+                        <li>Louis Navellier sinh năm 1957 tại California, Hoa Kỳ. Navellier là người sáng lập và hiện là Chủ tịch của Navellier & Associates ở Reno, Nevada.</li>
+                        <br>
+                        <li>Công ty của ông bao gồm khoảng 11 chuyên viên phân tích, quản lý hàng ngàn danh mục đầu tư cá nhân, với tổng tài khoản lên đến gần 2,5 tỷ đô la Mỹ.</li>
+                        </ul>
+                        <br>
+                        <h6> <strong>Một vài điểm nổi bật của tác giả:</strong></h6>
+                        <ul>
+                        <li>Với vốn hiểu biết và khả năng của mình, ông thường xuyên xuất hiện trên các phương tiện thông tin đại chúng, trong các chương trình: CNBC, Bloomberg, The Nightly Business Report, and Wall Street Week ... hay các tờ báo: Barron's, Forbes, Fortune, Investor's Business Daily ...
+                        "Cuốn sách nhỏ giúp bạn làm giàu" nằm trong loạt sách John Wiley & Sons "Little Book, Big Profits" của Louis Navellier.</li>
+                        <br>
+                        <li>Cuốn sách nhỏ giúp bạn làm giàu của Louis Navellier là một trong 10 cuốn sách hay nhất năm 2007 về Đầu tư và Thương mại do tạp chí SFO bình chọn và là sách best-seller do tạp chí Business Week bình chọn.</li>
+                        </ul>
+                    </div>
+                </div>
+          </div>
+    </div>  
+</body>
+</html>

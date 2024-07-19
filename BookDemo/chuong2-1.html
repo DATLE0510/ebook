@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chương 2.1</title>
+    <link rel="stylesheet" href="Library/css/bootstrap.min.css" />
+    <script src="Library/js/bootstrap.min.js"></script>
+    <script src="Library/font-fontawesome-ae333ffef2.js"></script>
+    <link rel="stylesheet" href="./Library/style.css" />
+    <script src="Library/script.js"></script>
+    <script src="Library/angular.js"></script>
+    <script src="Library/angular-route.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <body ng-app="myapp">
+    <div id="background" style="height: 1100px">
+      <nav class="navbar navbar-expand-lg shadow col-sm col-lg">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center">
+            <ul class="navbar-nav mx-4">
+              <li class="nav-item mx-2">
+                <a href="home.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="chuong1-2.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-circle-arrow-left"></i>
+                </a>
+              </li>
+              <li class="nav-item mx-2">
+                <a href="#!home" class="nav-link" style="color: #ffff">
+                  <span
+                    style="
+                      margin-left: 450px;
+                      font-family: font1;
+                      font-size: 20px;
+                    "
+                    >Cuốn sách nhỏ giúp bạn làm giàu</span
+                  >
+                </a>
+              </li>
+            </ul>
+          </div>
+          <ul class="navbar-nav">
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn fullscreenButton" style="font-family: font2; color: #ffff" onclick="toggleFullScreen()">
+                <i class="fas text-light fa-expand"></i>
+              </button>   
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn highlight-button" style="font-family: font2; color: #ffff" onclick="toggleHighlight()">
+                <i class="fa-solid fa-pen text-light"></i>
+              </button>   
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <button class="btn" onclick="openBookmarks()">
+                  <i class="fa-solid text-light fa-book-open-reader"></i>
+                </button>
+            </li>
+            <div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="bookmarkModalLabel">Danh sách bookmark</h5>
+                      </div>
+                      <div class="modal-body">
+                          <ul id="bookmarkList"></ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn" onclick="addBookmark()">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-bookmark"></i>
+                </a>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn custom-button" data-toggle="modal" data-target="#customizeModal">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-a"></i>
+                </a>
+              </button>
+            </li>
+            <div class="modal fade" id="customizeModal" tabindex="-1" role="dialog" aria-labelledby="customizeModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="customizeModalLabel">Tùy chỉnh văn bản</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="fontSelect">Phông chữ:</label>
+                      <select class="form-control" id="fontSelect">
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="colorSelect">Màu chữ:</label>
+                      <input type="color" class="form-control" id="colorSelect">
+                    </div>
+                    <div class="form-group">
+                      <label for="fontSizeSelect">Cỡ chữ:</label>
+                      <input type="range" class="form-control-range" id="fontSizeSelect" min="10" max="24" step="1">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="applyCustomization()">Áp dụng</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="customizationPanel" class="customization-panel"></div>
+            <li class="nav-item d-flex align-items-center">
+              <a href="chuong2-2.html" class="nav-link">
+                <i class="fa-solid text-light fa-circle-right"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="d-flex">
+        <div
+          style="
+            width: 510px;
+            height: 100%;
+            background: transparent-menu;
+          "
+          class="shadow pt-4 px-2"
+        >
+          <img
+            src="img/bia.jpg"
+            alt=""
+            style="width: 150px; float: left; box-shadow: 1px 1px 1px 1px"
+          />
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="#"
+                style="text-decoration: none; color: #ffff; font-family: font1"
+              >
+                Cuốn sách nhỏ giúp bạn làm giàu
+              </a>
+            </li>
+            <li>
+              <div>
+                <span class="text-light" style="margin-left: 60px">4,8</span>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+              </div>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3 mt-4">
+                <span style="color: #c4c4c4">TÁC GIẢ</span>
+                <span class="text-light" style="padding-left: 103px"
+                  >: Louis Navallier</span
+                >
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">NHÀ XUẤT BẢN</span>
+                <span class="text-light px-5">: NXB tri thức</span>
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">THỂ LOẠI</span>
+                <span class="text-light" style="padding-left: 96px"
+                  >: Tài chính cá nhân</span
+                >
+              </p>
+            </li>
+          </ul>
+          <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+
+          <div>
+            <h4 style="text-align: center; color: #ffff; font-family: font1;">MỤC LỤC</h4>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiNoiDau.html" style="text-decoration: none; color: #ffff" class="link active">Lời nói đầu</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiGioiThieu.html" style="text-decoration: none; color: #ffff">Lời giới thiệu</a>
+                </button> 
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="trian.html" style="text-decoration: none; color: #ffff">Tri ân</a>
+                </button>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 1</button>
+                    <div class="dropdown-content">
+                        <a href="chuong1-1.html">1.1 Bắt đầu ở nơi kết thúc</a>
+                        <a href="chuong1-2.html">1.2 Tát cả chúng ta đều thực hiện</a>
+                        <a href="tracnghiemchuong1.html">1.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 2</button>
+                    <div class="dropdown-content">
+                        <a href="chuong2-1.html">2.1 Trông vào tăng trưởng</a>
+                        <a href="chuong2-2.html">2.2 Xây nhà</a>
+                        <a href="tracnghiemchuong2.html">2.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 3</button>
+                    <div class="dropdown-content">
+                        <a href="chuong3-1.html">3.1 Giải cứu cảm xúc</a>
+                        <a href="chuong3-2.html">3.2 Điều chỉnh</a>
+                        <a href="tracnghiemchuong3.html">3.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 4</button>
+                    <div class="dropdown-content">
+                        <a href="chuong4-1.html">4.1 Bất ngờ</a>
+                        <a href="chuong4-2.html">4.2 Bán</a>
+                        <a href="tracnghiemchuong4.html">4.3Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 5</button>
+                    <div class="dropdown-content">
+                        <a href="chuong5-1.html">5.1 Phình to</a>
+                        <a href="chuong5-2.html">1.2 Để dòng tiền trôi</a>
+                        <a href="tracnghiemchuong5.html">5.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 6</button>
+                    <div class="dropdown-content">
+                        <a href="chuong6-1.html">6.1 Đây là tất cả các biến số</a>
+                        <a href="chuong6-2.html">6.2 Biết Alpha và Beta của bạn</a>
+                        <a href="tracnghiemchuong6.html">6.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="banlaai.html" style="text-decoration: none; color: #ffff">Bạn là ai</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="dieugicoloi.html" style="text-decoration: none; color: #ffff">Điều gì có lợi cho bạn?</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="thongtinbanquyen.html" style="text-decoration: none; color: #ffff">Thông tin bản quyền</a>
+                </button>
+            </p>
+            <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+          </div>
+        </div>
+        <div
+          class="container"
+          style="margin-top: 50px; font-family: font2; width: 800px"
+        >
+          <div class="pt-4 container content-text">
+            <p style="font-family: font2" class="text-justify">
+              <div class="scroll-container" id="scroll-container">
+                <p
+      style="
+        text-align: center;
+        font-size: 130%;
+        font-weight: bold;
+        font-family: anhai !important;
+      "
+    >
+      &nbsp;CHƯƠNG HAI
+    </p>
+    <p
+      style="
+        text-align: center;
+        font-size: 110%;
+        font-weight: bold;
+        font-style: italic;
+        font-family: anhai !important;
+      "
+    >
+      2.1.
+    </p>
+    <p style="text-align: center">Trông vào tăng trưởng</p>
+    <p style="text-align: center">
+      Tăng trưởng có thể đo lường được. Hãy trông vào nó.
+    </p>
+    <p><br /></p>
+    <p>
+      CÔNG VIỆC PHÂN TÍCH ĐẦU TƯ XƯA NAY cũng như ở Wall Street bao gồm nói
+      chuyện với ban quản trị công ty, với các khách hàng, các nhà cung cấp, và
+      rồi xây dựng nên những mô hình giả thuyết phức tạp để thử nghiệm và phỏng
+      đoán những kết quả tài chính tương lai. Các nhà phân tích phải bỏ nhiều
+      ngày trời nói chuyện qua điện thoại và tham dự các cuộc họp để cố tìm ra
+      những chọn lựa cổ phiếu chiến thắng. Quá trình này vừa chậm chạp vừa thực
+      sự không thành công. Nhằm cố bán cho được câu chuyện, nhưng chính Wall
+      Street lại rất hay bị hút vào câu chuyện đó, và bắt đầu tin vào những
+      phóng chiếu của nó cứ như là chân lý trong sách Phúc âm. Việc kể chuyện đã
+      dẫn các nhà đầu tư sa vào con đường thành tích kém cỏi và thua lỗ.&nbsp;
+    </p>
+    <p>
+      Những câu chuyện này nghe có thể rất vui. Chúng có thể có tính chất giải
+      trí và thú vị. Một cách hay để qua buổi tối là ngồi tụm năm tụm ba với
+      nhau uống vài chai bia và chia sẻ những câu chuyện cùng bạn bè. Nhưng đó
+      là một cách rất dở để lựa chọn cổ phiếu đầu tư, có thể bạn sẽ mất rất nhiều tiền trong dài hạn (và đôi khi thậm chí là trong ngắn hạn).
+      Wall Street thích tìm và bán những câu chuyện thần kỳ. Đó là nền tảng của
+      việc làm ăn ở đây. Vào cuối thập niên 1960, từ thường gặp là liên hợp hóa,
+      tập đoàn (conglomeratization). Những ai nghe và tin vào câu chuyện đó đã
+      phải mất cả núi tiền. Vào đầu thập niên 1980 là câu chuyện về dầu mỏ, khí
+      ga và bất động sản. Những ai nghe và tin vào nó lại bị mất hàng núi tiền
+      nữa. Câu chuyện đầu tư nghe càng hấp dẫn và cám dỗ thì người ta càng có vẻ
+      như đang dấn thân vào xứ sở của những con rồng tài chánh, trong khi chẳng
+      thấy vị thần bảo hộ là Thánh George đâu cả. Câu chuyện nghe càng hay ho
+      thì bạn lại càng phải dè chừng.&nbsp;
+    </p>
+    <p>
+      Cha ông chúng ta từng tin vào những thứ mà giờ đây chúng ta đã biết là
+      hoàn toàn sai lầm. Con người ta hình như cần phải phát minh ra những lý do
+      cho thế giới của mình và cho những gì đang diễn ra trong thế giới đó. Con
+      người đã từng đổ tội mùa màng thất bát là bởi sự giận dữ của các thần
+      linh. Gia súc bị chết là vì có ai đó đã không hiến tế đúng con vật mà con
+      quỷ lùn dưới chân núi muốn. Giờ đây chúng ta biết rằng mùa màng thất bát
+      là do gieo cấy quá dày và đất đai không thích hợp. Gia súc biến mất là do
+      những con thú săn mồi trong thế giới thực như chó sói chẳng hạn. Thực tế
+      là vì không có đủ kiến thức, chúng ta tạo ra những lý do cho những gì đang
+      diễn ra trên thế giới này, và có xu hướng tin vào những điều kỳ diệu hay
+      siêu nhiên xảy ra hàng ngày ở Wall Street. Các nhà phân tích đưa ra những
+      tuyên bố kiểu như “Cổ phiếu lẽ ra đã ổn định, nhưng nó lại đụng phải một
+      tam giác có cạnh hướng lên dài gấp đôi cạnh còn lại (trong biểu đồ chứng
+      khoán) và vì thế nó bị sụt giá,” hay “chuyển động trung bình này đi xuống
+      trong khi lẽ ra nó phải đi lên”. Nhưng thường thì ta nghe được những thứ
+      như “Phải, bằng sáng chế này cần phải được cấp, nhưng mấy ông già cứng đầu
+      ở FDA cứ không chịu bỏ qua 2.000 cái chết không rõ nguyên nhân của những
+      người dùng loại dược phẩm kỳ diệu này.” Chú ý điều này: Các cổ phiếu không
+      chìm xuống đáy rốn, hay chuyển động trung bình đi xuống và các công ty
+      không gặp phải những khó khăn tài chính vì FDA. Trong tất cả các trường
+      hợp luôn có một giọng điệu có thể phân biệt với những phân tích khoa
+      học.&nbsp;
+    </p>
+    <video src="img/fda.mp4" style="height: 50%;" controls autoplay></video>
+    <p><br></p>
+    <p>
+      Tôi là người mê các con số. Các con số và cổ phiếu là hai niềm đam mê lớn
+      nhất trong đời tôi, và may mắn là tôi có thể kết hợp chúng lại thành một
+      nghề nghiệp lựa chọn chứng khoán lâu dài và thành công. Tôi tin bằng chứng
+      nằm ở trong các con số, và việc nghiên cứu cùng với phân tích cẩn thận
+      những con số này sẽ giúp chúng ta tìm được những cổ phiếu có tiềm năng
+      tăng trưởng và thu lợi lớn trong tương lai, đồng thời tránh được những câu
+      chuyện thần kỳ và những sự tôn sùng mù quáng. Việc để cho mình bị cuốn vào
+      câu chuyện có thể làm cho các nhà đầu tư tin vào sự quảng cáo cường điệu
+      xung quanh một cổ phiếu hay một thị trường, và nán lại đó quá lâu trong
+      khi đáng lẽ họ phải thoát ra cho nhanh. Chính việc nghiên cứu chỉ dựa trên
+      những con số thuần túy đã khiến hãng của tôi bán các cổ phiếu của Sisco và
+      Sun Microsystems vào tháng mười hai năm 2000 để bắt đầu mua các cổ phiếu
+      năng lượng; và những công ty thận trọng như Loews và United Healthcare là
+      những công ty không tham gia vào cái bong bóng công nghệ. Những ai nghe
+      theo câu chuyện công nghệ này và nán lại trong đó quá lâu sau khi bữa tiệc
+      đã tàn tất sẽ phải móc túi thanh toán hóa đơn. Chính sự phân tích định
+      lượng và thống kê thuần túy đã khiến chúng tôi mua cổ phiếu của các công
+      ty xây dựng nhà ở vào năm 2002, ngay khi chúng mới bắt đầu chặng đường
+      nhiều năm trời tiến tới một chuỗi liên tục những đỉnh cao mới.&nbsp;
+    </p>
+    <p>
+      Càng ngày xã hội càng hiểu rằng nhiều khi chính các con số và toán học của
+      tình huống lại là những thứ có ý nghĩa nhất. Những câu trả lời ý nghĩa,
+      hiện thực đối lập với những sức mạnh thần bí, đến từ việc phân tích khoa
+      học những con số ẩn dưới tình huống đó. Phân tích sự việc từ một quan điểm
+      chủ quan cho phép ta tô điểm tình huống với những quan niệm, những hy
+      vọng, những mơ ước của chính chúng ta và chịu ảnh hưởng từ những người
+      khác. Vả lại hàng ngày có quá nhiều thông tin mang tính chất chủ quan bủa
+      vây quanh ta. Làm sao để ta có thể giải mã cái nào là đúng và cái nào thì
+      không? Không thể làm được! Malcolm Gladwell đã đưa ra một ví dụ xuất sắc
+      về điều này trong cuốn sách của ông, Blink , trong đó ông kể về một thuật
+      toán đơn giản và mới mẻ đã giúp cho các bác sĩ phòng cấp cứu có thể ước
+      định liệu một bệnh nhân có khả năng bị nhồi máu cơ tim hay không một cách
+      nhanh chóng và đơn giản. Các nhà nghiên cứu phát hiện ra rằng có quá nhiều
+      thông tin đến với các bác sĩ và chúng đến quá nhanh, vì vậy việc cô đặc
+      chúng lại thành một công thức đơn giản sẽ giúp đẩy nhanh quá trình, làm
+      cho việc chẩn đoán hiệu quả hơn và cứu được nhiều mạng người hơn.&nbsp;
+    </p>
+    <p>
+      Việc dùng những phân tích thống kê và định lượng còn lan cả sang thế giới
+      thể thao. Tôi thích trò chuyện về thể thao với bạn bè và người quen, nhưng
+      tôi bàn đến nó bằng một cách khác với hầu hết mọi người, vì tôi lạnh lùng
+      hơn, phân tích nhiều hơn và ít cảm xúc hơn về các đội bóng và các cầu thủ
+      của họ. Tôi luôn nói rằng nếu tôi mà đi quản lý một đội bóng rổ thì tôi sẽ
+      làm công việc này bằng các con số. Tôi sẽ phân loại các cầu thủ theo tất
+      cả những chỉ tiêu thống kê quan trọng và lựa chọn những người xếp loại cao
+      nhất nói chung. Chúng ta đã từng thấy nhiều tay ném rổ tài ba. Chẳng hạn
+      Allan Iverson và Pistol Pete sẽ là hai cái tên nảy ra ngay trong đầu. Họ
+      có thể ném tắt bóng đèn nhưng chưa bao giờ mon men tới gần được một chức
+      vô địch. Một khi Kobe Bryant bị cô lập khỏi khả năng đi bóng và ghi bàn
+      trong vòng cấm của Shaq thì đội Lakers may lắm cũng chỉ ngang với một đội
+      bóng trung bình. Thành công đến từ việc kết hợp với nhau thành một đội
+      bóng vượt trội trong mọi lĩnh vực - cướp bóng, chuyền bóng, đi bóng, đánh
+      chặn và ném phạt.&nbsp;
+    </p>
+    <p>
+      Tôi cứ đinh ninh rằng mình là người phát minh và phát triển cách tiếp cận
+      thống kê với việc quản lý một đội thể thao, thế nhưng đã có người đã làm
+      việc này trước tôi rồi. Trong cuốn sách bestseller của mình, Moneyball
+      [1], Michael Lewis kể câu chuyện về Billy Beane, tổng quản lý đội Oakland
+      Athletics. Beane được coi như một nhà cách mạng trong số những nhà quản lý
+      thể thao, và là người đầu tiên chỉ dựa vào các con số đơn thuần. Chắc chắn
+      Bill James luôn theo dõi mọi thứ có thể theo dõi được về trò chơi này
+      trong cuốn bách khoa toàn thư bóng chày của ông trong nhiều năm, nhưng đó
+      là để cho các cổ động viên chứ không phải cho các nhà quản lý. Beane không
+      chấp nhận trí tuệ quy ước và dùng các con số, và hầu như chỉ bằng các con
+      số, để xây dựng nên đội bóng của ông. Đây là một sự lăng mạ ghê gớm với
+      những người tin rằng bạn phải để mắt đến các tài năng (hay câu chuyện thần
+      kỳ, nếu bạn muốn nói thế). Các con số không thể kết hợp với nhau để tạo
+      nên những đội bóng chiến thắng; chỉ các chuyên gia mới có thể làm chuyện
+      đó. Beane phát triển những công thức để đo lường các chỉ số thống kê của
+      một cầu thủ so với giá trị hợp đồng của anh này. Dùng những con số này,
+      Beane đã biến đội Athletics thành một trong những đội bóng chày bách chiến
+      bách thắng với chi phí tiền lương chỉ bằng một phần so với các đội như
+      Yankees hay Red Sox. Đội Athletics cũng kiếm lời bạo và họ chia sẻ thị
+      trường với đội San Francisco Giants. Thực tế thì cả hai đội sau đó đều
+      thuê các nhà phân tích định lượng để giúp quản lý danh sách đội hình của
+      mình.&nbsp;
+    </p>
+    <p>
+      Việc dùng những phân tích thống kê và định lượng tiếp tục gia tăng. Một
+      show truyền hình ấn tượng gần đây có tên là Numbers đã phân tích một vở
+      kịch dài 1 giờ đồng hồ về một thiên tài toán học dùng các mô hình toán và
+      các thống kê để giải quyết các vụ án cho FBI. Loại phân tích này được các
+      lực lượng thực thi luật pháp dùng rộng rãi để phá các vụ án, hay các công
+      ty bảo hiểm để ấn định tốc độ cho những người lái xe khác nhau ở những địa
+      điểm khác nhau, hay kể cả các casino để tách các con bạc ra khỏi đồng tiền
+      khó xơi của họ. Trong thực tế, một trong những trò chơi phổ biến nhất ngày
+      nay là poker, một trò mà nhiều tay chơi hàng đầu là những dân mê con số và
+      dựa vào các con số để thắng bạc. Vậy, nếu tư duy thống kê và định lượng có
+      hiệu quả trong nhiều lĩnh vực của đời sống như thế, thì lẽ nào nó lại
+      không hiệu quả trong thị trường chứng khoán? Thực tế thì nó có hiệu quả
+      đấy.&nbsp;
+    </p>
+    <p>
+      Một khía cạnh khác quan trọng hơn của việc dùng con số - và chỉ các con số
+      - là giữ cho chúng ta khỏi bị mê hoặc bởi các câu chuyện của Wall Street.
+      Bởi vì chúng tôi chỉ tin cậy vào các con số, cả căn bản và định lượng, nên
+      chúng tôi là một trong số ít hãng có quyền tuyên bố đã kiếm được một số
+      tiền lớn từ Enron. Mọi người giờ đây đều biết câu chuyện Enron và những
+      trò gian lận trong kế toán cũng như buôn bán đã đưa công ty này đến chỗ
+      phá sản.&nbsp;
+    </p>
+    <p>
+      Nhưng họ lại quên mất Enron từng là một công ty tăng trưởng mạnh mẽ với
+      doanh số và doanh lợi tăng rất nhanh. Chúng tôi đi theo cổ phiếu này khi
+      nó còn đang trên đà tăng trưởng, nhưng đã thoát ra từ lâu trước khi các
+      dòng tít nóng xuất hiện trên báo chí, bởi vì các con số đã cho thấy các
+      chỉ số căn bản đang suy yếu đi và rủi ro gia tăng. Chúng tôi không biết gì
+      về những chuyện ở hậu trường, nhưng các con số đã báo động cho chúng tôi
+      về những rắc rối trước khi báo chí loan đi những tin tức xấu.&nbsp;
+    </p>
+    <p>
+      Việc tín nhiệm các con số cũng đã cứu chúng tôi trong vụ Tenet Healthcare.
+      Từ cuối thập niên 1990 cho đến năm 2001, Tenet là một câu chuyện tăng
+      trưởng mạnh mẽ. Họ điều hành một chuỗi bệnh viện, công việc kinh doanh của
+      họ ở Hoa Kỳ và châu Âu tăng trưởng rất nhanh chóng. Rồi vào cuối năm 2002
+      và những tháng đầu năm 2003, xuất hiện những tin đồn về những việc không
+      đúng đắn, Medicare tính phí quá cao, và đút lót các bác sĩ để dùng trang
+      thiết bị của họ. Một số bác sĩ của Tenet ở Redding, California thực hiện
+      những ca giải phẫu tim mà thực tế không cần thiết! SEC bắt đầu để mắt đến
+      các hóa đơn của họ và đưa ra công khai trước công chúng. Từ lâu - trước
+      khi chuyện này xảy ra - chúng tôi đã bán hết cổ phiếu của Tenet khi nhận
+      thấy các chỉ số căn bản đi xuống và độ bất ổn gia tăng vào tháng Mười một
+      năm 2002. Từ năm 2001 đến nay, cổ phiếu này đã rớt từ năm mươi mấy USD
+      xuống chỉ còn có 7.50 USD một cổ phần!&nbsp;
+    </p>
+    <p>
+      Việc chỉ dựa vào các con số đã giúp chúng tôi tìm ra những cổ phiếu tăng
+      trưởng trước khi Wall Street biến chúng thành những câu chuyện thần kỳ, và
+      nó cũng giúp chúng tôi thoát ra trước khi câu chuyện chấm dứt. Wall Street bán những câu chuyện. Còn chúng tôi tin vào các con số.
+      Tôi không thể lúc nào cũng tin vào cỗ máy bán hàng Wall Street. Nhưng tôi
+      có thể tin vào các con số từ cơ sở dữ liệu của mình. Hãy trông cậy
+      nó.&nbsp;
+    </p>
+    <p><br /></p>
+    <div class="chuthich">
+      <p>Chú thích:</p>
+      <p>[1], Bóng tiền</p>
+    </div>
+    <p><br /></p>
+    <p><br /></p>
+    <button id="scrollToTopBtn" class="scroll-btn top-btn" onclick="scrollToTop()">&#9650;</button>
+    <button id="scrollToBottomBtn" class="scroll-btn bottom-btn" onclick="scrollToBottom()">&#9660;</button>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+      <footer>  
+        <div class="bg-dark border-top border-secondary py-4">
+            <div class="container-fluid">
+            <div class="d-flex justify-content-center text-light">
+                <span>
+                <i class="fa-regular fa-copyright"></i>
+                Copyright 2024 by Uyner
+                </span> 
+            </div> 
+            </div>
+        </div>
+        </footer>
+    </div>
+  </body>
+  <script>
+    window.onload = function() {
+        restoreHighlight();
+    };
+</script>
+</html>

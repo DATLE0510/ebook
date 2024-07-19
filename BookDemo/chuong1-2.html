@@ -1,0 +1,654 @@
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Chương 1.2</title>
+      <link rel="stylesheet" href="Library/css/bootstrap.min.css" />
+      <script src="Library/js/bootstrap.min.js"></script>
+      <script src="Library/font-fontawesome-ae333ffef2.js"></script>
+      <link rel="stylesheet" href="./Library/style.css" />
+      <script src="Library/script.js"></script>
+      <script src="Library/angular.js"></script>
+      <script src="Library/angular-route.js"></script>
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script>
+          var app = angular.module('myapp', ['ngRoute'])
+
+          app.config(function ($routeProvider)
+          {
+              $routeProvider
+              .when("/chuong1-1", {
+                  templateUrl: "chuong1-1.html"
+              })
+          })
+      </script>
+    </head>
+    <body ng-app="myapp">
+      <div id="background" style="height: 1100px">
+        <nav class="navbar navbar-expand-lg shadow col-sm col-lg">
+          <div class="container-fluid">
+            <div class="d-flex align-items-center">
+              <ul class="navbar-nav mx-4">
+                <li class="nav-item mx-2">
+                  <a href="home.html" class="nav-link" style="color: #ffff">
+                    <i class="fa-solid fa-house"></i>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="chuong1-1.html" class="nav-link" style="color: #ffff">
+                    <i class="fa-solid fa-circle-arrow-left"></i>
+                  </a>
+                </li>
+                <li class="nav-item mx-2">
+                  <a href="#!home" class="nav-link" style="color: #ffff">
+                    <span
+                      style="
+                        margin-left: 450px;
+                        font-family: font1;
+                        font-size: 20px;
+                      "
+                      >Cuốn sách nhỏ giúp bạn làm giàu</span
+                    >
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <ul class="navbar-nav d-flex align-items-center">
+              <li class="nav-item d-flex align-items-center">
+                <button class="btn fullscreenButton" style="font-family: font2; color: #ffff" onclick="toggleFullScreen()">
+                  <i class="fas text-light fa-expand"></i>
+                </button>   
+              </li>
+              <li class="nav-item d-flex align-items-center">
+                <button class="btn highlight-button" style="font-family: font2; color: #ffff" onclick="toggleHighlight()">
+                  <i class="fa-solid fa-pen text-light fa-bounce"></i>
+                </button>
+              </li>
+              <li class="nav-item d-flex align-items-center">
+                  <button class="btn" onclick="openBookmarks()">
+                    <i class="fa-solid text-light fa-book-open-reader"></i>
+                  </button>
+              </li>
+              <div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="bookmarkModalLabel">Danh sách bookmark</h5>
+                        </div>
+                        <div class="modal-body">
+                            <ul id="bookmarkList"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+              <li class="nav-item d-flex align-items-center">
+                <button class="btn" onclick="addBookmark()">
+                  <a href="" class="nav-link">
+                    <i class="fa-solid text-light fa-bookmark"></i>
+                  </a>
+                </button>
+              </li>
+              <li class="nav-item d-flex align-items-center">
+                <button class="btn custom-button" data-toggle="modal" data-target="#customizeModal">
+                  <a href="" class="nav-link">
+                    <i class="fa-solid text-light fa-a"></i>
+                  </a>
+                </button>
+              </li>
+              <div class="modal fade" id="customizeModal" tabindex="-1" role="dialog" aria-labelledby="customizeModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="customizeModalLabel">Tùy chỉnh văn bản</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label for="fontSelect">Phông chữ:</label>
+                        <select class="form-control" id="fontSelect">
+                          <option value="Arial">Arial</option>
+                          <option value="Verdana">Verdana</option>
+                          <option value="Times New Roman">Times New Roman</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="colorSelect">Màu chữ:</label>
+                        <input type="color" class="form-control" id="colorSelect">
+                      </div>
+                      <div class="form-group">
+                        <label for="fontSizeSelect">Cỡ chữ:</label>
+                        <input type="range" class="form-control-range" id="fontSizeSelect" min="10" max="24" step="1">
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                      <button type="button" class="btn btn-primary" onclick="applyCustomization()">Áp dụng</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="customizationPanel" class="customization-panel"></div>
+              <li class="nav-item d-flex align-items-center">
+                <a href="tracnghiemchuong1.html" class="nav-link">
+                  <i class="fa-solid text-light fa-circle-right"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <div class="d-flex">
+          <div
+            style="
+              width: 510px;
+              height: 100%;
+              background: transparent-menu;
+            "
+            class="shadow pt-4 px-2"
+          >
+            <img
+              src="img/bia.jpg"
+              alt=""
+              style="width: 150px; float: left; box-shadow: 1px 1px 1px 1px"
+            />
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="#"
+                  style="text-decoration: none; color: #ffff; font-family: font1"
+                >
+                  Cuốn sách nhỏ giúp bạn làm giàu
+                </a>
+              </li>
+              <li>
+                <div>
+                  <span class="text-light" style="margin-left: 60px">4,8</span>
+                  <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                  <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                  <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                  <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                  <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                </div>
+              </li>
+              <li class="nav-item">
+                <p class="mx-3 mt-4">
+                  <span style="color: #c4c4c4">TÁC GIẢ</span>
+                  <span class="text-light" style="padding-left: 103px"
+                    >: Louis Navallier</span
+                  >
+                </p>
+              </li>
+              <li class="nav-item">
+                <p class="mx-3">
+                  <span style="color: #c4c4c4">NHÀ XUẤT BẢN</span>
+                  <span class="text-light px-5">: NXB tri thức</span>
+                </p>
+              </li>
+              <li class="nav-item">
+                <p class="mx-3">
+                  <span style="color: #c4c4c4">THỂ LOẠI</span>
+                  <span class="text-light" style="padding-left: 96px"
+                    >: Tài chính cá nhân</span
+                  >
+                </p>
+              </li>
+            </ul>
+            <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+
+            <div>
+              <h4 style="text-align: center; color: #ffff; font-family: font1;">MỤC LỤC</h4>
+              <p>
+                  <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                      <a href="LoiNoiDau.html" style="text-decoration: none; color: #ffff" class="link active">Lời nói đầu</a>
+                  </button>
+              </p>
+              <p>
+                  <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                      <a href="LoiGioiThieu.html" style="text-decoration: none; color: #ffff">Lời giới thiệu</a>
+                  </button> 
+              </p>
+              <p>
+                  <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                      <a href="trian.html" style="text-decoration: none; color: #ffff">Tri ân</a>
+                  </button>
+              </p>
+              <p  class="dropdown">
+                  <div class="dropdown">
+                      <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 1</button>
+                      <div class="dropdown-content">
+                          <a href="chuong1-1.html">1.1 Bắt đầu ở nơi kết thúc</a>
+                          <a href="chuong1-2.html">1.2 Tát cả chúng ta đều thực hiện</a>
+                          <a href="tracnghiemchuong1.html">1.3 Câu hỏi trắc nghiệm</a>
+                      </div>
+                  </div>
+              </p>
+              <p  class="dropdown">
+                  <div class="dropdown">
+                      <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 2</button>
+                      <div class="dropdown-content">
+                          <a href="chuong2-1.html">2.1 Trông vào tăng trưởng</a>
+                          <a href="chuong2-2.html">2.2 Xây nhà</a>
+                          <a href="tracnghiemchuong2.html">2.3 Câu hỏi trắc nghiệm</a>
+                      </div>
+                  </div>
+              </p>
+              <p  class="dropdown">
+                  <div class="dropdown">
+                      <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 3</button>
+                      <div class="dropdown-content">
+                          <a href="chuong3-1.html">3.1 Giải cứu cảm xúc</a>
+                          <a href="chuong3-2.html">3.2 Điều chỉnh</a>
+                          <a href="tracnghiemchuong3.html">3.3 Câu hỏi trắc nghiệm</a>
+                      </div>
+                  </div>
+              </p>
+              <p  class="dropdown">
+                  <div class="dropdown">
+                      <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 4</button>
+                      <div class="dropdown-content">
+                          <a href="chuong4-1.html">4.1 Bất ngờ</a>
+                          <a href="chuong4-2.html">4.2 Bán</a>
+                          <a href="tracnghiemchuong4.html">4.3Câu hỏi trắc nghiệm</a>
+                      </div>
+                  </div>
+              </p>
+              <p  class="dropdown">
+                  <div class="dropdown">
+                      <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 5</button>
+                      <div class="dropdown-content">
+                          <a href="chuong5-1.html">5.1 Phình to</a>
+                          <a href="chuong5-2.html">1.2 Để dòng tiền trôi</a>
+                          <a href="tracnghiemchuong5.html">5.3 Câu hỏi trắc nghiệm</a>
+                      </div>
+                  </div>
+              </p>
+              <p  class="dropdown">
+                  <div class="dropdown">
+                      <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 6</button>
+                      <div class="dropdown-content">
+                          <a href="chuong6-1.html">6.1 Đây là tất cả các biến số</a>
+                          <a href="chuong6-2.html">6.2 Biết Alpha và Beta của bạn</a>
+                          <a href="tracnghiemchuong6.html">6.3 Câu hỏi trắc nghiệm</a>
+                      </div>
+                  </div>
+              </p>
+              <p>
+                  <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                      <a href="banlaai.html" style="text-decoration: none; color: #ffff">Bạn là ai</a>
+                  </button>
+              </p>
+              <p>
+                  <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                      <a href="dieugicoloi.html" style="text-decoration: none; color: #ffff">Điều gì có lợi cho bạn?</a>
+                  </button>
+              </p>
+              <p>
+                  <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                      <a href="thongtinbanquyen.html" style="text-decoration: none; color: #ffff">Thông tin bản quyền</a>
+                  </button>
+              </p>
+              <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+            </div>
+          </div>
+          <div
+            class="container"
+            style="margin-top: 50px; font-family: font2; width: 800px"
+          >
+            <div class="pt-4 container content-text">
+              <p style="font-family: font2" class="text-justify">
+                <div class="scroll-container" id="scroll-container">
+                  1.2.
+              </p>
+              <p style="text-align: center">Tất cả chúng ta đều thực hiện</p>
+              <p style="text-align: center">(Ngay cả khi không nhận ra)</p>
+              <p style="text-align: center">
+                Ðừng để danh mục đầu tư của bạn trở thành một danh mục đầu tư ngẫu nhiên
+              </p>
+              <p style="text-align: center"><br /></p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>TRONG MỘT
+                ĐOẠN TRÍCH từ loạt phim truyền hình ăn khách The Sopranos, Tony Soprano
+                xin vợ cho cá cược tiền lời bất động sản của cô vào cái mà anh nghĩ là một
+                canh bạc ăn chắc. Khi được hỏi tại sao không dùng số tiền tích góp trong
+                nhiều năm của chính anh, Tony nói với vợ rằng tiền của anh là dành cho
+                những lúc nguy cấp và mọi tài sản khác của anh đều đang vướng trong cái mà
+                anh gọi là sử dụng tài sản. Dù có ý thức về nó hay không, tất cả chúng ta
+                đều có một kế hoạch sử dụng tài sản - cả các nhân vật truyền hình trên HBO
+                cũng vậy. Ðiều mà tôi hy vọng làm được trong cuốn sách này là chỉ cho bạn
+                cách sử dụng tài sản của bạn, theo cách phù hợp với tính cách của bạn, và
+                đáp ứng được các mục tiêu mà bạn theo đuổi.
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Trước tiên
+                hãy xem sử dụng tài sản có nghĩa là gì và nó đã tiến triển qua năm tháng
+                như thế nào. Khi lần đầu tiên tôi gặp khái niệm này vào thập niên 1980, sử
+                dụng tài sản hầu như giới hạn với tài sản quốc tế. Ðặc biệt, Nhật Bản và
+                châu Âu đều đang nổi tiếng như những thị trường tài chính hợp pháp và đang
+                vận hành theo một cách thức hoàn toàn khác với thị trường Mỹ. Trung Quốc
+                đã mở cửa với thế giới, và Nhật Bản cũng đang nổi lên. Nước Mỹ sử dụng các
+                cổ phiếu, trái phiếu và tiền mặt ngoài Mỹ để đạt được lợi nhuận cao hơn
+                đồng thời vẫn đa dạng hóa để tránh việc bị lệ thuộc hoàn toàn vào một số
+                ít đầu tư nhằm đạt được mục đích.
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Trong thập
+                niên 1990, phạm vi của sử dụng tài sản bắt đầu mở rộng. Ðã có những nghiên
+                cứu mới, và người ta bắt đầu nhìn nhận các thị trường cũng như các danh
+                mục đầu tư theo một cách khác. Thay vì chỉ mua một quỹ hỗ tương đầu tư và
+                tự cho là mình đã được đa dạng hóa, người ta bắt đầu nhìn thế giới đầu tư
+                bằng các thuật ngữ như “có mức vốn hóa thị trường lớn” và “có mức vốn hóa
+                thị trường nhỏ.” Chúng ta nhìn tác phong của nhà quản lý hoặc tăng trưởng
+                hoặc có giá trị, và tìm kiếm một sự cân bằng giữa tác phong với những sự
+                tư bản hóa trong danh mục đầu tư của mình. Qua một thập niên tiến bộ, sự
+                lựa chọn nhà quản lý và tác phong trở thành những công cụ quan trọng để đa
+                dạng hóa các danh mục đầu tư.
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Vào cuối
+                thập niên 1990, điều lạ lùng nhất bắt đầu diễn ra trong thế giới đầu tư.
+                Khi Internet và các thông tin viễn thông càng trở nên nhanh hơn và hiệu
+                quả hơn, thì thế giới càng trở nên nhỏ bé hơn. Ðiểm quan trọng trong sử
+                dụng tài sản là phải nhận thấy tài sản không chỉ có thể tăng lên, mà còn
+                vận hành theo một cách khác biệt với các tài sản khác trong danh mục đầu
+                tư. Khi có gì đó đang rớt giá vì những sự kiện tài chính và kinh tế, thì
+                cũng phải có gì đó trong danh mục đầu tư đang tăng giá cũng vì chính các
+                sự kiện ấy. Chúng tôi gọi điều đó là không tương quan, và như bạn sẽ thấy
+                trong suốt cuốn sách này, nó là một phần quan trọng của việc sử dụng tài
+                sản đúng cách. Trong thập niên 1980 và đầu thập niên 1990, nhìn chung bạn
+                hẳn có thể đạt được điều này bằng việc sở hữu các cổ phiếu và trái phiếu
+                quốc tế. Các cổ phiếu ở Nhật có xu hướng phản ứng chủ yếu với các sự kiện
+                ở Nhật. Các cổ phiếu châu Âu chịu ảnh hưởng bởi các tin tức ở châu Âu và
+                nói chung là dao động khác với các cổ phiếu ở Mỹ. Tuy nhiên, việc bước vào
+                Thiên niên kỷ mới đã mở ra một nền kinh tế toàn cầu ngày càng lớn mạnh.
+                Nhiều nhân tố và chính sách vĩ mô giống nhau có tác động đến hãng Ford thì
+                cũng tác động đến BMW và Toyota. Trước đây, con cá nào bơi theo đường
+                riêng của con cá ấy. Khi hành tinh co lại, cá trở thành đàn và có xu hướng
+                bơi cùng nhau theo cùng một hướng.
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Bước vào thế
+                kỷ 21, các công cụ mới đã được tạo ra để đáp ứng các nhu cầu của nhà đầu
+                tư cho những tài sản thường sẽ vận hành rất khác biệt so với những loại
+                tài sản khác. Các danh mục đầu tư bắt đầu bao gồm các loại tài sản mới như
+                vàng, hàng hóa, bất động sản, các quỹ đầu tư tín thác bất động sản, các
+                chứng khoán chống lạm phát, và các kiểu quỹ bảo hộ nhất định - các công cụ
+                quan trọng trong việc đẻ ra lợi nhuận không chịu sự tác động như nhau từ
+                các sự kiện giống nhau. Chúng ta bắt đầu xem xét những kiểu quản lý tiền
+                khác nhau. Thay vì chỉ mua cổ phiếu và trái phiếu, chúng ta đã xem xét đến
+                các chiến lược như mua cổ phần của các công ty sát nhập với giá rẻ mạt bán
+                nhanh để xoay vòng danh mục đầu tư và đạt được các kết quả mong đợi.
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Tại tâm điểm
+                của nó, bản chất của sử dụng tài sản là tìm kiếm sự không-tương-quan. Ðể
+                đầu tư thắng lợi, chúng ta cần phải có một đội hình đồng đều. Chúng ta cần
+                một số phần trong danh mục đầu tư của mình tấn công tốt trong những thời
+                điểm thuận lợi. Chúng ta cần những khoản đầu tư phòng thủ đóng vai trò các
+                hậu vệ hoạt động quyết liệt bảo vệ lãnh địa của mình khi nền kinh tế bị
+                nện mạnh và diễn biến không tốt lắm. Giống như một đội bóng tốt cần một
+                tiền đạo giỏi để ghi bàn, ta cần một số khoản đầu tư mang lại lợi nhuận
+                vượt mức ổn định dù điều kiện kinh tế có như thế nào đi chăng nữa. Ðể
+                thắng, ta phải giỏi trên mọi phương diện. Một kế hoạch sử dụng tài sản
+                vững chắc cũng như cách ta xây dựng đội bóng của mình.
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Cũng giống
+                một đội bóng bắt đầu bằng việc đánh giá các cầu thủ tham gia sát hạch, để
+                phát triển một kế hoạch, bạn cần kết hợp một chiều hướng đã có với quan
+                điểm đã hoạch định, các mục tiêu, điều kiện tài chính của bạn, và quan
+                trọng là những thói quen cư xử và tính cách của bạn. Phải có một hiểu biết
+                chung về các loại tài sản nhất định (như cổ phiếu, trái phiếu, tiền mặt,
+                hàng hóa, hay bất động sản) có thể hoặc không thể hoạt động hiệu quả cho
+                mình. Một khi đã có ý tưởng về việc đang làm việc với ai, và tài năng hay
+                năng lực của từng cầu thủ của mình như thế nào, bạn phải phát triển một
+                danh mục đầu tư gồm các đầu tư đa dạng hóa để một số tài sản có xu hướng
+                hoạt động tốt khi các tài sản khác có xu hướng suy giảm. Một khi trò chơi
+                đã được vận hành, bạn thỉnh thoảng cũng cần soát lại danh mục để xem liệu
+                có nên cắt giảm các khoản đầu tư cho thấy sự tăng trưởng nhanh chóng, hoặc
+                thận trọng thêm vào các khoản đầu tư chắc chắn khác đang tạm thời rớt giá
+                hay không. Một huấn luyện viên giỏi phải luôn bao quát được toàn sân và
+                chú ý đến những thứ có thể trở nên sai lầm. Chúng ta cũng phải như vậy.
+                Chúng ta phải luôn nghĩ về các loại rủi ro khác nhau có thể tác động đến
+                tài sản của mình như thế nào, để có thể tiến hành giảm thiểu hoặc bù đắp
+                các rủi ro ấy.<span class="Apple-tab-span" style="white-space: pre">
+                </span>
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Nói chung,
+                các nhà đầu tư ngày nay khá may mắn. Trong mười năm qua, tôi đã thấy một
+                sự bùng nổ trong các sản phẩm đầu tư và các nguồn thông tin đầu tư. Bây
+                giờ, mọi nhà đầu tư đều có thể sử dụng các công cụ trước đây chỉ có sẵn
+                đối với các cơ quan như quỹ lương hưu, tài sản hiến tặng, và những người
+                rất giàu có. Các chương trình truyền hình và truyền thanh về tài chính;
+                các website và blog trên Internet; nhan nhản các báo, sách và cẩm nang đưa
+                ra các hướng dẫn và lời khuyên khách quan (và đôi lúc, rất không khách
+                quan) về đầu tư. Các công cụ tài chính mới như các quỹ hỗ tương đầu tư
+                không hạn chế và có hạn chế, các quỹ giao dịch thương mại (ETF), và các
+                chứng khoán dự thác [3] đã giúp mọi người tiếp cận dễ dàng hơn với các
+                loại tài sản thuộc mọi kiểu, từ các cổ phần trong nước có mức vốn hóa nhỏ
+                và vừa, đến các cổ phần và trái phiếu quốc tế, đến các chứng khoán chống
+                lạm phát, vàng, bạc và các chiến lược đầu tư chuyên biệt như tập trung vào
+                các khu vực công nghiệp chuyên môn thông thường sẽ sinh lợi khi giá cả đi
+                xuống.
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Tin tốt là
+                mọi người đều có một giấy thông hành cho phép tiếp cận gần như hầu hết mọi
+                loại đầu tư, chiến lược đầu tư, và cả kế hoạch quản lý rủi ro nữa. Một thế
+                giới dũng cảm, mới mẻ của cơ hội đầu tư đang ngồi ngay ngoài cửa nhà bạn
+                (hoặc trong các máy vi tính đặt trên bàn của bạn), và bạn có thể tận dụng
+                nó để gia tăng của cải của mình, giống như các nhà đầu tư giàu có và hiểu
+                biết đã làm qua hàng thế hệ. Trước hết và trên hết, bạn sẽ phải quyết định
+                xem sẽ tự mình làm lấy hay mướn các chuyên gia. Bạn có thể rất giỏi trong
+                việc mua một số loại cổ phiếu nào đó nhưng lại hoàn toàn không quan tâm gì
+                đến việc mua các cổ phần và các trái phiếu có thể làm bạn chán ngán; nhưng
+                có lẽ bạn sẽ thích nghĩ về các bước đi lớn của sử dụng tài sản.<span
+                  class="Apple-tab-span"
+                  style="white-space: pre"
+                >
+                </span>
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Tổ chức kế
+                hoạch chơi là quyết định xem bạn cần mỗi cầu thủ đóng góp gì cho đội bóng.
+                Cũng giống với phương thức đó, sử dụng tài sản đúng cách là biết rằng bạn
+                muốn tài sản của mình làm gì cho mình. Liệu có phải bạn đang ở trong một
+                giai đoạn cuộc đời (và trong một tâm trạng) mà việc gia tăng của cải là
+                quan trọng hơn cả? Ví dụ, nếu bạn còn trẻ và đang tiết kiệm để học đại học
+                hoặc dành dụm cho đứa con mới sinh, số tiền tiết kiệm sẽ không được sử
+                dụng trong một thời gian khá dài, và hẳn mọi người cũng đoán được những
+                hóa đơn học phí tương lai ấy sẽ như thế nào. Ông bố bà mẹ trẻ sẽ cần rất
+                nhiều tiền trong khoảng 20 năm tới, vì thế các quỹ ấy có thể được dùng để
+                gia tăng vốn năng động, và do đó có thể đặt cả vào các cổ phần. Các cổ
+                phần có xu hướng không ổn định và có thể dao động dữ dội với những sự sụp
+                giá và mất giá ngắn hạn, nhưng qua thời gian, chúng có xu hướng mang lại
+                lợi nhuận rất cao. Tuy nhiên, nếu bạn dành dụm để mua một ngôi nhà trong
+                ba năm, có lẽ bạn sẽ không sẵn lòng chịu đựng bất kỳ sự mất giá ngắn hạn
+                nào. Do đó, những quỹ ấy sẽ đòi hỏi một chiến lược khác, vì bạn cần bảo vệ
+                giá trị của vốn gốc.
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Một trong
+                những yếu tố nền tảng nhất của sử dụng tài sản là việc đa dạng hóa. Theo
+                tôi nghĩ, đây là một trong những từ bị lạm dụng nhất nhưng được hiểu ít
+                nhất trong mọi cuộc đầu tư. Sự đa dạng hóa đúng đắn gồm việc có các loại
+                tài sản thuộc nhiều kiểu khác nhau vận hành khác nhau theo các loại môi
+                trường tài chính. Ví dụ, một số đầu tư như hàng hóa và kim loại quý có thể
+                phát đạt trong một môi trường lạm phát cao, trong khi các loại tài sản
+                khác, như các trái phiếu chính phủ, có xu hướng trội lên trong một môi
+                trường không lạm phát hoặc giảm lạm phát. Dựa vào quan điểm tài chính và
+                tâm thế của nhà đầu tư, hợp lý nhất nói chung là có ít nhất từ một vài đến
+                nhiều loại tài sản. Tôi thấy rất nhiều nhà đầu tư phạm sai lầm khi nghĩ
+                rằng họ có một danh mục đầu tư đa dạng trong khi thực tế họ chẳng có gì
+                hơn ngoài một danh sách các loại tài sản đang cùng rớt hoặc tăng giá
+                trị.&nbsp;
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Tôi đã
+                khuyên một quý ông, người đã nghĩ ông ta có một danh mục đầu tư đa dạng vì
+                có khoảng một tá các cổ phần. Khi tôi xem lại danh mục ấy, tôi thấy rằng
+                ông ta có một số lớn cổ phần hàng không và vận chuyển. Ông có cổ phần
+                trong nhiều công ty hàng không chở khách khác nhau và cả các công ty vận
+                chuyển như Federal Express. Ông đã đọc đâu đó rằng có một lượng lớn cổ
+                phần là cách bạn đa dạng hóa danh mục đầu tư. Nền tảng của ông nằm ở ngành
+                công nghiệp vận chuyển và ông nghĩ nền kinh tế sẽ hoạt động tốt, vì vậy
+                ông tính đến cả các công ty vận chuyển và tàu biển. Bạn thử đoán xem? Danh
+                mục đầu tư này hoàn toàn không được đa dạng hóa. Cùng những sự kiện kinh
+                tế giống nhau sẽ tác động ngay đến mọi cổ phần mà ông ta có theo một cách
+                như nhau. Giá dầu tăng hẳn sẽ bất lợi cho toàn bộ danh mục đầu tư của ông.
+                Khi tôi gặp các nhà đầu tư và nói chuyện với những cố vấn tài chính trên
+                thế giới, tôi thấy lối tiếp cận này là rất thường gặp. Tôi gặp các nhà đầu
+                tư sở hữu sáu quỹ hỗ tương đầu tư khác nhau mà cứ ngỡ rằng như thế đã là
+                đa dạng hóa. Nếu chúng là các quỹ bình dân lớn, thì các nhà đầu tư có lẽ
+                có nhiều cổ phần giống nhau trong mỗi quỹ, và tất cả các quỹ ấy sẽ phản
+                ứng theo cùng một cách như nhau đối với những sự kiện giống nhau. Vào cuối
+                thập niên 1990, trên thực tế là hết quỹ này đến quỹ khác sở hữu cùng các
+                cổ phần công nghệ và Internet giống nhau. Việc các nhà đầu tư mua bao
+                nhiêu quỹ không phải là vấn đề, họ chỉ đang gia tăng sự tham gia của họ
+                vào đám bong bóng của ngành kinh doanh mạng, chứ không phải thực sự là đa
+                dạng hóa.
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Ða dạng hóa
+                không phải là chỉ làm cho danh mục đầu tư của bạn bớt bất ổn hơn, mà nó
+                còn giúp bạn phản ứng ổn định hơn với tình hình thị trường. Lịch sử đầu tư
+                ghi nhận đầy những ví dụ về việc không tập trung chú trọng vào sự đa dạng
+                hóa sẽ dẫn đến thảm họa như thế nào. Chẳng hạn, ta có thể nhìn lại thập
+                niên 1970. Vào thập niên 1970, mọi thứ đều tuyệt vời. 50 cổ phần lớn nhất
+                được xem là các cổ phần “ăn chắc”. Bạn chỉ cần mua rồi chẳng cần nghĩ gì
+                đến nữa, vì chúng sẽ chỉ tăng lên mà thôi. Nhiều nhà đầu tư đã làm như
+                vậy. Rồi OPEC (Tổ chức các nước xuất khẩu dầu mỏ), sự lạm phát xuất hiện
+                và Tổng thống Mỹ tuyên bố từ chức. Tâm trạng người Mỹ và các thị trường
+                bắt đầu tệ đi. Khi các thị trường sụp đổ, tổn thất tăng cao và người ta
+                hoảng sợ. Cuối cùng, họ bán các cổ phiếu của mình đi. Warren Buffett là
+                một trong số ít người vẫn giữ cái đầu tỉnh táo và mua các cổ phiếu ấy khi
+                giá rớt xuống tận đáy. Ông vồ ngay lấy thỏa thuận với những người bán đang
+                hoảng sợ. Khi thị trường sụp đổ hoàn toàn vào tháng 10 năm 1987, tất cả
+                các nhà đầu tư có tiền nằm trong các cổ phần hết sức lo sợ và bán đi. Như
+                một người thực hành có kỷ luật về sử dụng tài sản và đa dạng hóa, Ðại học
+                Yale sẵn sàng tái sử dụng tài sản một cách chiến thuật ngay sau đợt bán
+                tống bán tháo năm 1987, chuyển đổi từ các trái phiếu và tiền mặt thành các
+                cổ phiếu vốn đang ở mức giá thấp lịch sử. Hơn 5 năm sau đợt bùng vỡ bong
+                bóng cổ phần công nghệ năm 2000-2002, các nhà đầu tư vẫn còn mãi ký ức về
+                nó, cũng như vẫn đang phải gánh chịu hậu quả vì ôm quá chặt cái mô hình
+                mới ấy. Trong khi theo đuổi các đầu tư “nóng” và làm ngơ sự đa dạng hóa do
+                món hời mà các cổ phần công nghệ có vẻ đang mời gọi, các nhà đầu tư, vừa
+                chịu một cơn đau tim tài chính và vẫn còn lo lắng, đã bỏ mất nhiều cơ hội
+                trong đợt phục hồi giá cổ phần năm 2003-2007.
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Bạn có thể
+                tái cân đối theo một trong hai cách sau: bằng giá cả hoặc bằng thời gian.
+                Khi sử dụng tài sản được tái cân đối sự hòa trộn chỉ tiêu bằng thời gian,
+                bạn sẽ để cho nhiều loại tài sản đa dạng trong danh mục đầu tư trải qua
+                những sự thay đổi giá cả lên xuống trong một khoảng thời gian định trước.
+                Sau đó bạn tiến hành tái cân đối để đạt đến kế hoạch sử dụng tài sản như
+                mục tiêu đã đặt ra, khoảng thời gian đó có thể là mỗi năm, mỗi nửa năm,
+                mỗi quý... Khung thời gian sẽ được đặt cơ sở trên việc bạn muốn tham gia
+                như thế nào và thái độ của bạn đối với các thị trường và nền kinh tế ra
+                sao. Mặc dù lối tiếp cận bằng thời gian có thể dẫn đến mức độ biến đổi nào
+                đó so với kế hoạch sử dụng tài sản đã đặt chỉ tiêu ban đầu, phương pháp
+                này có thể chịu các chi phí giao dịch thấp hơn so với quy tắc tái cân đối
+                hoàn toàn bị chi phối bởi những thay đổi về giá tài sản.&nbsp;
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Còn một cách
+                khác để tái cân đối danh mục đầu tư của bạn. Bạn chỉ cần cân đối lại danh
+                mục đầu tư của mình vào những sự phân phối theo chỉ tiêu ban đầu ngay khi
+                trải qua một sự thay đổi tỷ lệ phần trăm rõ ràng so với ban đầu, ví dụ 5%,
+                10%, hay sự thay đổi tỷ lệ phần trăm nào khác có thể gây ra một sự tái cân
+                đối trở lại với sự sử dụng tài sản theo chỉ tiêu ban đầu. Một quy tắc tái
+                cân đối như vậy có xu hướng giữ danh mục đầu tư khá gần với sự sử dụng tài
+                sản theo chỉ tiêu ban đầu của nó, nhưng cùng lúc, phương pháp này có thể
+                đòi hỏi một mức độ giám sát danh mục đầu tư chặt chẽ hơn, và nói chung có
+                thể phải chịu các chi phí giao dịch lớn hơn do khả năng xuất hiện những sự
+                điều chỉnh tỷ lệ phần trăm tài sản thường xuyên hơn so với lối tiếp cận
+                bằng thời gian.
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Lối tiếp cận
+                sử dụng tài sản trong đầu tư còn có một lợi ích to lớn khác. Khi gom một
+                danh mục đầu tư lại và quyết định xem sẽ sử dụng hoặc không sử dụng tài
+                sản nào để đáp ứng cho các mục đích của mình, ta buộc phải nghĩ về rủi ro
+                dựa trên những điều kiện thực tế. Tất cả chúng ta đều nói về rủi ro gần
+                như theo cùng một cách nói về việc ăn kiêng có lợi cho sức khỏe, nhưng
+                chẳng có mấy người thực sự làm được gì. Ðược thôi, vậy bạn biết đầu tư
+                chứa đựng rủi ro, hãy tự hỏi xem mình có thể chịu đựng thua lỗ được bao
+                nhiêu. Thua lỗ bằng không chứ, tất nhiên. Bạn có thể chịu được bao lâu?
+                Bạn có thể chịu đựng bao nhiêu thua lỗ để tiếp tục các mục đích của mình?
+                Liệu bạn có thể chịu mất số tiền đang dành dụm để mua một ngôi nhà nghỉ
+                mát không? Bạn sẽ sẵn sàng thua lỗ bao nhiêu, trong một khung thời gian
+                nào, vì quỹ học đại học của con em mình? Còn khoản lương hưu của bạn thì
+                sao? Bây giờ, giữa việc mất nhiều tiền với không kiếm được một lượng tiền
+                nhất định, điều gì sẽ tồi tệ hơn? Sử dụng tài sản không thể làm rủi ro mất
+                đi được. Hãy đối mặt với nó, cuộc sống này đầy các rủi ro và thành công
+                không phải là một đường đi thẳng tắp.&nbsp;
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Ðiều mà sử
+                dụng tài sản làm là buộc bạn phải hỏi và trả lời một số câu hỏi thách thức
+                vốn sẽ dẫn bạn đến việc tạo ra một danh mục đầu tư, với hy vọng sẽ giúp
+                bạn tránh không làm những điều ngớ ngẩn khi tình hình trở nên khắc nghiệt,
+                hoặc khi các sự việc diễn ra cực kỳ tốt đẹp. (Người ta thường nói rằng khi
+                hưng phấn, trong suốt các thời điểm thị trường con bò các nhà đầu tư phạm
+                nhiều sai lầm hơn so với họ phạm trong các thời điểm không tốt). Nếu bạn
+                đang nắm nhiều loại đầu tư khác nhau, thì chiến lược sử dụng tài sản của
+                bạn sẽ làm cho quá trình đầu tư đạt được mức độ thực tế nào đó, trong đó
+                bạn tự hỏi mình xem liệu cái cốc vơi một nửa hay đầy một nửa. Nhiều người
+                đã biết cách tính về rủi ro và thua lỗ. Một tài sản sụt giá 50% (chẳng hạn
+                từ 100 rớt xuống 50), phải tăng lên 100% về giá (từ 50 lên 100) chỉ để
+                quay lại mức cân bằng. Nếu bạn thực sự đã đa dạng hóa danh mục đầu tư để
+                giá cả của mọi đầu tư ấy không đi theo cùng một hướng như nhau vào cùng
+                một thời điểm giống nhau, thì sử dụng tài sản hẳn sẽ truyền toàn bộ tác
+                động của một sự sụt giá lên một số đầu tư. Bạn sẽ không muốn phải mong
+                chờ, hy vọng và cầu khẩn sao cho vốn của mình tăng lên 100% để quay lại
+                mức cân bằng nữa, điều đó rất hiếm khi xảy ra.
+              </p>
+              <p style="text-align: left">
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Sử dụng tài
+                sản có vẻ như là một khái niệm phức tạp. Thực ra thì nó chỉ là việc lựa
+                chọn một danh mục đầu tư sẽ hoạt động cùng nhau để làm cho các mục đích
+                hiện thực của bạn dễ đạt đến hơn. Nó không phải là một phương pháp làm
+                giàu nhanh bằng trí tưởng tượng. Nó là một phương pháp tiếp cận chính bản
+                thân bạn và các thị trường một cách hợp lý, và sử dụng các công cụ có sẵn
+                để tạo ra một danh mục đầu tư sẽ che chắn cho bạn khỏi phải chịu quá nhiều
+                rủi ro và bất ổn. Khi được hỏi lực nào là mạnh nhất trong vũ trụ, Albert
+                Einstein trả lời đơn giản rằng, “lãi kép”. Sử dụng tài sản sẽ mang lại cho
+                bạn năng lực chống đỡ làm cho các lợi nhuận đa hợp qua thời gian thực hiện
+                sức mạnh ma thuật hùng mạnh của chúng để biến các mục đích đầu tư của bạn
+                thành hiện thực.
+              </p>
+              <button id="scrollToTopBtn" class="scroll-btn top-btn" onclick="scrollToTop()">&#9650;</button>
+              <button id="scrollToBottomBtn" class="scroll-btn bottom-btn" onclick="scrollToBottom()">&#9660;</button>
+                </div>
+              </p>
+            </div>
+          </div>
+        </div>
+        <footer>  
+          <div class="bg-dark border-top border-secondary py-4">
+              <div class="container-fluid">
+              <div class="d-flex justify-content-center text-light">
+                  <span>
+                  <i class="fa-regular fa-copyright"></i>
+                  Copyright 2024 by Uyner
+                  </span> 
+              </div> 
+              </div>
+          </div>
+          </footer>
+      </div>
+    </body>
+    <script>
+      window.onload = function() {
+          restoreHighlight();
+      };
+  </script>
+  </html>

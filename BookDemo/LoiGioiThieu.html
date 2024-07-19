@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cuốn sách nhỏ giúp bạn làm giàu</title>
+    <link rel="stylesheet" href="Library/css/bootstrap.min.css" />
+    <script src="Library/js/bootstrap.min.js"></script>
+    <script src="Library/font-fontawesome-ae333ffef2.js"></script>
+    <link rel="stylesheet" href="./Library/style.css" />
+    <script src="Library/script.js"></script>
+    <script src="Library/angular.js"></script>
+    <script src="Library/angular-route.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <body ng-app="myapp">
+    <div id="background" style="height: 1100px">
+      <nav class="navbar navbar-expand-lg shadow col-sm col-lg">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center">
+            <ul class="navbar-nav mx-4">
+              <li class="nav-item mx-2">
+                <a href="home.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="LoiNoiDau.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-circle-arrow-left"></i>
+                </a>
+              </li>
+              <li class="nav-item mx-2">
+                <a href="#!home" class="nav-link" style="color: #ffff">
+                  <span
+                    style="
+                      margin-left: 450px;
+                      font-family: font1;
+                      font-size: 20px;
+                    "
+                    >Cuốn sách nhỏ giúp bạn làm giàu</span
+                  >
+                </a>
+              </li>
+            </ul>
+          </div>
+          <ul class="navbar-nav d-flex align-items-center">
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn fullscreenButton" style="font-family: font2; color: #ffff" onclick="toggleFullScreen()">
+                <i class="fas text-light fa-expand"></i>
+              </button>   
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn highlight-button" style="font-family: font2; color: #ffff" onclick="toggleHighlight()">
+                <i class="fa-solid fa-pen text-light fa-bounce"></i>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <button class="btn" onclick="openBookmarks()">
+                  <i class="fa-solid text-light fa-book-open-reader"></i>
+                </button>
+            </li>
+            <div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="bookmarkModalLabel">Danh sách bookmark</h5>
+                      </div>
+                      <div class="modal-body">
+                          <ul id="bookmarkList"></ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn" onclick="addBookmark()">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-bookmark"></i>
+                </a>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn custom-button" data-toggle="modal" data-target="#customizeModal">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-a"></i>
+                </a>
+              </button>
+            </li>
+            <div class="modal fade" id="customizeModal" tabindex="-1" role="dialog" aria-labelledby="customizeModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="customizeModalLabel">Tùy chỉnh văn bản</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="fontSelect">Phông chữ:</label>
+                      <select class="form-control" id="fontSelect">
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="colorSelect">Màu chữ:</label>
+                      <input type="color" class="form-control" id="colorSelect">
+                    </div>
+                    <div class="form-group">
+                      <label for="fontSizeSelect">Cỡ chữ:</label>
+                      <input type="range" class="form-control-range" id="fontSizeSelect" min="10" max="24" step="1">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="applyCustomization()">Áp dụng</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="customizationPanel" class="customization-panel"></div>
+            <li class="nav-item d-flex align-items-center">
+              <a href="trian.html" class="nav-link">
+                <i class="fa-solid text-light fa-circle-right"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="d-flex">
+        <div
+          style="
+            width: 510px;
+            height: 100%;
+            background: transparent-menu;
+          "
+          class="shadow pt-4 px-2"
+        >
+          <img
+            src="img/bia.jpg"
+            alt=""
+            style="width: 150px; float: left; box-shadow: 1px 1px 1px 1px"
+          />
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="#"
+                style="text-decoration: none; color: #ffff; font-family: font1"
+              >
+                Cuốn sách nhỏ giúp bạn làm giàu
+              </a>
+            </li>
+            <li>
+              <div>
+                <span class="text-light" style="margin-left: 60px">4,8</span>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+              </div>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3 mt-4">
+                <span style="color: #c4c4c4">TÁC GIẢ</span>
+                <span class="text-light" style="padding-left: 103px"
+                  >: Louis Navallier</span
+                >
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">NHÀ XUẤT BẢN</span>
+                <span class="text-light px-5">: NXB tri thức</span>
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">THỂ LOẠI</span>
+                <span class="text-light" style="padding-left: 96px"
+                  >: Tài chính cá nhân</span
+                >
+              </p>
+            </li>
+          </ul>
+          <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+
+          <div>
+            <h4 style="text-align: center; color: #ffff; font-family: font1;">MỤC LỤC</h4>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiNoiDau.html" style="text-decoration: none; color: #ffff" class="link active">Lời nói đầu</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiGioiThieu.html" style="text-decoration: none; color: #ffff">Lời giới thiệu</a>
+                </button> 
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="trian.html" style="text-decoration: none; color: #ffff">Tri ân</a>
+                </button>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 1</button>
+                    <div class="dropdown-content">
+                        <a href="chuong1-1.html">1.1 Bắt đầu ở nơi kết thúc</a>
+                        <a href="chuong1-2.html">1.2 Tát cả chúng ta đều thực hiện</a>
+                        <a href="tracnghiemchuong1.html">1.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 2</button>
+                    <div class="dropdown-content">
+                        <a href="chuong2-1.html">2.1 Trông vào tăng trưởng</a>
+                        <a href="chuong2-2.html">2.2 Xây nhà</a>
+                        <a href="tracnghiemchuong2.html">2.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 3</button>
+                    <div class="dropdown-content">
+                        <a href="chuong3-1.html">3.1 Giải cứu cảm xúc</a>
+                        <a href="chuong3-2.html">3.2 Điều chỉnh</a>
+                        <a href="tracnghiemchuong3.html">3.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 4</button>
+                    <div class="dropdown-content">
+                        <a href="chuong4-1.html">4.1 Bất ngờ</a>
+                        <a href="chuong4-2.html">4.2 Bán</a>
+                        <a href="tracnghiemchuong4.html">4.3Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 5</button>
+                    <div class="dropdown-content">
+                        <a href="chuong5-1.html">5.1 Phình to</a>
+                        <a href="chuong5-2.html">1.2 Để dòng tiền trôi</a>
+                        <a href="tracnghiemchuong5.html">5.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 6</button>
+                    <div class="dropdown-content">
+                        <a href="chuong6-1.html">6.1 Đây là tất cả các biến số</a>
+                        <a href="chuong6-2.html">6.2 Biết Alpha và Beta của bạn</a>
+                        <a href="tracnghiemchuong6.html">6.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="banlaai.html" style="text-decoration: none; color: #ffff">Bạn là ai</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="dieugicoloi.html" style="text-decoration: none; color: #ffff">Điều gì có lợi cho bạn?</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="thongtinbanquyen.html" style="text-decoration: none; color: #ffff">Thông tin bản quyền</a>
+                </button>
+            </p>
+            <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+          </div>
+        </div>
+        <div
+          class="container"
+          style="margin-top: 50px; font-family: font2; width: 800px"
+        >
+          <div class="pt-4 container content-text">
+            <p style="font-family: font2" class="text-justify">
+              <div class="scroll-container" id="scroll-container">
+                <p
+                style="
+                  text-align: center;
+                  font-size: 130%;
+                  font-weight: bold;
+                  font-family: anhai !important;
+                "
+              >
+                Lời tựa
+              </p>
+              <p><br /></p>
+              <p>
+                <span class="Apple-tab-span" style="white-space: pre"> </span>ĐÂY LÀ LÝ DO
+                TẠI SAO CUỐN SÁCH NÀY sẽ rất có ích cho bạn.&nbsp;
+              </p>
+              <p>
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Hầu hết
+                những người tham gia thị trường chứng khoán đều thề thốt rằng họ là những
+                nhà đầu tư dài hạn và họ tuân thủ nguyên tắc trong các quyết định đầu tư
+                của mình. Than ôi, hóa ra hầu hết đều hoàn toàn ngược lại. Chẳng hạn, khi
+                thị trường có được một đợt tăng giá thì người ta thường rất hay tự nhủ,
+                “Bây giờ mà bán và rút ra thì đã quá muộn chưa?” Còn về các chứng khoán
+                riêng lẻ đang được mua bán, người ta thường bị lung lạc bởi một loạt các
+                nhân tố - những gì họ thấy trên TV, nghe trong một tiệc rượu, đọc trên báo
+                hoặc một bài phân tích trên tạp chí, hay nhặt được từ những mẩu tin thư
+                báo cáo.&nbsp;
+              </p>
+              <p>
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Kết quả: Bạn
+                trở thành nạn nhân do mua quá cao hay bán quá thấp. Thị trường điều khiển
+                bạn thay vì điều ngược lại.&nbsp;
+              </p>
+              <p>
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Đó là lý do
+                tại sao hai thành ngữ: “đi xuống trong hy vọng” (down the slope of hope)
+                và “đi lên trong lo lắng” (climbing walls of worry) lại trở nên súc tích
+                và quan trọng nhất đối với đầu tư. Trong một thị trường sụt giá dữ dội
+                (bear market) - luôn theo sau một thời kỳ tăng giá dữ dội - người ta tin
+                rằng sự suy sụp đó chỉ là một sự lệch lạc nhất thời. Rồi khi thị trường
+                mua bán tấp nập trở lại, họ cho rằng những tin tức xấu đã lùi ra phía sau,
+                và thị trường đã trở lại với xu hướng đi lên. Thế rồi các cổ phiếu lại
+                tăng giá, và điều này kéo theo một sự tụ tập nhộn nhịp nữa của những người
+                gọi là tay mơ. Cuối cùng, các nhà đầu tư kêu gào: “Chỉ cần lấy được vốn,
+                tôi sẽ không bao giờ quay lại đây nữa.” Thông thường, đó là lúc thị trường
+                cổ phiếu chạm đáy.&nbsp;
+              </p>
+              <p>
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Ngược lại,
+                trong một thị trường tăng giá dữ dội (bull market), các nhà đầu tư luôn
+                canh chừng những tin tức xấu và những chuyện không ổn có thể sẽ diễn ra.
+                Họ luôn dè chừng chuyện gì sẽ xảy ra nếu thị trường sắp lãnh một đòn trời
+                giáng. Họ sẽ ngồi im canh mớ tiền mặt hoặc chuyển thành vốn đầu tư
+                (equity) một cách cực kì thận trọng. Chỉ khi nào thị trường tiếp tục tăng
+                giá thì trạng thái khoan khoái mới được trở lại.&nbsp;
+              </p>
+              <p>
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Bạn đã quá
+                mệt mỏi vì cứ là nạn nhân của thị trường, vì đã để cho cảm xúc chi phối
+                các quyết định đầu tư của bạn, vì không có một cách tiếp cận thật sự
+                nguyên tắc để tiếp thêm sức mạnh cho bạn trong lúc thị trường khó khăn,
+                ngăn không cho bạn quá nhẹ dạ khi gặp lúc thị trường đi lên?&nbsp;
+              </p>
+              <p>
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Nếu đúng
+                vậy, bạn sẽ thích – và được lợi – từ cuốn sách mỏng này. Louis Navellier
+                có một kỷ lục đầu tư dài hạn rất đáng ghen tỵ. Chắc chắn ông cũng có những
+                thời kỳ thất bát, và một vài lựa chọn cổ phiếu của ông lại hóa dở tệ.
+                Nhưng – và chữ “nhưng” này rất quan trọng – ông có một phương pháp đầu tư
+                đã được tôi luyện, mà qua thời gian, nó đã đem lại cho ông (và có thể cho
+                cả bạn nữa) những khoản lời lãi cực kì ấn tượng, vượt xa mức trung
+                bình.&nbsp;
+              </p>
+              <p>
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Navellier
+                nêu ra tám nhân tố căn bản trong cách ông chọn cổ phiếu. Ngay từ đầu ông
+                đã nhận ra rằng: nếu chỉ tập trung vào một nhân tố cơ bản, rất có thể nó
+                sẽ làm cho bạn lạc lối. Wall Street là địa ngục của cảm xúc. Như Louis
+                viết trong cuốn sách này, “Thị trường chứng khoán có tất cả những triệu
+                chứng của bệnh tâm thần phân liệt thể bình thường,” và “Nguy cơ lớn nhất
+                của việc đầu tư cổ phiếu tăng trưởng thành công là những cảm xúc của con
+                người, những thứ như sợ hãi hay tham lam rất hay khiến ta phạm sai lầm
+                không đúng lúc, đúng chỗ.” Wall Street chạy theo mốt còn hơn cả Hollywood
+                hay ngành thời trang nữa kìa. Bạn không cần phải chạy theo những cổ phiếu
+                được ưa thích trong tháng. Một biến số riêng lẻ có thể giúp bạn một cách
+                đắc lực trong một khoảng thời gian nhất định, nhưng nó cũng có thể làm bạn
+                thất vọng khi các nhà đầu tư khác đã nắm bắt được nó. Khoản đầu tư mà
+                Louis dành cho mỗi một trong tám biến số của ông đều thay đổi theo thời
+                gian, nhưng ông tránh nguy cơ chỉ tập trung vào một hay hai biến số có vẻ
+                như đang nóng nhất vào thời điểm nào đó.&nbsp;
+              </p>
+              <p>
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Cuốn sách
+                của ông cũng bỏ ra nhiều công sức để bàn về việc giảm bớt rủi ro khi nhắm
+                đến những kết quả vượt trội. Ông cũng luận bàn khá độc đáo về hai thuật
+                ngữ được nói đến nhiều nhưng đôi khi bị hiểu sai là hệ số beta và thông số
+                alpha.&nbsp;
+              </p>
+              <p>
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Để chốt lại:
+                Louis chỉ cho bạn thấy cái cách ông tìm kiếm các loại cổ phiếu có thể làm
+                tốt, bất kể điều kiện thị trường nói chung ra sao. Và bởi vì luôn có những
+                bất ngờ không tốt rình rập nên ông thúc giục các nhà đầu tư hãy đa dạng
+                hóa danh mục đầu tư (fortfolio) của mình – ví dụ như với 30 hay 40 loại cổ
+                phiếu.&nbsp;
+              </p>
+              <p>
+                <span class="Apple-tab-span" style="white-space: pre"> </span>Vậy lời
+                khuyên của tôi là hãy dành thời gian để đọc và suy ngẫm cuốn sách nhỏ này.
+                Bạn sẽ học được nhiều điều bổ ích, và quan trọng nhất, có thể bạn sẽ thực
+                sự hiểu được rằng đầu tư là chẳng những phải làm việc chăm chỉ mà còn phải
+                có cách tiếp cận đeo bám quyết liệt và kiên định. Louis Navellier chứng
+                minh rằng sự tập trung và kỷ luật thực sự sẽ làm cho danh mục đầu tư của
+                bạn luôn đầy ắp lợi nhuận.&nbsp;
+              </p>
+              <p><br /></p>
+              <p style="text-align: right">- Steve Forbes</p>
+              <div><br /></div>
+              <button id="scrollToTopBtn" class="scroll-btn top-btn" onclick="scrollToTop()">&#9650;</button>
+              <button id="scrollToBottomBtn" class="scroll-btn bottom-btn" onclick="scrollToBottom()">&#9660;</button>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+      <footer>  
+        <div class="bg-dark border-top border-secondary py-4">
+            <div class="container-fluid">
+            <div class="d-flex justify-content-center text-light">
+                <span>
+                <i class="fa-regular fa-copyright"></i>
+                Copyright 2024 by Uyner
+                </span> 
+            </div> 
+            </div>
+        </div>
+        </footer>
+    </div>
+  </body>
+  <script>
+    window.onload = function() {
+        restoreHighlight();
+    };
+</script>
+</html>

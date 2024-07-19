@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chương 4.1</title>
+    <link rel="stylesheet" href="Library/css/bootstrap.min.css" />
+    <script src="Library/js/bootstrap.min.js"></script>
+    <script src="Library/font-fontawesome-ae333ffef2.js"></script>
+    <link rel="stylesheet" href="./Library/style.css" />
+    <script src="Library/script.js"></script>
+    <script src="Library/angular.js"></script>
+    <script src="Library/angular-route.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <body ng-app="myapp">
+    <div id="background" style="height: 1100px">
+      <nav class="navbar navbar-expand-lg shadow col-sm col-lg">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center">
+            <ul class="navbar-nav mx-4">
+              <li class="nav-item mx-2">
+                <a href="home.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="tracnghiemchuong3.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-circle-arrow-left"></i>
+                </a>
+              </li>
+              <li class="nav-item mx-2">
+                <a href="#!home" class="nav-link" style="color: #ffff">
+                  <span
+                    style="
+                      margin-left: 450px;
+                      font-family: font1;
+                      font-size: 20px;
+                    "
+                    >Cuốn sách nhỏ giúp bạn làm giàu</span
+                  >
+                </a>
+              </li>
+            </ul>
+          </div>
+          <ul class="navbar-nav d-flex align-items-center">
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn fullscreenButton" style="font-family: font2; color: #ffff" onclick="toggleFullScreen()">
+                <i class="fas text-light fa-expand"></i>
+              </button>   
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn highlight-button" style="font-family: font2; color: #ffff" onclick="toggleHighlight()">
+                <i class="fa-solid fa-pen text-light fa-bounce"></i>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <button class="btn" onclick="openBookmarks()">
+                  <i class="fa-solid text-light fa-book-open-reader"></i>
+                </button>
+            </li>
+            <div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="bookmarkModalLabel">Danh sách bookmark</h5>
+                      </div>
+                      <div class="modal-body">
+                          <ul id="bookmarkList"></ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn" onclick="addBookmark()">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-bookmark"></i>
+                </a>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn custom-button" data-toggle="modal" data-target="#customizeModal">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-a"></i>
+                </a>
+              </button>
+            </li>
+            <div class="modal fade" id="customizeModal" tabindex="-1" role="dialog" aria-labelledby="customizeModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="customizeModalLabel">Tùy chỉnh văn bản</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="fontSelect">Phông chữ:</label>
+                      <select class="form-control" id="fontSelect">
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="colorSelect">Màu chữ:</label>
+                      <input type="color" class="form-control" id="colorSelect">
+                    </div>
+                    <div class="form-group">
+                      <label for="fontSizeSelect">Cỡ chữ:</label>
+                      <input type="range" class="form-control-range" id="fontSizeSelect" min="10" max="24" step="1">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="applyCustomization()">Áp dụng</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="customizationPanel" class="customization-panel"></div>
+            <li class="nav-item d-flex align-items-center">
+              <a href="chuong4-2.html" class="nav-link">
+                <i class="fa-solid text-light fa-circle-right"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="d-flex">
+        <div
+          style="
+            width: 510px;
+            height: 100%;
+            background: transparent-menu;
+          "
+          class="shadow pt-4 px-2"
+        >
+          <img
+            src="img/bia.jpg"
+            alt=""
+            style="width: 150px; float: left; box-shadow: 1px 1px 1px 1px"
+          />
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="#"
+                style="text-decoration: none; color: #ffff; font-family: font1"
+              >
+                Cuốn sách nhỏ giúp bạn làm giàu
+              </a>
+            </li>
+            <li>
+              <div>
+                <span class="text-light" style="margin-left: 60px">4,8</span>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+              </div>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3 mt-4">
+                <span style="color: #c4c4c4">TÁC GIẢ</span>
+                <span class="text-light" style="padding-left: 103px"
+                  >: Louis Navallier</span
+                >
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">NHÀ XUẤT BẢN</span>
+                <span class="text-light px-5">: NXB tri thức</span>
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">THỂ LOẠI</span>
+                <span class="text-light" style="padding-left: 96px"
+                  >: Tài chính cá nhân</span
+                >
+              </p>
+            </li>
+          </ul>
+          <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+
+          <div>
+            <h4 style="text-align: center; color: #ffff; font-family: font1;">MỤC LỤC</h4>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiNoiDau.html" style="text-decoration: none; color: #ffff" class="link active">Lời nói đầu</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiGioiThieu.html" style="text-decoration: none; color: #ffff">Lời giới thiệu</a>
+                </button> 
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="trian.html" style="text-decoration: none; color: #ffff">Tri ân</a>
+                </button>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 1</button>
+                    <div class="dropdown-content">
+                        <a href="chuong1-1.html">1.1 Bắt đầu ở nơi kết thúc</a>
+                        <a href="chuong1-2.html">1.2 Tát cả chúng ta đều thực hiện</a>
+                        <a href="tracnghiemchuong1.html">1.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 2</button>
+                    <div class="dropdown-content">
+                        <a href="chuong2-1.html">2.1 Trông vào tăng trưởng</a>
+                        <a href="chuong2-2.html">2.2 Xây nhà</a>
+                        <a href="tracnghiemchuong2.html">2.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 3</button>
+                    <div class="dropdown-content">
+                        <a href="chuong3-1.html">3.1 Giải cứu cảm xúc</a>
+                        <a href="chuong3-2.html">3.2 Điều chỉnh</a>
+                        <a href="tracnghiemchuong3.html">3.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 4</button>
+                    <div class="dropdown-content">
+                        <a href="chuong4-1.html">4.1 Bất ngờ</a>
+                        <a href="chuong4-2.html">4.2 Bán</a>
+                        <a href="tracnghiemchuong4.html">4.3Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 5</button>
+                    <div class="dropdown-content">
+                        <a href="chuong5-1.html">5.1 Phình to</a>
+                        <a href="chuong5-2.html">1.2 Để dòng tiền trôi</a>
+                        <a href="tracnghiemchuong5.html">5.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 6</button>
+                    <div class="dropdown-content">
+                        <a href="chuong6-1.html">6.1 Đây là tất cả các biến số</a>
+                        <a href="chuong6-2.html">6.2 Biết Alpha và Beta của bạn</a>
+                        <a href="tracnghiemchuong6.html">6.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="banlaai.html" style="text-decoration: none; color: #ffff">Bạn là ai</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="dieugicoloi.html" style="text-decoration: none; color: #ffff">Điều gì có lợi cho bạn?</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="thongtinbanquyen.html" style="text-decoration: none; color: #ffff">Thông tin bản quyền</a>
+                </button>
+            </p>
+            <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+          </div>
+        </div>
+        <div
+          class="container"
+          style="margin-top: 50px; font-family: font2; width: 800px"
+        >
+          <div class="pt-4 container content-text">
+            <p style="font-family: font2" class="text-justify">
+              <div class="scroll-container" id="scroll-container">
+                <p
+                style="
+                  text-align: center;
+                  font-size: 130%;
+                  font-weight: bold;
+                  font-family: anhai !important;
+                "
+              >
+                &nbsp;CHƯƠNG BỐN
+              </p>
+                <p
+                style="
+                  text-align: center;
+                  font-size: 110%;
+                  font-weight: bold;
+                  font-style: italic;
+                  font-family: anhai !important;
+                "
+              >
+                4.1.
+              </p>
+              <p style="text-align: center">Bất ngờ</p>
+              <p style="text-align: center">
+                Cái không được dự tính nhưng biết đâu lại rất có lời
+              </p>
+              <audio src="img/qltc.mp3" style="margin-left: 250px;" controls autoplay></audio>
+              <p><br /></p>
+              <p>
+                BIẾN SỐ THEN CHỐT THỨ HAI của chúng tôi là những bất ngờ về doanh lợi
+                (earnings surprises ). Những cổ phiếu với những bất ngờ tích cực về doanh
+                lợi là những siêu sao trong thế giới của các cổ phiếu tăng trưởng. Hệt như
+                Tom Brady, cầu thủ chỉ nổi lên từ vòng sáu của NFL draft[1]và lại thắng
+                tiếp không chỉ ba trận chung kết Super Bowls mà còn là MVP (Most Valuable
+                Player - cầu thủ xuất sắc nhất) của hai trận. Hay Tony Romo nhảy thẳng từ
+                khán đài ra như một kẻ đóng thế để rồi đưa đội Dallas Cowboys trở lại với
+                trận đấu quyết định vào năm 2006, có những cổ phiếu vượt quá những kỳ vọng
+                của các nhà phân tích Wall Street chuyên theo dõi chúng, những cổ phiếu đó
+                tăng giá một cách chóng mặt. Những cổ phiếu liên tục vượt lên trong một
+                vài kỳ báo cáo doanh lợi theo nhiều quý liên tiếp thường tiếp tục đi tiếp
+                để trở thành những siêu sao cổ phiếu tăng trưởng. Những cổ phiếu nào gây
+                thất vọng và kiếm được ít kỳ vọng hơn thì tốt nhất là nên so sánh với Ryan
+                Leaf ở Đội tuyển Bóng rổ Mỹ tại Olympic 2004, hay Bode Miller tại Olympic
+                Mùa đông 2006. Sau khi không đáp ứng được với những kỳ vọng to lớn, họ
+                biến mất và chẳng bao giờ xuất hiện nữa.&nbsp;
+              </p>
+              <p>
+                Cái làm cho những bất ngờ về doanh lợi có sức mạnh như thế là do các cổ
+                phiếu tăng trưởng được định giá dựa trên những kỳ vọng của các nhà đầu tư
+                về doanh lợi trong tương lai. Đánh giá của các nhà phân tích về những gì
+                họ kỳ vọng công ty sẽ kiếm được qua mỗi quý - và cho vài năm trước mắt -
+                sẽ được công bố bởi các nhà môi giới đầu tư, các hãng độc lập và các ngân
+                hàng đầu tư. Các nhà phân tích thận trọng nghiên cứu công ty, cố gắng
+                lượng giá trước những điều kiện kinh doanh và tình hình kinh tế sẽ tác
+                động đến họ thế nào và xác định xem công ty sẽ làm ra bao nhiêu tiền. Mặc
+                dù các nhà phân tích nghiên cứu tình hình một cách cẩn thận, dùng những mô
+                hình và những công thức phức tạp để đưa ra các tiên đoán của mình, thế
+                nhưng họ vẫn không thể biết chính xác chuyện gì đang diễn ra phía bên
+                trong các bức tường của công ty. Khi một công ty thực hiện vượt mức, hay
+                kém hơn so với các đánh giá, thì những mô hình cần phải được hiệu chỉnh
+                tương ứng cho các quý và các năm tiếp theo. Điều này dẫn đến một sự thay
+                đổi trong những kỳ vọng của nhà đầu tư, là cái mà những cổ phiếu tăng
+                trưởng được đặt giá dựa trên đó, vì vậy giá cả sẽ tăng lên hay hạ xuống
+                tương ứng.&nbsp;
+              </p>
+              <p>
+                Những nhà phân tích đánh giá bỏ qua dấu hiệu này vì một số lý do. Thứ
+                nhất, dự đoán doanh lợi mỗi quý chính xác đến từng xu là một việc rất khó
+                khăn. Ví dụ, làm sao người ta có thể biết trước nước uống tăng lực Monster
+                của Hansen Natural lại vượt lên từ lĩnh vực nước uống đóng lon chứa
+                caffein và vitamin - một thị trường vốn không còn béo bở - và kích động để
+                đưa doanh lợi lên cao và nhanh hơn so với dự đoán. Hoặc iPod của Apple nổi
+                lên từ lĩnh vực các thiết bị nghe-nhìn để tạo ra thế độc quyền thực sự
+                cùng một nguồn lợi nhuận khổng lồ? Một lý do quan trọng khác khiến quá
+                nhiều nhà phân tích cùng bỏ qua dấu hiệu này là do tâm lý bầy đàn của thế
+                giới đầu tư. Nếu chúng ta tin rằng mục tiêu hàng đầu của nhiều nhà phân
+                tích là không phải đưa ra những tiên đoán thành công để dẫn đến những vụ
+                đầu tư có lợi nhuận, mà là làm sao để không bị sa thải , thì những đánh
+                giá này sẽ nằm trong một thứ tương tự như một dải biến thiên và hầu hết có
+                xu hướng ở phía thấp hơn. Khi bạn đã tốn bao nhiêu thời gian và tiền bạc
+                để giành được mảnh bằng MBA của Ivy League, rồi kiếm được cho mình một
+                công việc lương bổng hậu hĩnh ở Wall Street, dĩ nhiên bạn sẽ không muốn
+                đánh mất công việc đó!
+              </p>
+              <p>
+                Kết cục thì có vẻ đã hình thành một môi trường mà trong đó phạm sai lầm
+                vẫn cứ OK, nếu như những người khác cũng sai. Ví dụ, nếu bạn là nhà phân
+                tích ở công ty môi giới ABC, theo dõi Acme Roadrunner and Explosive
+                Corporation (AREC), thì sẽ là khôn ngoan nếu bạn gọi cho cô bạn học ở dưới
+                phố làm việc tại hãng Dewey, Cheatem and Howe danh giá, để hỏi xem cô ta
+                nghĩ thế nào về doanh lợi của quý này. Nếu cô ta nghĩ rằng AREC sẽ kiếm
+                được 1 USD cho mỗi cổ phần trong quý này, thì sẽ là khôn ngoan để dự đoán
+                gần với con số của cô ta. Nếu bạn lạc quan hơn một chút về thị trường cho
+                món gà lôi chiên giòn và các thiết bị nổ cá nhân, có lẽ bạn sẽ đưa ra một
+                đánh giá ở mức 1 USD và 1 xu; còn nếu bạn bi quan hơn một chút, có lẽ con
+                số của bạn sẽ là 99 xu cho một cổ phần. Hầu hết các báo chí và website tài
+                chính theo dõi các đánh giá doanh lợi đều nêu con số của các nhà phân tích
+                theo dõi một cổ phiếu nào đó và con số cao, thấp, trung bình hay đồng
+                thuận. Khá là ngạc nhiên khi thấy những con số này gần với nhau như thế
+                nào. Tâm lý bầy đàn buộc các nhà phân tích phải bám theo nhau và theo sát
+                những đánh giá của nhau.&nbsp;
+              </p>
+              <p>
+                Những bất ngờ tích cực về doanh lợi đã ngày càng trở nên quan trọng trong
+                những năm gần đây. Trong đợt bùng phát Internet và công nghệ cuối thập
+                niên 1990, các nhà phân tích đã bị tố cáo, và trong một số trường hợp thậm
+                chí còn bị khởi tố bởi Ủy ban Chứng khoán và Giao dịch hoặc bởi Elliot
+                Spitzer và đội quân kẻ cướp gồm các luật sư trợ lý quận của ông vì những
+                đánh giá quá lạc quan và thổi phồng về doanh lợi của các công ty công
+                nghệ. Thường thì ngoài những dự báo doanh lợi được công bố còn có thêm
+                những con số trôi nổi quanh Wall Street và trên một số website về đầu tư,
+                gọi là con số rỉ tai . Con số này thường cao hơn những đánh giá được công
+                bố và thường được cho là thể hiện suy nghĩ thực của nhà phân tích. Chẳng
+                những khiến cho công ty đó phải đánh bại con số của nhà phân tích, mà thực
+                là ngạc nhiên, nó còn phải đánh bại cả con số rỉ tai nữa. Khi công ty đánh
+                bại cả hai con số đó, giá cổ phiếu của nó thường tăng vọt. Những con số
+                này thông thường đến được với các khách hàng lớn cùng những tổ chức đầu
+                tư, và họ lợi dụng chúng tối đa.&nbsp;
+              </p>
+              <p>
+                Những con số rỉ tai đến hồi cáo chung với việc thông qua Đạo luật
+                Sarbanes-Oxley cũng như những cáo buộc nổi tiếng chống lại các nhà phân
+                tích lừng danh và đầy thế lực của Wall Street. Cụ thể, đạo luật
+                Sarbanes-Oxley giải thích cặn kẽ về việc các nhà phân tích và các công ty
+                phải tiết lộ thông tin cho công chúng như thế nào, các báo cáo cần phải
+                được trình bày và phổ biến ra sao. Thời hậu Sarbanes-Oxley, nhà phân tích
+                nào lan truyền con số rỉ tai cho những khách hàng ruột sẽ phải đối mặt với
+                việc bị kiện, bị mất việc và bị phạt nặng. Luật Sarbanes Oxley cũng có hậu
+                quả là khiến cho các công ty ngần ngại trong việc cung cấp thông tin cho
+                các nhà phân tích. Vì vậy, việc dự đoán chính xác thậm chí còn trở nên khó
+                khăn hơn. Một trong những kết quả của chuyện này là các nhà phân tích có
+                xu hướng bảo thủ hơn trong các đánh giá doanh lợi của họ, và họ rất ngần
+                ngại khi chẳng biết bấu víu vào đâu để nâng mức đánh giá lên trong lúc
+                thông tin bị hạn chế.&nbsp;
+              </p>
+              <p>
+                Những bất ngờ về doanh lợi có xu hướng lặp đi lặp lại. Tức là, khi đã có
+                một bất ngờ thì thường sẽ có những bất ngờ nữa theo sau, vì các nhà phân
+                tích thường chậm nâng mức đánh giá lên để phản ánh thực tế mới. Những cổ
+                phiếu gây bất ngờ trong một quý thì thường cũng sẽ gây bất ngờ trong quý
+                tiếp theo. Đồ thị ở hình 4.1 về cổ phiếu của Apple trong năm 2006 cho thấy
+                rõ hiệu ứng của những bất ngờ về doanh lợi qua nhiều quý.&nbsp;
+              </p>
+              <p>
+                Như ta có thể thấy ở đồ thị này, sau những bất ngờ về doanh lợi đầu tiên
+                vào tháng Bảy năm 2006, một lần nữa Apple lại gây ngạc nhiên bằng sự gia
+                tăng vào tháng Mười, khi doanh vụ iPod vẫn phát đạt và những máy vi tính
+                mới được trình làng với những bài phê bình ích lợi.
+              </p>
+              <p style="text-align: center">
+                &nbsp;<img alt="hình 4.1" src="img/4.1.jpg" />
+              </p>
+              <p style="text-align: center">
+                Hình 4.1. Những bất ngờ về doanh lợi của Apple
+              </p>
+              <p style="text-align: center"><br /></p>
+              <p>
+                Để thấy được hiệu ứng diễn ra đối với một thời kỳ gồm nhiều năm, hãy xem
+                hình 4.2. Hansen Natural tăng hơn 400% sau một khoảng thời gian tương đối
+                ngắn, vì từ quý này sang quý khác nó đều vượt quá những kỳ vọng của các
+                nhà phân tích. Bắt đầu từ tháng Ba năm 2005, họ đã có những bất ngờ tích
+                cực về doanh lợi trong ba quý liên tiếp, đẩy giá cổ phiếu của công ty lên
+                ngày càng cao.
+              </p>
+              <p style="text-align: center">
+                &nbsp;<img alt="Hình 4.2" src="img/4.2.jpg" />
+              </p>
+              <p style="text-align: center">
+                Hình 4.2. Những bất ngờ về doanh lợi của Hansen
+              </p>
+              <p style="text-align: center"><br /></p>
+              <p>
+                Những bất ngờ về doanh lợi cũng có thể là thứ giúp chặn đứng đà suy giảm
+                của một cổ phiếu, hay nâng một cổ phiếu đang vật vờ cả một thời gian dài
+                đi lên. Suốt nửa đầu năm 2006, cổ phần của Ceradyne, nhà sản xuất vật liệu
+                gốm cách nhiệt cho sản phẩm tiêu dùng và các thiết bị quốc phòng chịu
+                nhiệt độ cực cao và chống ăn mòn, đã rơi từ gần 60 USD xuống chỉ còn
+                khoảng 40 USD một cổ phần và trôi vật vạ chẳng biết về đâu. Bất ngờ về
+                doanh lợi trong tháng 10 đã nâng giá cổ phiếu này trở lại trên mức 60 USD.
+                Akami Technologies, một công ty dịch vụ Internet giúp tăng tốc độ và độ ổn
+                định đường truyền của các điểm Internet cũng cho thấy hiện tượng tương tự
+                trong thực tế. Về cơ bản Akami đã nằm ngoài lề thị trường trong nửa đầu
+                năm 2006, cho đến khi nó vượt qua những đánh giá cho quý vào tháng 6. Đây
+                là một sự kiện có tác động đặc biệt mạnh vì có tới mười bốn nhà phân tích
+                khác nhau theo dõi cổ phiếu này, và độ chênh lệch trong các dự đoán của họ
+                cho quý này chỉ chưa đầy 2 cents. Khi họ vượt qua các đánh giá, cổ phiếu
+                này đã tăng một cách kịch tính từ hai mươi mấy lên đến hơn 50 USD vào lúc
+                kết thúc năm!&nbsp;
+              </p>
+              <p>
+                Những bất ngờ về doanh lợi là một trong những yếu tố mạnh nhất trong xếp
+                hạng căn bản của chúng tôi. Những cổ phiếu nào liên tục vượt quá các kỳ
+                vọng sẽ có tiềm năng trở thành những Tom Brady của thị trường chứng khoán
+                và cho chúng ta thành tích quán quân. Các nhà phân tích đầu tư được trả
+                công cao để làm các dự báo về một công ty đang làm ăn ra sao. Khi các cổ
+                phiếu của chúng ta liên tục qua mặt những dự báo kỳ vọng này, giá của cổ
+                phiếu sẽ liên tục tăng để theo kịp với những dự báo cùng những định giá
+                mới, cao hơn trước nhiều.&nbsp;
+              </p>
+              <p><br /></p>
+              <p><br /></p>
+              <p>
+                [1] Cuộc thi tuyển lựa cầu thủ của Liên đoàn Bóng đá Quốc gia - National
+                Football League NFL.
+              </p>
+              <p><br /></p>
+              <p><br /></p>
+              <p><br /></p>
+              <button id="scrollToTopBtn" class="scroll-btn top-btn" onclick="scrollToTop()">&#9650;</button>
+              <button id="scrollToBottomBtn" class="scroll-btn bottom-btn" onclick="scrollToBottom()">&#9660;</button>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+      <footer>  
+        <div class="bg-dark border-top border-secondary py-4">
+            <div class="container-fluid">
+            <div class="d-flex justify-content-center text-light">
+                <span>
+                <i class="fa-regular fa-copyright"></i>
+                Copyright 2024 by Uyner
+                </span> 
+            </div> 
+            </div>
+        </div>
+        </footer>
+    </div>
+  </body>
+  <script>
+    window.onload = function() {
+        restoreHighlight();
+    };
+</script>
+</html>

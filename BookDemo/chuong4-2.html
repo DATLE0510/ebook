@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chương 4.2</title>
+    <link rel="stylesheet" href="Library/css/bootstrap.min.css" />
+    <script src="Library/js/bootstrap.min.js"></script>
+    <script src="Library/font-fontawesome-ae333ffef2.js"></script>
+    <link rel="stylesheet" href="./Library/style.css" />
+    <script src="Library/script.js"></script>
+    <script src="Library/angular.js"></script>
+    <script src="Library/angular-route.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <body ng-app="myapp">
+    <div id="background" style="height: 1100px">
+      <nav class="navbar navbar-expand-lg shadow col-sm col-lg">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center">
+            <ul class="navbar-nav mx-4">
+              <li class="nav-item mx-2">
+                <a href="home.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="chuong4-1.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-circle-arrow-left"></i>
+                </a>
+              </li>
+              <li class="nav-item mx-2">
+                <a href="#!home" class="nav-link" style="color: #ffff">
+                  <span
+                    style="
+                      margin-left: 450px;
+                      font-family: font1;
+                      font-size: 20px;
+                    "
+                    >Cuốn sách nhỏ giúp bạn làm giàu</span
+                  >
+                </a>
+              </li>
+            </ul>
+          </div>
+          <ul class="navbar-nav d-flex align-items-center">
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn fullscreenButton" style="font-family: font2; color: #ffff" onclick="toggleFullScreen()">
+                <i class="fas text-light fa-expand"></i>
+              </button>   
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn highlight-button" style="font-family: font2; color: #ffff" onclick="toggleHighlight()">
+                <i class="fa-solid fa-pen text-light fa-bounce"></i>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <button class="btn" onclick="openBookmarks()">
+                  <i class="fa-solid text-light fa-book-open-reader"></i>
+                </button>
+            </li>
+            <div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="bookmarkModalLabel">Danh sách bookmark</h5>
+                      </div>
+                      <div class="modal-body">
+                          <ul id="bookmarkList"></ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn" onclick="addBookmark()">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-bookmark"></i>
+                </a>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn custom-button" data-toggle="modal" data-target="#customizeModal">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-a"></i>
+                </a>
+              </button>
+            </li>
+            <div class="modal fade" id="customizeModal" tabindex="-1" role="dialog" aria-labelledby="customizeModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="customizeModalLabel">Tùy chỉnh văn bản</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="fontSelect">Phông chữ:</label>
+                      <select class="form-control" id="fontSelect">
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="colorSelect">Màu chữ:</label>
+                      <input type="color" class="form-control" id="colorSelect">
+                    </div>
+                    <div class="form-group">
+                      <label for="fontSizeSelect">Cỡ chữ:</label>
+                      <input type="range" class="form-control-range" id="fontSizeSelect" min="10" max="24" step="1">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="applyCustomization()">Áp dụng</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="customizationPanel" class="customization-panel"></div>
+            <li class="nav-item d-flex align-items-center">
+              <a href="tracnghiemchuong4.html" class="nav-link">
+                <i class="fa-solid text-light fa-circle-right"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="d-flex">
+        <div
+          style="
+            width: 510px;
+            height: 100%;
+            background: transparent-menu;
+          "
+          class="shadow pt-4 px-2"
+        >
+          <img
+            src="img/bia.jpg"
+            alt=""
+            style="width: 150px; float: left; box-shadow: 1px 1px 1px 1px"
+          />
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="#"
+                style="text-decoration: none; color: #ffff; font-family: font1"
+              >
+                Cuốn sách nhỏ giúp bạn làm giàu
+              </a>
+            </li>
+            <li>
+              <div>
+                <span class="text-light" style="margin-left: 60px">4,8</span>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+              </div>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3 mt-4">
+                <span style="color: #c4c4c4">TÁC GIẢ</span>
+                <span class="text-light" style="padding-left: 103px"
+                  >: Louis Navallier</span
+                >
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">NHÀ XUẤT BẢN</span>
+                <span class="text-light px-5">: NXB tri thức</span>
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">THỂ LOẠI</span>
+                <span class="text-light" style="padding-left: 96px"
+                  >: Tài chính cá nhân</span
+                >
+              </p>
+            </li>
+          </ul>
+          <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+
+          <div>
+            <h4 style="text-align: center; color: #ffff; font-family: font1;">MỤC LỤC</h4>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiNoiDau.html" style="text-decoration: none; color: #ffff" class="link active">Lời nói đầu</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiGioiThieu.html" style="text-decoration: none; color: #ffff">Lời giới thiệu</a>
+                </button> 
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="trian.html" style="text-decoration: none; color: #ffff">Tri ân</a>
+                </button>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 1</button>
+                    <div class="dropdown-content">
+                        <a href="chuong1-1.html">1.1 Bắt đầu ở nơi kết thúc</a>
+                        <a href="chuong1-2.html">1.2 Tát cả chúng ta đều thực hiện</a>
+                        <a href="tracnghiemchuong1.html">1.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 2</button>
+                    <div class="dropdown-content">
+                        <a href="chuong2-1.html">2.1 Trông vào tăng trưởng</a>
+                        <a href="chuong2-2.html">2.2 Xây nhà</a>
+                        <a href="tracnghiemchuong2.html">2.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 3</button>
+                    <div class="dropdown-content">
+                        <a href="chuong3-1.html">3.1 Giải cứu cảm xúc</a>
+                        <a href="chuong3-2.html">3.2 Điều chỉnh</a>
+                        <a href="tracnghiemchuong3.html">3.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 4</button>
+                    <div class="dropdown-content">
+                        <a href="chuong4-1.html">4.1 Bất ngờ</a>
+                        <a href="chuong4-2.html">4.2 Bán</a>
+                        <a href="tracnghiemchuong4.html">4.3Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 5</button>
+                    <div class="dropdown-content">
+                        <a href="chuong5-1.html">5.1 Phình to</a>
+                        <a href="chuong5-2.html">1.2 Để dòng tiền trôi</a>
+                        <a href="tracnghiemchuong5.html">5.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 6</button>
+                    <div class="dropdown-content">
+                        <a href="chuong6-1.html">6.1 Đây là tất cả các biến số</a>
+                        <a href="chuong6-2.html">6.2 Biết Alpha và Beta của bạn</a>
+                        <a href="tracnghiemchuong6.html">6.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="banlaai.html" style="text-decoration: none; color: #ffff">Bạn là ai</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="dieugicoloi.html" style="text-decoration: none; color: #ffff">Điều gì có lợi cho bạn?</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="thongtinbanquyen.html" style="text-decoration: none; color: #ffff">Thông tin bản quyền</a>
+                </button>
+            </p>
+            <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+          </div>
+        </div>
+        <div
+          class="container"
+          style="margin-top: 50px; font-family: font2; width: 800px"
+        >
+          <div class="pt-4 container content-text">
+            <p style="font-family: font2" class="text-justify">
+              <div class="scroll-container" id="scroll-container">
+                <p
+      style="
+        text-align: center;
+        font-size: 110%;
+        font-weight: bold;
+        font-style: italic;
+        font-family: anhai !important;
+      "
+    >
+      4.2.
+    </p>
+    <p style="text-align: center">Bán</p>
+    <p style="text-align: center">
+      Để tăng trưởng, trước hết phải có người bán cái gì đó
+    </p>
+    <p><br /></p>
+    <p>
+      BIẾN SỐ THỨ BA chỉ đơn giản là tăng trưởng doanh thu (sales growth). Một
+      trong những yếu tố quan trọng đối với một cổ phiếu tăng trưởng là nó phải
+      tăng trưởng thực sự. Điều này nghe có lẽ hơi ngớ ngẩn, nhưng sau một số
+      xì-căng-đan về kế toán và sắp đặt doanh lợi trong sáu năm qua thì ý kiến
+      này trở nên ít ngớ ngẩn hơn nhiều. Cách chắc chắn nhất và xác thực nhất để
+      đo lường sự tăng trưởng thực sự là xác định xem năm nay công ty có bán
+      được nhiều hơn không - và nhiều hơn bao nhiêu so với năm trước. Những đồng
+      USD có thể bị tung hứng trong báo cáo thu nhập để xào xáo doanh lợi, nhưng
+      rất khó để xào xáo con số doanh thu ở dòng trên cùng của báo cáo. Tăng
+      trưởng doanh thu là một phần rất quan trọng trong mô hình chọn lựa cổ
+      phiếu của chúng tôi, và chúng tôi luôn tìm kiếm những mức gia tăng doanh
+      thu thật lớn.&nbsp;
+    </p>
+    <p>
+      Chúng tôi thường xuyên thử nghiệm và theo dõi từng biến số được dùng trong
+      mô hình lựa chọn cổ phiếu, và liên tục thấy rằng tăng trưởng doanh thu là
+      một trong những biến số mạnh nhất trong mô hình của mình. Chúng tôi đã
+      phát hiện ra không có sự tăng trưởng doanh thu nhanh chóng từ quý này sang
+      quý khác, từ năm này sang năm khác thì công ty hầu như không thể đạt được
+      loại kết quả mà chúng tôi tìm kiếm. Nhìn vào Hình 4.3 (Những cổ phiếu tăng
+      trưởng doanh thu cao đem lại doanh lợi hơn) để thấy rằng những công ty có
+      tốc độ tăng trưởng doanh thu cao làm tốt hơn bao nhiêu so với những công
+      ty có mức gia tăng doanh thu kém ngoạn mục hơn.&nbsp;
+    </p>
+    <p style="text-align: center">
+      &nbsp;<img alt="hình 4.3" src="img/4.3.jpg" />
+    </p>
+    <p style="text-align: center">
+      Hình 4.3. Những cổ phiếu tăng trưởng doanh thu cao đem lại doanh lợi
+      hơn<br />
+    </p>
+    <p style="text-align: center"><br /></p>
+    <p>
+      Về cơ bản có hai cách để một công ty đạt được sự tăng trưởng nhanh hơn.
+      Cách thứ nhất dành cho công ty nào có thứ sản phẩm hay dịch vụ thực sự rất
+      được ưa chuộng và có mức cầu luôn nhiều hơn so với mức công ty bán ra mỗi
+      quý. Đây là trường hợp của một trong những cổ phiếu thắng lớn nhất của
+      chúng tôi trong những năm qua, với những công ty như Chicago Mercantile
+      Exchange và Precision Castparts. Trong trường hợp Chicago Mercantile
+      Exchange, một trong những sàn giao dịch tương lai hàng đầu, đã tăng doanh
+      thu từ khoảng 500 triệu lên hơn 1 tỷ chỉ trong vòng ba năm ngắn ngủi, khi
+      các thị trường tiền tệ và vốn sở hữu bùng nổ. Precision Castparts có doanh
+      thu tăng gần gấp ba sau hai năm khi cầu về kim loại công nghệ cao dùng để
+      chế tạo máy bay bùng nổ từ nhu cầu căng thẳng trong ngành hàng không.
+      Chính kiểu tăng trưởng doanh thu khó tin đó là cái kích thích những lần
+      tăng giá ngoạn mục trong cùng thời gian này. Bất kỳ lúc nào hễ một công ty
+      có doanh thu đang tăng trưởng 50 hay 100% một năm, thì những điều tốt lành
+      chắc chắn sẽ diễn ra với giá cổ phiếu của công ty đó. First Marblehead là
+      một ví dụ tiêu biểu khác về những gì xảy ra khi nhu cầu về một thứ sản
+      phẩm cất cánh. Vì chi phí giáo dục liên tục gia tăng nên First Marblehead
+      có thể tiến hành các khoản vay nợ và bán lấy tiền mặt để giúp nhiều người
+      hơn trong việc tài trợ cho giáo dục cao đẳng. Như bạn có thể thấy trong
+      hình 4.4 (Tăng trưởng doanh thu của First Marblehead), khi doanh số của
+      First Marblehead bùng nổ thì giá cổ phiếu của họ cũng vậy, tăng 270% từ
+      năm 2004 đến năm 2006.&nbsp;
+    </p>
+    <p>
+      Nguyên nhân quan trọng thứ hai của sự gia tăng doanh thu nhanh chóng xuất
+      hiện ở những công ty nào mà sự mất cân bằng cung-cầu tạo ra sự tăng giá
+      vững chắc. Nói cách khác, giá cả và nhu cầu tăng nhưng chi phí kinh doanh
+      không tăng quá nhiều. Chính sự gia tăng nhanh chóng chi phí năng lượng đã
+      cho phép doanh số của Conoco Phillips tăng từ 90 tỷ lên 185 tỷ trong vòng
+      chưa đầy ba năm. Kiểu gia tăng doanh thu nhanh chóng này đã đẩy giá cổ
+      phần từ 25 USD (năm 2003) lên đến hơn 70 USD chỉ trong ba năm. Imperial
+      Oil, công ty vẫn còn bán hàng dưới nhãn hiệu Esso cũ ở Hoa kỳ, chứng kiến
+      doanh thu của mình tăng từ 10 tỷ lên 24 tỷ trong cùng khoảng thời gian
+      này. Cổ phiếu của nó thậm chí còn tăng trưởng tốt hơn, từ 8 USD lên 38 USD
+      một cổ phần vào cuối năm 2006.
+    </p>
+    <p style="text-align: center">
+      &nbsp;<img alt="Hình 4.4" src="img/4.4.jpg" />
+    </p>
+    <p style="text-align: center">
+      Hình 4.4. Tăng trưởng doanh thu của First Marblehead<br />
+    </p>
+    <p style="text-align: center"><br /></p>
+    <p>
+      Mặc dù tôi chủ yếu là người lựa chọn cổ phiếu từ dưới lên, nhưng tôi
+      thường thấy rằng nhu cầu gia tăng về một thứ sản phẩm hay dịch vụ đặc biệt
+      nào đó có thể dẫn đến việc nhiều công ty trong ngành cùng xuất hiện trong
+      danh sách mua vào của chúng tôi. Nói cách khác, cả cái ngành đó được hưởng
+      lợi từ sự tăng trưởng doanh thu mạnh mẽ. Khi tiền bắt đầu chảy từ thị
+      trường chứng khoán vào các nhà băng sau vụ lò luyện đan Internet, các nhà
+      băng phải làm cái gì đó với cả đống tiền mặt hay ho này. Và họ đã làm cái
+      điều mà các nhà băng vẫn làm: Họ cho vay. Tất cả chỗ tiền có được đó bắt
+      đầu chảy vào bất động sản như một nguồn cung tiền mặt khổng lồ với lãi
+      suất thấp, làm cho rất nhiều người có thể mua ngôi nhà đầu tiên (hoặc thứ
+      hai) cho mình. Tất cả những người mua mới này đã làm nên một đợt bùng nổ
+      bất động sản. Tình huống này tạo ra sự tăng trưởng doanh thu khổng lồ cho
+      những công ty như Lennar Corporation xây dựng nhà, và Countrywide
+      Financial chuyên cho vay cầm cố nhà cửa. Cả hai cổ phiếu này đều tăng giá
+      gấp đôi khi tiền chuyển vào thị trường bất động sản từ năm 2003 đến
+      2005!&nbsp;
+    </p>
+    <p>
+      Doanh số tăng gia tốc là dấu hiệu cầu chứng của hầu hết mọi cổ phiếu thắng
+      lớn mà tôi từng có được trong sự nghiệp của mình. Những công ty cho thấy
+      có sự tăng trưởng doanh thu kéo dài sẽ làm ra những kết quả không phụ
+      thuộc vào thị trường hay nền kinh tế nói chung. Chúng ở trong cái thế giới
+      tăng giá nhỏ bé của chính chúng, đó chính là cái chúng tôi tìm kiếm.&nbsp;
+    </p>
+    <p>
+      Doanh thu tăng trưởng chậm chạp là một trong những cách nhanh nhất để bị
+      gạt ra khỏi danh mục đầu tư của chúng tôi. Có những thời kỳ khi ngay cả
+      những công ty lớn cũng sẽ thấy khó mà duy trì được sự tăng trưởng doanh
+      thu. Thậm chí họ có thể tiếp tục đi lên mà không cần phải thành công.
+      Intel và Microsoft là những ví dụ tiêu biểu của sự tăng trưởng dang dở bởi
+      vì thành công. Cả hai công ty này đều từng là những doanh nghiệp tăng
+      trưởng nhanh đến mức tạo nên cuộc cách mạng hóa hoàn toàn thế giới máy vi
+      tính và làm cho các cá nhân có thể có được năng lực tính toán khổng lồ
+      trên quy mô trước đây chưa từng có. Tuy vậy, họ tăng trưởng đến mức thống
+      trị hoàn toàn ngành kinh doanh này, đến nỗi thực sự chẳng có mấy người và
+      doanh nghiệp không mua sản phẩm của họ. Mọi người đều có Windows và Intel
+      Inside. Cả hai hãng giờ đây phải tăng trưởng thông qua việc việc nâng cấp
+      cùng những adds-on cho sản phẩm và có vẻ sẽ không bao giờ thấy được kiểu
+      phát đạt rầm rộ mà họ từng được hưởng nữa. Chúng tôi theo dõi rất cẩn thận
+      để tìm sự suy giảm tăng trưởng doanh thu. Bởi nó là một biến số rất mạnh
+      trong việc lựa chọn cổ phiếu thành công của chúng tôi. Doanh thu tăng chậm
+      lại là dấu hiệu thực sự nguy hiểm đối với tôi.
+    </p>
+    <div><br /></div>
+    <button id="scrollToTopBtn" class="scroll-btn top-btn" onclick="scrollToTop()">&#9650;</button>
+    <button id="scrollToBottomBtn" class="scroll-btn bottom-btn" onclick="scrollToBottom()">&#9660;</button>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+      <footer>  
+        <div class="bg-dark border-top border-secondary py-4">
+            <div class="container-fluid">
+            <div class="d-flex justify-content-center text-light">
+                <span>
+                <i class="fa-regular fa-copyright"></i>
+                Copyright 2024 by Uyner
+                </span> 
+            </div> 
+            </div>
+        </div>
+        </footer>
+    </div>
+  </body>
+  <script>
+    window.onload = function() {
+        restoreHighlight();
+    };
+</script>
+</html>

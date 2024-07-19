@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chương 6.1</title>
+    <link rel="stylesheet" href="Library/css/bootstrap.min.css" />
+    <script src="Library/js/bootstrap.min.js"></script>
+    <script src="Library/font-fontawesome-ae333ffef2.js"></script>
+    <link rel="stylesheet" href="./Library/style.css" />
+    <script src="Library/script.js"></script>
+    <script src="Library/angular.js"></script>
+    <script src="Library/angular-route.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <body ng-app="myapp">
+    <div id="background" style="height: 1100px">
+      <nav class="navbar navbar-expand-lg shadow col-sm col-lg">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center">
+            <ul class="navbar-nav mx-4">
+              <li class="nav-item mx-2">
+                <a href="home.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="tracnghiemchuong5.html" class="nav-link" style="color: #ffff">
+                  <i class="fa-solid fa-circle-arrow-left"></i>
+                </a>
+              </li>
+              <li class="nav-item mx-2">
+                <a href="#!home" class="nav-link" style="color: #ffff">
+                  <span
+                    style="
+                      margin-left: 450px;
+                      font-family: font1;
+                      font-size: 20px;
+                    "
+                    >Cuốn sách nhỏ giúp bạn làm giàu</span
+                  >
+                </a>
+              </li>
+            </ul>
+          </div>
+          <ul class="navbar-nav d-flex align-items-center">
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn fullscreenButton" style="font-family: font2; color: #ffff" onclick="toggleFullScreen()">
+                <i class="fas text-light fa-expand"></i>
+              </button>   
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn highlight-button" style="font-family: font2; color: #ffff" onclick="toggleHighlight()">
+                <i class="fa-solid fa-pen text-light fa-bounce"></i>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <button class="btn" onclick="openBookmarks()">
+                  <i class="fa-solid text-light fa-book-open-reader"></i>
+                </button>
+            </li>
+            <div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="bookmarkModalLabel">Danh sách bookmark</h5>
+                      </div>
+                      <div class="modal-body">
+                          <ul id="bookmarkList"></ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn" onclick="addBookmark()">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-bookmark"></i>
+                </a>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button class="btn custom-button" data-toggle="modal" data-target="#customizeModal">
+                <a href="" class="nav-link">
+                  <i class="fa-solid text-light fa-a"></i>
+                </a>
+              </button>
+            </li>
+            <div class="modal fade" id="customizeModal" tabindex="-1" role="dialog" aria-labelledby="customizeModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="customizeModalLabel">Tùy chỉnh văn bản</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="fontSelect">Phông chữ:</label>
+                      <select class="form-control" id="fontSelect">
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="colorSelect">Màu chữ:</label>
+                      <input type="color" class="form-control" id="colorSelect">
+                    </div>
+                    <div class="form-group">
+                      <label for="fontSizeSelect">Cỡ chữ:</label>
+                      <input type="range" class="form-control-range" id="fontSizeSelect" min="10" max="24" step="1">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="applyCustomization()">Áp dụng</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="customizationPanel" class="customization-panel"></div>
+            <li class="nav-item d-flex align-items-center">
+              <a href="chuong6-2.html" class="nav-link">
+                <i class="fa-solid text-light fa-circle-right"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="d-flex">
+        <div
+          style="
+            width: 510px;
+            height: 100%;
+            background: transparent-menu;
+          "
+          class="shadow pt-4 px-2"
+        >
+          <img
+            src="img/bia.jpg"
+            alt=""
+            style="width: 150px; float: left; box-shadow: 1px 1px 1px 1px"
+          />
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="#"
+                style="text-decoration: none; color: #ffff; font-family: font1"
+              >
+                Cuốn sách nhỏ giúp bạn làm giàu
+              </a>
+            </li>
+            <li>
+              <div>
+                <span class="text-light" style="margin-left: 60px">4,8</span>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+                <i class="fa-solid fa-star" style="color: #ffd43b"></i>
+              </div>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3 mt-4">
+                <span style="color: #c4c4c4">TÁC GIẢ</span>
+                <span class="text-light" style="padding-left: 103px"
+                  >: Louis Navallier</span
+                >
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">NHÀ XUẤT BẢN</span>
+                <span class="text-light px-5">: NXB tri thức</span>
+              </p>
+            </li>
+            <li class="nav-item">
+              <p class="mx-3">
+                <span style="color: #c4c4c4">THỂ LOẠI</span>
+                <span class="text-light" style="padding-left: 96px"
+                  >: Tài chính cá nhân</span
+                >
+              </p>
+            </li>
+          </ul>
+          <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+
+          <div>
+            <h4 style="text-align: center; color: #ffff; font-family: font1;">MỤC LỤC</h4>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiNoiDau.html" style="text-decoration: none; color: #ffff" class="link active">Lời nói đầu</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="LoiGioiThieu.html" style="text-decoration: none; color: #ffff">Lời giới thiệu</a>
+                </button> 
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="trian.html" style="text-decoration: none; color: #ffff">Tri ân</a>
+                </button>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 1</button>
+                    <div class="dropdown-content">
+                        <a href="chuong1-1.html">1.1 Bắt đầu ở nơi kết thúc</a>
+                        <a href="chuong1-2.html">1.2 Tát cả chúng ta đều thực hiện</a>
+                        <a href="tracnghiemchuong1.html">1.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 2</button>
+                    <div class="dropdown-content">
+                        <a href="chuong2-1.html">2.1 Trông vào tăng trưởng</a>
+                        <a href="chuong2-2.html">2.2 Xây nhà</a>
+                        <a href="tracnghiemchuong2.html">2.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 3</button>
+                    <div class="dropdown-content">
+                        <a href="chuong3-1.html">3.1 Giải cứu cảm xúc</a>
+                        <a href="chuong3-2.html">3.2 Điều chỉnh</a>
+                        <a href="tracnghiemchuong3.html">3.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 4</button>
+                    <div class="dropdown-content">
+                        <a href="chuong4-1.html">4.1 Bất ngờ</a>
+                        <a href="chuong4-2.html">4.2 Bán</a>
+                        <a href="tracnghiemchuong4.html">4.3Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 5</button>
+                    <div class="dropdown-content">
+                        <a href="chuong5-1.html">5.1 Phình to</a>
+                        <a href="chuong5-2.html">1.2 Để dòng tiền trôi</a>
+                        <a href="tracnghiemchuong5.html">5.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p  class="dropdown">
+                <div class="dropdown">
+                    <button class="dropbtn btn" style="font-family: font2; color: #ffff" class="ms-3">Chương 6</button>
+                    <div class="dropdown-content">
+                        <a href="chuong6-1.html">6.1 Đây là tất cả các biến số</a>
+                        <a href="chuong6-2.html">6.2 Biết Alpha và Beta của bạn</a>
+                        <a href="tracnghiemchuong6.html">6.3 Câu hỏi trắc nghiệm</a>
+                    </div>
+                </div>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="banlaai.html" style="text-decoration: none; color: #ffff">Bạn là ai</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="dieugicoloi.html" style="text-decoration: none; color: #ffff">Điều gì có lợi cho bạn?</a>
+                </button>
+            </p>
+            <p>
+                <button class="btn menu" style="font-family: font2; color: #ffff" class="ms-3">
+                    <a href="thongtinbanquyen.html" style="text-decoration: none; color: #ffff">Thông tin bản quyền</a>
+                </button>
+            </p>
+            <hr style="width: 400px; margin-left: 50px; color: whitesmoke" />
+          </div>
+        </div>
+        <div
+          class="container"
+          style="margin-top: 50px; font-family: font2; width: 800px"
+        >
+          <div class="pt-4 container content-text">
+            <p style="font-family: font2" class="text-justify">
+              <div class="scroll-container" id="scroll-container">
+                <p
+      style="
+        text-align: center;
+        font-size: 130%;
+        font-weight: bold;
+        font-family: anhai !important;
+      "
+    >
+      &nbsp;CHƯƠNG SÁU
+    </p>
+    <p
+      style="
+        text-align: center;
+        font-size: 110%;
+        font-weight: bold;
+        font-style: italic;
+        font-family: anhai !important;
+      "
+    >
+      6.1.
+    </p>
+    <p style="text-align: center">Đây là tất cả các biến số</p>
+    <p style="text-align: center">
+      Tinh chỉnh chính xác để nhắm những cổ phiếu tốt nhất
+    </p>
+    <p><br /></p>
+    <video src="img/cplg.mp4" style="height: 45%;" controls autoplay></video>
+    <p><br /></p>
+    <p>
+      CHO ĐẾN GIỜ CHÚNG TA ĐÃ XEM XÉT năm biến số quan trọng để giúp bạn phát
+      hiện những cổ phiếu tốt nhất hiện nay:&nbsp;
+    </p>
+    <p>1. Điều chỉnh lại doanh lợi&nbsp;</p>
+    <p>2. Những bất ngờ về doanh lợi&nbsp;</p>
+    <p>3. Tăng trưởng doanh thu&nbsp;</p>
+    <p>4. Lãi kinh doanh phình to&nbsp;</p>
+    <p>5. Luồng tiền mặt khả dụng&nbsp;</p>
+    <p>
+      Như bạn đã biết, tôi dùng một công thức gồm tám yếu tố căn bản để nhắm tới
+      việc hớt lớp kem trên những chiếc bánh kem là những cổ phiếu ở Wall
+      Street. Tôi chắc rằng giờ bạn đã hiểu tám yếu tố này có ảnh hưởng hết sức
+      to lớn đến tình trạng tài chính của một công ty và xét đến cho cùng giá cổ
+      phiếu của nó. Vậy giờ hãy thật chú ý - tôi sắp sửa chỉ cho bạn cách áp
+      dụng công thức đầy đủ này cho việc đầu tư. Thêm vào đó, tôi sẽ để bạn thực
+      hành dùng cơ sở dữ liệu chấm điểm cổ phiếu thực tế của tôi. Nhưng trước
+      hết, ta hãy xem xét từng cái một trong ba biến số còn lại trong công thức
+      của chúng ta. Giờ đây, khi bạn đã hiểu năm biến số đầu tiên thì ba biến số
+      còn lại sẽ khá đơn giản và dễ giải thích, cho nên tôi sẽ trình bày cả ba
+      trong cùng một chương này. Tôi sẽ mô tả từng biến số và giải thích tại sao
+      chúng lại quan trọng. Tôi sẽ cho ví dụ về mỗi biến số trong thực tế để bạn
+      tự mình thấy được những biến số này có thể tác động mạnh mẽ như thế nào
+      đến giá của cổ phiếu.&nbsp;
+    </p>
+    <p>
+      Như tôi đã giải thích, bất kỳ một biến số căn bản riêng rẽ nào cũng có thể
+      có vai trò nổi bật trong một thời gian, và sau đó đột nhiên nó không còn
+      như thế nữa. Trong thập niên 1970, giá trị theo sổ sách là yếu tố then
+      chốt quyết định kết quả tương lai. Trong thập niên si mê sát nhập 1980,
+      lợi tức gộp và doanh lợi kiếm được trước khi chi trả lãi vay cùng các
+      khoản thuế, trừ đi khấu hao và thanh toán nợ kỳ hạn [1] là một trong những
+      biến số then chốt. Những biến số thời thượng này thay đổi theo thời gian
+      và thậm chí chúng có thể thay đổi rất nhanh. Có những thời kỳ cổ phiếu có
+      nhiều bất ngờ về doanh lợi rất được ưa chuộng, và những thời kỳ khác thì
+      tăng trưởng doanh thu chính là đòn bẩy đẩy giá cổ phiếu lên cao. Bằng cách
+      chú ý đến tất cả tám biến số liên quan đến thành tích giá cổ phiếu, chúng
+      tôi có thể tự tin rằng bất kể biến số đòn bẩy hiện nay là gì, chúng tôi
+      vẫn nhận ra được những cổ phiếu sẽ chịu ảnh hưởng bởi xu hướng này. Như
+      một phần thưởng thêm, vì chúng tôi còn đưa thêm vào những biến số khác
+      ngoài cái được ưa thích của tháng, nên chúng tôi sẽ chỉ sở hữu những cổ
+      phiếu chất lượng nhất trong nhóm đó.&nbsp;
+    </p>
+    <p>
+      Cái đầu tiên trong ba biến số còn lại và là biến số căn bản phổ biến nhất,
+      là tăng trưởng doanh lợi (earnings growth). Tất cả những gì ta tìm ở đây
+      là sự tăng trưởng của doanh lợi được báo cáo từ quý này sang quý khác, và
+      từ năm này qua năm khác. Mỗi quý, các công ty phát hành một báo cáo cho
+      biết họ đã làm ăn như thế nào trong ba tháng qua, họ mua bao nhiêu thứ, họ
+      chi hết bao nhiêu, và họ làm ra bao nhiêu tiền. Kết quả ròng này được báo
+      cáo trong tỉ số doanh lợi trên cổ phần [2] của công ty. Tính toán con số
+      này khá đơn giản: chỉ cầm lấy tổng lợi nhuận của quý đó trừ đi cổ tức cho
+      các cổ phiếu ưu đãi, rồi chia cho tổng số cổ phiếu đang lưu thông. Con số
+      này sẽ cho ta biết doanh lợi có tăng mạnh từ năm này qua năm khác hay
+      không. Cổ phiếu, xét cho cùng, được định giá dựa trên doanh lợi, vì thị
+      trường rất coi trọng những con số EPS của từng quý. Một công ty có doanh
+      lợi cao hơn từ năm này qua năm khác sẽ tự nhiên có giá trị hơn một chút
+      sau mỗi lần báo cáo, và nhìn chung, giá cổ phiếu của nó sẽ tăng lên để
+      phản ánh thực tế đó. America Movil, công ty viễn thông và mạng không dây
+      Mexico, là một ví dụ tiêu biểu cho kiểu tăng trưởng doanh lợi đều đặn mà
+      chúng tôi tìm kiếm mỗi khi lựa chọn những cổ phiếu tăng trưởng trong một
+      thời kỳ dài. Vì America Movil báo cáo doanh lợi cao hơn từ năm này qua năm
+      khác nên cổ phiếu của nó cũng có giá trị hơn qua từng năm. Kể từ năm 2004,
+      cổ phiếu này đã tăng giá tới 300%.&nbsp;
+    </p>
+    <p>
+      Một ví dụ nổi bật khác về sự tăng trưởng doanh lợi đều đặn đã thu hút sự
+      chú ý của các nhà đầu tư, làm cho giá cổ phiếu tăng cao hơn, đó là Google.
+      Bắt đầu từ giữa năm 2005, Google bắt đầu báo cáo một chuỗi doanh lợi ngày
+      càng cao hơn hết quý này đến quý khác. Kết quả là cổ phiếu này được người
+      ta đổ xô tìm mua và nó đã tăng giá 70% một cách khá đều đặn kể từ đó đến
+      giờ. (Xem hình 6.1)&nbsp;
+    </p>
+    <p><br /></p>
+    <p style="text-align: center">
+      <img alt="Hình 6.1" src="img/6.1.jpg" /><br />
+    </p>
+    <p style="text-align: center">
+      Hình 6.1. Thành tích của cổ phiếu Google, từ giữa năm 2005 đến 05/2007
+    </p>
+    <p style="text-align: center"><br /></p>
+    <p>
+      Không chỉ muốn thấy doanh lợi cao hơn từ năm này qua năm khác mà thậm chí
+      chúng tôi còn muốn thấy trong quý này nó đã tăng lên nhiều hơn so với quý
+      cùng kỳ năm ngoái. Nếu doanh lợi qua mỗi năm tăng 10% trong quý vừa qua,
+      chúng tôi muốn thấy trong quý này chúng tăng lên còn nhiều hơn thế. Đây là
+      nơi cho phép biến số tiếp theo của chúng tôi, đà tăng trưởng doanh lợi
+      (earnings momentum), tham gia vào công thức. Để một cổ phiếu được xếp hạng
+      cao vì biến số này, thì nó cần phải thể hiện một chuỗi doanh lợi gia tốc
+      đều đặn qua mỗi quý. Có những thời kỳ biến số này tự nhiên trở thành một
+      trong những biến số quan trọng nhất trong mô hình của chúng tôi. Khi thị
+      trường đang trên đà tăng giá mạnh, đà tăng trưởng doanh lợi là một trong
+      những lực dẫn dắt mạnh nhất đằng sau giá cổ phiếu. Có cả một trường phái
+      đầu tư và thậm chí một nhật báo tài chính lớn, tờ Investor’s Business
+      DailyR, chỉ dành cho việc đầu tư dựa trên đà tăng trưởng doanh lợi và
+      những biến số căn bản quan trọng khác. Ngoài ra còn có hàng chục quỹ tương
+      hỗ và quỹ đầu tư thanh khoản linh hoạt dùng đà tăng trưởng doanh lợi như
+      căn cứ hàng đầu của họ để giao dịch mua bán và đầu tư.&nbsp;
+    </p>
+    <p>
+      Trên kia tôi đã giải thích rằng những người có cả đống tiền mặt có thể dốc
+      vào một cổ phiếu và có được kết quả tích cực khi cổ phiếu này thu hút sức
+      ép mua vào bền bỉ. Vì ta biết họ thích đà tăng trưởng doanh lợi và họ có
+      thể khiến một cổ phiếu tăng giá một cách khá đều đặn, nên biến số này đóng
+      một vai trò lớn trong hệ thống xếp hạng căn bản của chúng tôi. Một ví dụ
+      thật sự nổi bật của điều này là Centerpoint Energy, một cổ phiếu hạng top
+      vào giữa năm 2007. Centerpoint là một ví dụ đặc biệt tiêu biểu, bởi vì hầu
+      hết mọi người đều có xu hướng nghĩ về những công ty hấp dẫn, nổi tiếng,
+      được nói đến nhiều trên các chương trình tin tức tài chính và được điểm
+      tin trên các tạp chí, báo chí và các dòng tít lớn của các website, nhưng
+      Centerpoint Energy lại không phải một công ty nổi tiếng và cũng chẳng mấy
+      khi được nhắc đến ở bất kỳ đâu. Xác suất để nghe được về công ty này ở các
+      bữa tiệc cocktail, hay trên các sân golf, là khá nhỏ. Centerpoint bán điện
+      và khí thiên nhiên. Họ trả cổ tức rất khá. Nhưng nhìn qua lăng kính của
+      báo cáo doanh lợi thì khó mà nhận ra được chiếc ô tô không nhãn mác kia
+      lại thực sự là chiếc xe đua mã lực cao. Như bạn thấy ở hình 6.2,
+      Centerpoint đã liên tục tăng tốc doanh lợi trong năm 2006 và cổ phiếu này
+      đã đền đáp hậu hĩnh cho những nhà đầu tư nào đã chú ý đến nó.&nbsp;
+    </p>
+    <p><br /></p>
+    <p style="text-align: center">
+      <img alt="Hình 6.2" src="img/6.2.jpg" /><br />
+    </p>
+    <p style="text-align: center">
+      Hình 6.2. Doanh lợi trên cổ phần (EPS) của Centerpoint Energy
+    </p>
+    <p>
+      Để thấy tác động của những khối tiền lớn mà các quỹ tương hỗ và quỹ thanh
+      khoản linh hoạt đang nắm giữ, bạn hãy nhìn hình 6.3, nó cho thấy giá cả
+      hằng tháng của cổ phiếu Maidenform Company. Maidenform có lẽ còn có những
+      sản phẩm khác hấp dẫn hơn năng lượng, nhưng về cơ bản đây là một công ty
+      khá đơn giản, không gây nhiều sự ồn ào và kích động xung quanh cổ phiếu
+      của nó. Khi tăng trưởng doanh lợi của công ty tăng tốc vào cuối năm 2005
+      và đầu 2006, tiếng tăm dậy lên và làm cho cổ phiếu này tăng hơn 100% chỉ
+      trong một thời gian rất ngắn.
+    </p>
+    <p style="text-align: center">
+      <img alt="Hình 6.3" src="img/6.3.jpg" /><br />
+    </p>
+    <p style="text-align: center">
+      Hình 6.3. Doanh lợi trên cổ phần (EPS) của Maidenform
+    </p>
+    <p>
+      Biến số cuối cùng trong công thức tám yếu tố của chúng tôi là lợi suất
+      trên vốn kinh doanh (return on equity - ROE). Đây là con số cực kỳ quan
+      trọng và là một trong những con số được theo dõi nhiều nhất, chẳng phải
+      riêng tôi mà hầu hết các nhà đầu tư khác cũng thế. Lợi suất trên vốn kinh
+      doanh phản ánh tỉ lệ lãi làm ra trên tiền vốn đầu tư của các cổ đông. ROE
+      được tính bằng cách chia thu nhập ròng cho vốn kinh doanh của các cổ đông.
+      Thông tin được tiết lộ này rất quan trọng. ROE có thể cho ta biết công ty
+      đang dùng hiệu quả tới mức nào với số tiền mặt mà nó tạo ra từ công việc
+      kinh doanh. Tôi thích thấy ROE khởi đầu cao và rồi cao hơn. Nếu hệ số ROE
+      tăng, tôi biết ngay ban quản lý đang thực hiện những việc nâng cấp và đầu
+      tư một cách có hiệu quả, mà chúng sẽ làm tăng thu nhập trên số tiền tôi đã
+      đầu tư vào công ty này. Nếu ROE thấp thì có lẽ công ty đã không dùng tiền
+      một cách thông minh như tôi muốn.&nbsp;
+    </p>
+    <p>
+      Công ty nào có lợi suất cao trên tiền vốn của cổ đông sẽ khó lòng làm
+      những việc gây xói mòn giá trị cổ phiếu, chẳng hạn như công bố một đợt
+      phát hành cổ phiếu mới, hay đi vay tiền để giữ cho công việc làm ăn tiến
+      triển, cả hai việc đó đều là những vấn đề tiêu cực điển hình đối với các
+      cổ đông hiện tại. Tôi muốn biết rằng công ty có khả năng tạo ra số tiến nó
+      cần từ các hoạt động làm ăn hàng ngày và có dư một số tiền mặt để phát
+      triển công việc kinh doanh. Công ty nào có lợi suất rất cao tính trên
+      những đồng USD đã được đầu tư, thường sẽ tạo ra luồng tiền mặt khả dụng
+      mạnh.&nbsp;
+    </p>
+    <p>
+      ROE của một công ty cần được so sánh trong một nhóm công ty cùng ngành chứ
+      không phải với toàn bộ các cổ phiếu thông thường. Một hãng tư vấn có thể
+      có lợi suất trên vốn kinh doanh rất cao, đơn giản vì nó không có các tài
+      sản thực. Tất cả tiền bạc được chi tiêu vào quảng cáo, marketing, cũng như
+      mở các văn phòng mới. Những thứ này không thể hiện trong cột vốn kinh
+      doanh. So sánh ROE của một hãng tư vấn, chẳng hạn với một hãng sản xuất
+      thép phải đầu tư những khoản vốn khổng lồ vào nhà xưởng, nền đất và nguyên
+      liệu thì đó thật sự không phải một sự so sánh công bằng. Vì vậy, hãy để
+      mắt đến chỉ số ROE của một công ty so với những công ty cùng loại xem thế
+      nào, chứ đừng đem táo so sánh với heo.&nbsp;
+    </p>
+    <p>
+      Tôi không biết phải nhấn mạnh sao cho đủ rằng bạn cần dùng tất cả những
+      biến số mà ta đã xem xét trong khi tìm kiếm những cổ phiếu tăng trưởng
+      chiến thắng thị trường để đưa vào danh mục đầu tư của bạn. Những cái được
+      ưa chuộng nhất thời trên thị trường chứng khoán có lẽ thay đổi còn nhanh
+      hơn cả đường đi của cơn bão mùa hè rình rập trên Đại Tây Dương ở Nam
+      Florida. Bằng cách dùng tất cả những biến số quan trọng này, bạn có thể tự
+      tin vào lúc cơn bão ập đến, bạn sẽ tìm thấy hầm trú ẩn (bằng cách bán
+      những cổ phiếu hết tầm ảnh hưởng trong danh mục của bạn) và sẵn sàng để
+      đón ánh nắng mặt trời chắc chắn sẽ hiện ra sau cơn bão.&nbsp;
+    </p>
+    <p><br /></p>
+    <p>
+      [1]. Earnings before interest, taxes, depreciation, and amortization -
+      viết tắt là EBITDA.
+    </p>
+    <p>[2] . Earningspershare-EPS.</p>
+    <p><br /></p>
+    <p><br /></p>
+    <p><br /></p>
+    <button id="scrollToTopBtn" class="scroll-btn top-btn" onclick="scrollToTop()">&#9650;</button>
+    <button id="scrollToBottomBtn" class="scroll-btn bottom-btn" onclick="scrollToBottom()">&#9660;</button>
+              </div>
+            </p>
+          </div>
+        </div>
+      </div>
+      <footer>  
+        <div class="bg-dark border-top border-secondary py-4">
+            <div class="container-fluid">
+            <div class="d-flex justify-content-center text-light">
+                <span>
+                <i class="fa-regular fa-copyright"></i>
+                Copyright 2024 by Uyner
+                </span> 
+            </div> 
+            </div>
+        </div>
+        </footer>
+    </div>
+  </body>
+  <script>
+    window.onload = function() {
+        restoreHighlight();
+    };
+</script>
+</html>
